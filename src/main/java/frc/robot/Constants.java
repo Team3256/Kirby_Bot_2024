@@ -33,6 +33,8 @@ public final class Constants {
     // for our dashboard (it will ALWAYS log to NetworkTables;
     // AdvantageKit can be configured to log to a file when connected to FMS)
     public static final boolean kEnableMonologue = true;
+    // If true, the LoggedTunableNumber will work and do TunableNumber things
+    public static final boolean kTuningMode = false;
   }
 
   // Defaults from Monologue docs
