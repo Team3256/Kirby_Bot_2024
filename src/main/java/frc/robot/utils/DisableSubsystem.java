@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
 
-public abstract class BinarySubsystem extends SubsystemBase {
+public abstract class DisableSubsystem extends SubsystemBase {
   public final boolean disabled;
 
-  public BinarySubsystem(boolean enable) {
+  public DisableSubsystem(boolean enable) {
     super();
     this.disabled = !enable;
   }

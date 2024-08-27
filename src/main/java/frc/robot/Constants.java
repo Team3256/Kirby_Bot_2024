@@ -35,6 +35,8 @@ public final class Constants {
     public static final boolean kEnableMonologue = true;
     // If true, the LoggedTunableNumber will work and do TunableNumber things
     public static final boolean kTuningMode = false;
+
+    public static final boolean shooterRegenBraking = true;
   }
 
   // Defaults from Monologue docs
