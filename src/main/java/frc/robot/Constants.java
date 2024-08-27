@@ -1,6 +1,9 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// Copyright (c) 2024 FRC 3256
+// https://github.com/Team3256
+//
+// Use of this source code is governed by a 
+// license that can be found in the LICENSE file at
+// the root directory of this project.
 
 package frc.robot;
 
@@ -16,7 +19,23 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
   public static class FeatureFlags {
+    // AdvantageKit is a logging library we use that
+    // can provide logging replay and it's how we can
+    // do comprehensive logging. Logging to NetworkTables
+    // is disabled on field (FMS connected).
     public static final boolean kEnableAdvKit = true;
+    // Monologue is another logging library that we use for
+    // sending values to our dashboard because we don't want
+    // AdvantageKit (which logs EVERYTHING) to dump to NetworkTables
+    // during competition. So we use Monologue to log the things
+    // for our dashboard (it will ALWAYS log to NetworkTables;
+    // AdvantageKit can be configured to log to a file when connected to FMS)
+    public static final boolean kEnableMonologue = true;
   }
+
+  // Defaults from Monologue docs
+  public static final boolean kMonologueFileOnly = false;
+  public static final boolean kMonologueLazyLogging = false;
 }
