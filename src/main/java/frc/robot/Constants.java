@@ -37,6 +37,7 @@ public final class Constants {
     public static final boolean kTuningMode = false;
 
     public static final boolean shooterRegenBraking = true;
+    public static final boolean kSwerveEnabled = true;
   }
 
   // Defaults from Monologue docs
