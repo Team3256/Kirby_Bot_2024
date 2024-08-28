@@ -8,7 +8,6 @@
 package frc.robot.subsystems.turret;
 
 import com.ctre.phoenix6.configs.*;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -45,13 +44,7 @@ public final class TurretConstants {
           .withCurrentLimits(
               new CurrentLimitsConfigs()
                   .withStatorCurrentLimitEnable(true)
-                  .withStatorCurrentLimit(60))
-          .withFeedback(
-              new FeedbackConfigs()
-                  .withFeedbackRemoteSensorID(kCanCoderID)
-                  .withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor)
-                  .withSensorToMechanismRatio(1) // TODO: TUNE IMPORTANT
-              );
+                  .withStatorCurrentLimit(60));
 
   public static final int gearToothCountE1 = 1; // TODO: Set gear ratio
   public static final int gearToothCountE2 = 1; // TODO: Set gear ratio
