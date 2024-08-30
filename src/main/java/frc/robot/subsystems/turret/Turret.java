@@ -10,7 +10,6 @@ package frc.robot.subsystems.turret;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
@@ -53,8 +52,10 @@ public class Turret extends DisableSubsystem {
   }
 
   /**
-   * @see <a href="https://docs.google.com/spreadsheets/d/1WOmYiwrWg-2iJdFzRZITXqLrtTegc7WbxJ2SQzn8VHs/edit?gid=0#gid=0">Chinese remainder theorem sheet calculator</a>
-   * Uses the calculations from the sheet to calculate the turret position from two encoders
+   * @see <a
+   *     href="https://docs.google.com/spreadsheets/d/1WOmYiwrWg-2iJdFzRZITXqLrtTegc7WbxJ2SQzn8VHs/edit?gid=0#gid=0">Chinese
+   *     remainder theorem sheet calculator</a> Uses the calculations from the sheet to calculate
+   *     the turret position from two encoders
    * @param cancoder1
    * @param cancoder2
    * @return rotation2d of the turret position
@@ -80,8 +81,10 @@ public class Turret extends DisableSubsystem {
    */
   public Command setPositionRelativeToSwerve(Rotation2d position, CommandSwerveDrivetrain swerve) {
     return this.run(
-        () ->turretIO.setPosition(position.minus(swerve.getState().Pose.getRotation()).getRotations() / TurretConstants.gearRatio));
-
+        () ->
+            turretIO.setPosition(
+                position.minus(swerve.getState().Pose.getRotation()).getRotations()
+                    / TurretConstants.gearRatio));
   }
 
   /**
@@ -90,8 +93,7 @@ public class Turret extends DisableSubsystem {
    */
   public Command setPosition(Rotation2d position) {
     return this.runOnce(
-        () ->
-            turretIO.setPosition(position.getRotations()/ TurretConstants.gearRatio));
+        () -> turretIO.setPosition(position.getRotations() / TurretConstants.gearRatio));
   }
 
   /**
@@ -102,7 +104,9 @@ public class Turret extends DisableSubsystem {
   }
 
   /**
-   * Will run a PID loop that tracks the tx of the speaker tag and attempts to get it to 0 by moving the turret so the LL crosshair is centered
+   * Will run a PID loop that tracks the tx of the speaker tag and attempts to get it to 0 by moving
+   * the turret so the LL crosshair is centered
+   *
    * @param vision Reference to the vision subsystem
    * @return Command to run a PID loop to lock the turret to the speaker tag
    */
@@ -141,7 +145,8 @@ public class Turret extends DisableSubsystem {
   }
 
   /**
-   * @return Command to reset the turret to the forward limit if it is past the forward limit, or to the reverse limit if it is past the reverse limit
+   * @return Command to reset the turret to the forward limit if it is past the forward limit, or to
+   *     the reverse limit if it is past the reverse limit
    */
   public Command reset() {
     return this.runOnce(
