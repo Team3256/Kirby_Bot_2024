@@ -101,7 +101,9 @@ public class Turret extends DisableSubsystem {
                             Rotation2d.fromDegrees(encoderIOInputs1.encoderPositionDegrees),
                             Rotation2d.fromDegrees(encoderIOInputs2.encoderPositionDegrees)))
                     .minus(speakerPose)
-                    .getRotation()));
+                    .getRotation().plus(getTurretPosition(
+                        Rotation2d.fromDegrees(encoderIOInputs1.encoderPositionDegrees),
+                        Rotation2d.fromDegrees(encoderIOInputs2.encoderPositionDegrees)))));
   }
 
   public Command reset() {
