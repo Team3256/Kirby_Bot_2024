@@ -16,12 +16,17 @@ public final class TurretConstants {
   public static int kCanCoderID1 = 0; // TODO: set id
   public static int kCanCoderID2 = 0; // TODO: set id
 
+  public static final double gearRatio = 1; // TODO: Set gear ratio
   public static final CANcoderConfiguration canCoderConfig =
       new CANcoderConfiguration()
           .withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(0)); // TODO: set config
-  public static double updateFrequency = 50.0;
+  public static final double updateFrequency = 50.0;
 
-  public static int kTurretMotorID = 0; // TODO: Set ID
+  public static final int kTurretMotorID = 0; // TODO: Set ID
+
+  public static final double followTagP = 1;
+  public static final double followTagI = 0;
+  public static final double followTagD = 0;
 
   public static final TalonFXConfiguration motorConfigs = // TODO: Set configs
       new TalonFXConfiguration()

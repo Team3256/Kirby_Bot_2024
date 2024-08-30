@@ -28,6 +28,7 @@ public class RobotContainer {
 
   private final Turret turret =
       new Turret(
+          Constants.FeatureFlags.kTurretEnabled,
           new TurretIOTalonFX(),
           new EncoderIOCancoder(TurretConstants.kCanCoderID1),
           new EncoderIOCancoder(TurretConstants.kCanCoderID2));

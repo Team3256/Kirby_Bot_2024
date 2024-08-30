@@ -7,14 +7,18 @@
 
 package frc.robot.subsystems.turret;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.utils.DisableSubsystem;
 import org.littletonrobotics.junction.Logger;
 
-public class Turret extends SubsystemBase {
+public class Turret extends DisableSubsystem {
 
   private final TurretIO turretIO;
   private final TurretIOInputsAutoLogged turretIOInputs = new TurretIOInputsAutoLogged();
@@ -25,7 +29,8 @@ public class Turret extends SubsystemBase {
   private final EncoderIO encoderIO2;
   private final EncoderIOInputsAutoLogged encoderIOInputs2 = new EncoderIOInputsAutoLogged();
 
-  public Turret(TurretIO turretIO, EncoderIO encoderIO1, EncoderIO encoderIO2) {
+  public Turret(boolean disabled, TurretIO turretIO, EncoderIO encoderIO1, EncoderIO encoderIO2) {
+    super(disabled);
     this.turretIO = turretIO;
     this.encoderIO1 = encoderIO1;
     this.encoderIO2 = encoderIO2;
@@ -57,35 +62,56 @@ public class Turret extends SubsystemBase {
   }
 
   public Command setPositionRelativeToSwerve(Rotation2d position, Rotation2d swerveAngle) {
-    return new StartEndCommand(
+    return this.runOnce(
         () ->
             turretIO.setPosition(
-                Units.degreesToRotations(position.getDegrees() - swerveAngle.getDegrees())),
-        () -> {},
-        this);
+                Units.degreesToRotations(position.getDegrees() - swerveAngle.getDegrees())));
   }
 
   public Command setPosition(Rotation2d position) {
-    return new StartEndCommand(
-        () -> turretIO.setPosition(Units.degreesToRotations(position.getDegrees())),
-        () -> {},
-        this);
+    return this.runOnce(
+        () ->
+            turretIO.setPosition(
+                Units.degreesToRotations(position.getDegrees()) / TurretConstants.gearRatio));
   }
 
   public Command zero() {
-    return new StartEndCommand(() -> turretIO.zero(), () -> {}, this);
+    return this.runOnce(() -> turretIO.zero());
+  }
+
+  public Command lockToSpeakerTag(Vision vision) {
+    return new PIDCommand(
+        new PIDController(
+            TurretConstants.followTagP, TurretConstants.followTagI, TurretConstants.followTagD),
+        vision::getCompensatedCenterLimelightX,
+        0,
+        output -> turretIO.setVoltage(output),
+        this);
+  }
+
+  public Command lockToSpeakerPose(CommandSwerveDrivetrain swerve, Pose2d speakerPose) {
+    return this.run(
+        () ->
+            this.setPosition(
+                swerve
+                    .getState()
+                    .Pose
+                    .rotateBy(
+                        getTurretPosition(
+                            Rotation2d.fromDegrees(encoderIOInputs1.encoderPositionDegrees),
+                            Rotation2d.fromDegrees(encoderIOInputs2.encoderPositionDegrees)))
+                    .minus(speakerPose)
+                    .getRotation()));
   }
 
   public Command reset() {
-    return new StartEndCommand(
+    return this.runOnce(
         () -> {
           if (turretIOInputs.turretMotorPosition > TurretConstants.kForwardLimit) {
             turretIO.setPosition(0);
           } else if (turretIOInputs.turretMotorPosition < TurretConstants.kReverseLimit) {
             turretIO.setPosition(0);
           }
-        },
-        () -> {},
-        this);
+        });
   }
 }

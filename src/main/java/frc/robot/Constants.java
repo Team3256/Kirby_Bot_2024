@@ -38,6 +38,11 @@ public final class Constants {
 
     public static final boolean shooterRegenBraking = true;
     public static final boolean kSwerveEnabled = true;
+    public static final boolean kClimbEnabled = true;
+    public static final boolean kIntakeEnabled = true;
+    public static final boolean kShooterEnabled = true;
+    public static final boolean kPivotShooterEnabled = true;
+    public static final boolean kTurretEnabled = true;
   }
 
   // Defaults from Monologue docs
