@@ -45,6 +45,11 @@ public class Turret extends DisableSubsystem {
     Logger.processInputs(this.getClass().getSimpleName() + "/encoder1", encoderIOInputs1);
     encoderIO2.updateInputs(encoderIOInputs2);
     Logger.processInputs(this.getClass().getSimpleName() + "/encoder2", encoderIOInputs2);
+    Logger.recordOutput(
+        this.getClass().getSimpleName() + "/CRTposition",
+        getTurretPosition(
+            Rotation2d.fromDegrees(encoderIOInputs1.encoderPositionDegrees),
+            Rotation2d.fromDegrees(encoderIOInputs2.encoderPositionDegrees)));
   }
 
   public static Rotation2d getTurretPosition(Rotation2d cancoder1, Rotation2d cancoder2) {
@@ -101,9 +106,11 @@ public class Turret extends DisableSubsystem {
                             Rotation2d.fromDegrees(encoderIOInputs1.encoderPositionDegrees),
                             Rotation2d.fromDegrees(encoderIOInputs2.encoderPositionDegrees)))
                     .minus(speakerPose)
-                    .getRotation().plus(getTurretPosition(
-                        Rotation2d.fromDegrees(encoderIOInputs1.encoderPositionDegrees),
-                        Rotation2d.fromDegrees(encoderIOInputs2.encoderPositionDegrees)))));
+                    .getRotation()
+                    .plus(
+                        getTurretPosition(
+                            Rotation2d.fromDegrees(encoderIOInputs1.encoderPositionDegrees),
+                            Rotation2d.fromDegrees(encoderIOInputs2.encoderPositionDegrees)))));
   }
 
   public Command reset() {
