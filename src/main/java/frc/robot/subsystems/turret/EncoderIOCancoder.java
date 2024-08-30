@@ -19,14 +19,14 @@ public class EncoderIOCancoder implements EncoderIO {
   private final StatusSignal<Double> encoderPosition;
   private final StatusSignal<Double> encoderVelocity;
 
-  public EncoderIOCancoder() {
-    encoder = new CANcoder(TurretConstants.kCanCoderID, "mani");
+  public EncoderIOCancoder(int canCoderID) {
+    encoder = new CANcoder(canCoderID, "mani");
     var response = encoder.getConfigurator().apply(TurretConstants.canCoderConfig);
 
     if (!response.isOK()) {
       System.out.println(
           "CANcoder ID "
-              + TurretConstants.kCanCoderID
+              + canCoderID
               + " failed config with error "
               + response.getDescription());
     }

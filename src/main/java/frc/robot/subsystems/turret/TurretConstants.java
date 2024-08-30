@@ -13,7 +13,8 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public final class TurretConstants {
 
-  public static int kCanCoderID = 0; // TODO: set id
+  public static int kCanCoderID1 = 0; // TODO: set id
+    public static int kCanCoderID2 = 0; // TODO: set id
 
   public static final CANcoderConfiguration canCoderConfig =
       new CANcoderConfiguration()
@@ -54,4 +55,14 @@ public final class TurretConstants {
   public static final double kForwardLimit = 69; // TODO: Set limit
   public static final double kReverseLimit = -69; // TODO: Set limit
   public static int flashConfigRetries = 5;
+
+  // CRT constants
+  public static final int drivingGear1 = 29;
+  public static final int drivenGear1 = 29;
+  public static final int drivingGear2 = 29;
+  public static final int drivenGear2 = 28;
+
+  public static final double ratio1 = (double) drivingGear1 / drivenGear1;
+  public static final double ratio2 = (double) drivingGear2 / drivenGear2;
+  public static final double differenceDegrees = (ratio2 - ratio1) * 360;
 }
