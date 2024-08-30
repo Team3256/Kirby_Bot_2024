@@ -1,6 +1,6 @@
 # Kirby_Bot_2024
 
-A cute and pink circular turret bot, aka "3256's Offseason Clone Bot of 254".
+A cute pink circular turret bot, competing at CalGames 2024. 
 
 ## Code structure
 
