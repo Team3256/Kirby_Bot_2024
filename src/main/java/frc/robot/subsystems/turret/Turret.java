@@ -52,6 +52,13 @@ public class Turret extends DisableSubsystem {
             Rotation2d.fromDegrees(encoderIOInputs2.encoderPositionDegrees)));
   }
 
+  /**
+   * @see <a href="https://docs.google.com/spreadsheets/d/1WOmYiwrWg-2iJdFzRZITXqLrtTegc7WbxJ2SQzn8VHs/edit?gid=0#gid=0">Chinese remainder theorem sheet calculator</a>
+   * Uses the calculations from the sheet to calculate the turret position from two encoders
+   * @param cancoder1
+   * @param cancoder2
+   * @return rotation2d of the turret position
+   */
   public static Rotation2d getTurretPosition(Rotation2d cancoder1, Rotation2d cancoder2) {
     Rotation2d diff = cancoder2.minus(cancoder1);
     double drivingRotRaw = diff.getDegrees() / TurretConstants.differenceDegrees;
@@ -66,24 +73,39 @@ public class Turret extends DisableSubsystem {
     return Rotation2d.fromRotations(drivingRotRaw - drivingRem);
   }
 
-  public Command setPositionRelativeToSwerve(Rotation2d position, Rotation2d swerveAngle) {
-    return this.runOnce(
-        () ->
-            turretIO.setPosition(
-                Units.degreesToRotations(position.getDegrees() - swerveAngle.getDegrees())));
+  /**
+   * @param position Desired position of the turret motor
+   * @param swerveAngle Current angle of the swerve drivetrain
+   * @return command to set the position of the turret absolute to the swerve angle
+   */
+  public Command setPositionRelativeToSwerve(Rotation2d position, CommandSwerveDrivetrain swerve) {
+    return this.run(
+        () ->turretIO.setPosition(position.minus(swerve.getState().Pose.getRotation()).getRotations() / TurretConstants.gearRatio));
+
   }
 
+  /**
+   * @param position Desired position of the turret motor
+   * @return Command to set the turret motor to the desired position / by the gear ratio
+   */
   public Command setPosition(Rotation2d position) {
     return this.runOnce(
         () ->
-            turretIO.setPosition(
-                Units.degreesToRotations(position.getDegrees()) / TurretConstants.gearRatio));
+            turretIO.setPosition(position.getRotations()/ TurretConstants.gearRatio));
   }
 
+  /**
+   * @return Command to zero the turret motor's encoder position
+   */
   public Command zero() {
     return this.runOnce(() -> turretIO.zero());
   }
 
+  /**
+   * Will run a PID loop that tracks the tx of the speaker tag and attempts to get it to 0 by moving the turret so the LL crosshair is centered
+   * @param vision Reference to the vision subsystem
+   * @return Command to run a PID loop to lock the turret to the speaker tag
+   */
   public Command lockToSpeakerTag(Vision vision) {
     return new PIDCommand(
         new PIDController(
@@ -94,6 +116,11 @@ public class Turret extends DisableSubsystem {
         this);
   }
 
+  /**
+   * @param swerve Reference to the swerve drivetrain
+   * @param speakerPose Pose of the speaker
+   * @return Command to turn turret to face the speaker
+   */
   public Command lockToSpeakerPose(CommandSwerveDrivetrain swerve, Pose2d speakerPose) {
     return this.run(
         () ->
@@ -113,6 +140,9 @@ public class Turret extends DisableSubsystem {
                             Rotation2d.fromDegrees(encoderIOInputs2.encoderPositionDegrees)))));
   }
 
+  /**
+   * @return Command to reset the turret to the forward limit if it is past the forward limit, or to the reverse limit if it is past the reverse limit
+   */
   public Command reset() {
     return this.runOnce(
         () -> {
