@@ -25,10 +25,7 @@ public class EncoderIOCancoder implements EncoderIO {
 
     if (!response.isOK()) {
       System.out.println(
-          "CANcoder ID "
-              + canCoderID
-              + " failed config with error "
-              + response.getDescription());
+          "CANcoder ID " + canCoderID + " failed config with error " + response.getDescription());
     }
 
     encoderPosition = encoder.getAbsolutePosition();

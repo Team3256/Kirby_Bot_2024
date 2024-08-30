@@ -14,7 +14,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 public final class TurretConstants {
 
   public static int kCanCoderID1 = 0; // TODO: set id
-    public static int kCanCoderID2 = 0; // TODO: set id
+  public static int kCanCoderID2 = 0; // TODO: set id
 
   public static final CANcoderConfiguration canCoderConfig =
       new CANcoderConfiguration()

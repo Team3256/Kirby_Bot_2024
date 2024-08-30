@@ -40,7 +40,6 @@ public class Turret extends SubsystemBase {
     Logger.processInputs(this.getClass().getSimpleName() + "/encoder1", encoderIOInputs1);
     encoderIO2.updateInputs(encoderIOInputs2);
     Logger.processInputs(this.getClass().getSimpleName() + "/encoder2", encoderIOInputs2);
-
   }
 
   public static Rotation2d getTurretPosition(Rotation2d cancoder1, Rotation2d cancoder2) {
