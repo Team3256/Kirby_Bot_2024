@@ -15,10 +15,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.NT4PublisherNoFMS;
 import monologue.Logged;
 import monologue.Monologue;
-import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 /**
@@ -47,13 +46,16 @@ public class Robot extends LoggedRobot implements Logged {
           1, ModuleType.kRev); // Ignore this "resource leak"; it was the example code from docs
     } else {
       setUseTiming(false); // Run as fast as possible
-      String logPath =
-          LogFileUtil
-              .findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
-      Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-      Logger.addDataReceiver(
-          new WPILOGWriter(
-              LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+      //      String logPath =
+      //          LogFileUtil
+      //              .findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the
+      // user)
+      //      Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+      //      Logger.addDataReceiver(
+      //          new WPILOGWriter(
+      //              LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+      Logger.addDataReceiver(new WPILOGWriter(""));
+      Logger.addDataReceiver(new NT4Publisher());
     }
 
     // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
