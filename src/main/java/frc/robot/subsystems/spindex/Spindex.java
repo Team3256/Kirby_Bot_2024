@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Spindex extends SubsystemBase {
   private TalonFX newMotor = new TalonFX(SpindexConstants.spindexMotorID);
-  private DigitalInput beamBreak = new DigitalInput(SpindexConstants.spindexMotorID);
+  private DigitalInput beamBreak = new DigitalInput(SpindexConstants.beambreakID);
 
   // private beambreak Beambreak = new beamreak(1)
   public Spindex() {}
