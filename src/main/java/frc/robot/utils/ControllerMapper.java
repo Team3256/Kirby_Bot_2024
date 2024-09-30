@@ -19,7 +19,7 @@ public class ControllerMapper {
   private CommandXboxController operator;
   private boolean enabled;
 
-  private Map<String, Map<String, String>> buttonMap = new HashMap<>();
+  public Map<String, Map<String, String>> buttonMap = new HashMap<>();
 
   public ControllerMapper(
       boolean enabled, CommandXboxController driver, CommandXboxController operator) {
@@ -86,8 +86,4 @@ public class ControllerMapper {
     Gson gson = new Gson();
     Logger.recordOutput("controllerMap", gson.toJson(buttonMap));
   }
-
-  public void setLeftJoystickDescription(String controller, String description) {}
-
-  public void setRightJoystickDescription(String controller, String description) {}
 }
