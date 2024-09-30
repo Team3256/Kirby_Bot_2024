@@ -15,6 +15,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.turret.*;
+import frc.robot.utils.ControllerMapper;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -39,6 +40,10 @@ public class RobotContainer {
   private final CommandXboxController m_operatorController =
       new CommandXboxController(ControllerConstants.kOperatorControllerPort);
 
+  private final ControllerMapper controls =
+      new ControllerMapper(
+          Constants.FeatureFlags.kControllerMapEnabled, m_driverController, m_operatorController);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -62,52 +67,10 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
-    bind("driver", "b", "exampleMethodCommand")
+    controls
+        .bindDriver("b", "exampleMethodCommand")
         .whileTrue(m_exampleSubsystem.exampleMethodCommand());
   }
-
-  private Trigger getButton(CommandXboxController controller, String button) {
-    switch (button) {
-      case "a":
-        return controller.a();
-      case "b":
-        return controller.b();
-      case "x":
-        return controller.x();
-      case "y":
-        return controller.y();
-      case "leftBumper":
-        return controller.leftBumper();
-      case "rightBumper":
-        return controller.rightBumper();
-      case "start":
-        return controller.start();
-      case "back":
-        return controller.back();
-      case "leftStick":
-        return controller.leftStick();
-      case "rightStick":
-        return controller.rightStick();
-      case "leftTrigger":
-        return controller.leftTrigger();
-      case "rightTrigger":
-        return controller.rightTrigger();
-      default:
-        return null;
-    }
-  }
-
-  private Trigger bind(String controller, String button, String commmandDescription) {
-    if (controller.equals("driver")) {
-      return getButton(m_driverController, button);
-    } else {
-      return getButton(m_operatorController, button);
-    }
-  }
-
-  private void setLeftJoystickDescription(String controller, String description) {}
-
-  private void setRightJoystickDescription(String controller, String description) {}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
