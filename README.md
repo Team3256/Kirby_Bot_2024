@@ -22,3 +22,4 @@ Other than the typical FRC code structure scaffold, we also have GitHub Actions 
 
 We use Spotless for formatting (run `./gradlew spotlessApply`) and follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+We also have a very nuanced format for doing configs. An example will come soon! See [here](https://github.com/Team3256/Offseason_Bot_2024/blob/6bcbbed94f5959c411d5b3c4f46dded32fb10a72/src/main/java/frc/robot/subsystems/ampbar/AmpBarConstants.java#L28) for now.
