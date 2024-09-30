@@ -79,7 +79,7 @@ public class ControllerMapper {
     }
   }
 
-  public void outputControllerMap() {
+  public void dumpControllerMap() {
     if (!this.enabled) {
       return;
     }

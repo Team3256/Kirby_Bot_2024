@@ -70,6 +70,8 @@ public class RobotContainer {
     controls
         .bindDriver("b", "exampleMethodCommand")
         .whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    controls.dumpControllerMap();
   }
 
   /**
