@@ -74,7 +74,23 @@ public class Robot extends LoggedRobot implements Logged {
 
     // See "Deterministic Timestamps" in the "Understanding Data Flow" page
     // Disabling deterministic timestamps disallows replay
-    // Logger.disableDeterministicTimestamps()
+
+    // Logger.disableDeterministicTimestamps();
+
+    // Disabling deterministic timestamps (uncommenting the previous line of code)
+    // should only be used when all of the following are true:
+    // (quoting from
+    // https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/DATA-FLOW.md#solution-3)
+    // 1. The control logic depends on the exact timestamp within a single loop
+    // cycle, like a high precision control loop that is significantly affected by
+    // the precise time that it is executed within each (usually 20ms) loop cycle.
+    // 2. The sensor values used in the loop cannot be associated with timestamps in
+    // an IO implementation. See solution #1.
+    // 3. The IO (sensors, actuators, etc) involved in the loop are sufficiently
+    // low-latency that the exact timestamp on the RIO is significant. For example,
+    // CAN motor controllers are limited by the rate of their CAN frames, so the
+    // extra precision on the RIO is insignificant in most cases.
+
     if (Constants.FeatureFlags.kEnableAdvKit) {
       // Start logging! No more data receivers, replay sources, or metadata values may
       // be added.
