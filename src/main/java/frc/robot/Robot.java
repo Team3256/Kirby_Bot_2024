@@ -15,9 +15,12 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.NT4PublisherNoFMS;
 import monologue.Logged;
 import monologue.Monologue;
+
+import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 /**
@@ -43,23 +46,30 @@ public class Robot extends LoggedRobot implements Logged {
   public void robotInit() {
     // AdvantageKit >>
     if (isReal()) {
-      Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
+      if (Constants.Logging.kLogToUSB) {
+        // Note: By default, the WPILOGWriter class writes to a USB stick (at the path
+        // of /U/logs) when running on the roboRIO. A FAT32 (sadly not exFAT, which is
+        // the generally better format) formatted USB stick must be connected to one of
+        // the roboRIO USB ports.
+        Logger.addDataReceiver(new WPILOGWriter("/U/wpilogs"));
+      } else {
+        Logger.addDataReceiver(new WPILOGWriter("/home/lvuser/logs"));
+      }
       Logger.addDataReceiver(new NT4PublisherNoFMS()); // Publish data to NetworkTables
       // Enables power distribution logging
       new PowerDistribution(
           1, ModuleType.kRev); // Ignore this "resource leak"; it was the example code from docs
     } else {
       setUseTiming(false); // Run as fast as possible
-      // String logPath =
-      // LogFileUtil
-      // .findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the
-      // user)
-      // Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-      // Logger.addDataReceiver(
-      // new WPILOGWriter(
-      // LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
-      Logger.addDataReceiver(new WPILOGWriter(""));
-      Logger.addDataReceiver(new NT4Publisher());
+      if (Constants.Logging.kUseAdvKitReplay) {
+        String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
+        Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+        // Save outputs to a new log
+        Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
+      } else {
+        Logger.addDataReceiver(new WPILOGWriter(""));
+        Logger.addDataReceiver(new NT4Publisher());
+      }
     }
 
     // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
@@ -73,7 +83,7 @@ public class Robot extends LoggedRobot implements Logged {
     // Monologue >>
     if (Constants.FeatureFlags.kEnableMonologue) {
       Monologue.setupMonologue(
-          this, "MonologueRobot", Constants.kMonologueFileOnly, Constants.kMonologueFileOnly);
+          this, "MonologueRobot", Constants.Logging.kMonologueFileOnly, Constants.Logging.kMonologueFileOnly);
     }
     // << Monologue
     // Instantiate our RobotContainer. This will perform all our button bindings,
