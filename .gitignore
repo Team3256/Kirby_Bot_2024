@@ -176,3 +176,5 @@ logs/
 
 # Folder that has CTRE Phoenix Sim device config storage
 ctre_sim/
+# Running simulation will generate a WPI log file
+*.wpilog
