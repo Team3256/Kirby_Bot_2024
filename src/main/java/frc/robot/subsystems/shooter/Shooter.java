@@ -22,27 +22,31 @@ public class Shooter extends DisableSubsystem {
 
   private final ShooterIO shooterIO;
   private final ShooterIOInputsAutoLogged shooterIOAutoLogged = new ShooterIOInputsAutoLogged();
-  private final LoggedTunableNumber shooterMotorVelocityInput = new LoggedTunableNumber("Shooter/MotorVelocity");
-  private final LoggedTunableNumber shooterFollowerVelocityInput = new LoggedTunableNumber("Shooter/FollowerVelocity");
+  private final LoggedTunableNumber shooterMotorVelocityInput =
+      new LoggedTunableNumber("Shooter/MotorVelocity");
+  private final LoggedTunableNumber shooterFollowerVelocityInput =
+      new LoggedTunableNumber("Shooter/FollowerVelocity");
 
   private final SysIdRoutine m_sysIdRoutine;
 
   public Shooter(boolean disabled, ShooterIO shooterIO) {
     super(disabled);
     this.shooterIO = shooterIO;
-    m_sysIdRoutine = new SysIdRoutine(
-        new SysIdRoutine.Config(
-            Volts.of(0.2).per(Seconds.of(1)), // Use default ramp rate (1 V/s)
-            Volts.of(6), // Reduce dynamic step voltage to 4 to prevent brownout
-            null, // Use default timeout (10 s)
-            // Log state with Phoenix SignalLogger class
-            (state) -> SignalLogger.writeString("state", state.toString())),
-        new SysIdRoutine.Mechanism(
-            (volts) -> shooterIO
-                .getMotor()
-                .setControl(shooterIO.getVoltageRequest().withOutput(volts.in(Volts))),
-            null,
-            this));
+    m_sysIdRoutine =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                Volts.of(0.2).per(Seconds.of(1)), // Use default ramp rate (1 V/s)
+                Volts.of(6), // Reduce dynamic step voltage to 4 to prevent brownout
+                null, // Use default timeout (10 s)
+                // Log state with Phoenix SignalLogger class
+                (state) -> SignalLogger.writeString("state", state.toString())),
+            new SysIdRoutine.Mechanism(
+                (volts) ->
+                    shooterIO
+                        .getMotor()
+                        .setControl(shooterIO.getVoltageRequest().withOutput(volts.in(Volts))),
+                null,
+                this));
   }
 
   @Override
@@ -59,19 +63,19 @@ public class Shooter extends DisableSubsystem {
 
   public Command setVoltage(double voltage, double followerVoltage) {
     return this.run(
-        () -> {
-          shooterIO.setShooterVoltage(voltage);
-          shooterIO.setShooterFollowerVoltage(followerVoltage);
-        })
+            () -> {
+              shooterIO.setShooterVoltage(voltage);
+              shooterIO.setShooterFollowerVoltage(followerVoltage);
+            })
         .finallyDo(shooterIO::off);
   }
 
   public Command setVelocity(double velocity, double followerVelocity) {
     return this.run(
-        () -> {
-          shooterIO.setShooterVelocity(velocity);
-          shooterIO.setShooterFollowerVelocity(followerVelocity);
-        })
+            () -> {
+              shooterIO.setShooterVelocity(velocity);
+              shooterIO.setShooterFollowerVelocity(followerVelocity);
+            })
         .finallyDo(shooterIO::off);
   }
 

@@ -15,6 +15,7 @@ public final class ShooterConstants {
   /* Misc */
   public static final boolean kUseShooterMotionMagic = false;
   public static final boolean kUseFOC = true;
+  public static final boolean kUseShooterRegenBraking = true;
   /* CAN */
   public static int kShooterMotorID = 11;
   public static int kShooterMotorFollowerID = 23;

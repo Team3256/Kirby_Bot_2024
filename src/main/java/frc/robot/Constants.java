@@ -8,15 +8,11 @@
 package frc.robot;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide
- * numerical or boolean
- * constants. This class should not be used for any other purpose. All constants
- * should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>
- * It is advised to statically import this class (or one of its inner classes)
- * wherever the
+ * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
@@ -24,6 +20,11 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  // Naming scheme for FeatureFlags:
+  // k___Enabled = enables/disables a subsystem
+  // kUse___ = enables/disables a specific feature
+  // but all of the kUse constants should
+  // be in their specific SubsystemConstants file
   public static class FeatureFlags {
     // AdvantageKit is a logging library we use that
     // can provide logging replay and it's how we can
@@ -46,8 +47,6 @@ public final class Constants {
     public static final boolean kShooterEnabled = true;
     public static final boolean kPivotShooterEnabled = true;
     public static final boolean kTurretEnabled = true;
-
-    public static final boolean kUseShooterRegenBraking = true;
   }
 
   // Defaults from Monologue docs
