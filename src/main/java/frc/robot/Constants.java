@@ -8,11 +8,15 @@
 package frc.robot;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
@@ -25,24 +29,25 @@ public final class Constants {
     // can provide logging replay and it's how we can
     // do comprehensive logging. Logging to NetworkTables
     // is disabled on field (FMS connected).
-    public static final boolean kEnableAdvKit = true;
+    public static final boolean kAdvKitEnabled = true;
     // Monologue is another logging library that we use for
     // sending values to our dashboard because we don't want
     // AdvantageKit (which logs EVERYTHING) to dump to NetworkTables
     // during competition. So we use Monologue to log the things
     // for our dashboard (it will ALWAYS log to NetworkTables;
     // AdvantageKit can be configured to log to a file when connected to FMS)
-    public static final boolean kEnableMonologue = true;
+    public static final boolean kMonologueEnabled = true;
     // If true, the LoggedTunableNumber will work and do TunableNumber things
-    public static final boolean kTuningMode = false;
+    public static final boolean kTuningModeEnabled = false;
 
-    public static final boolean shooterRegenBraking = true;
     public static final boolean kSwerveEnabled = true;
     public static final boolean kClimbEnabled = true;
     public static final boolean kIntakeEnabled = true;
     public static final boolean kShooterEnabled = true;
     public static final boolean kPivotShooterEnabled = true;
     public static final boolean kTurretEnabled = true;
+
+    public static final boolean kUseShooterRegenBraking = true;
   }
 
   // Defaults from Monologue docs
