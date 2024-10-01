@@ -61,7 +61,7 @@ public class Robot extends LoggedRobot implements Logged {
           1, ModuleType.kRev); // Ignore this "resource leak"; it was the example code from docs
     } else {
       setUseTiming(false); // Run as fast as possible
-      if (Constants.Logging.kUseAdvKitReplay) {
+      if (Constants.Logging.kAdvkitUseReplayLogs) {
         String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
         Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
         // Save outputs to a new log
@@ -72,13 +72,25 @@ public class Robot extends LoggedRobot implements Logged {
       }
     }
 
-    // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
-    // the "Understanding Data Flow" page
+    // See "Deterministic Timestamps" in the "Understanding Data Flow" page
+    // Disabling deterministic timestamps disallows replay
+    // Logger.disableDeterministicTimestamps()
     if (Constants.FeatureFlags.kEnableAdvKit) {
       // Start logging! No more data receivers, replay sources, or metadata values may
       // be added.
       Logger.start();
     }
+
+    // The reason why we log build time and other project metadata
+    // is so we can easily identify the version of the currently
+    // deployed code on the robot
+    // It's also recommended ala
+    // https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/INSTALLATION.md#gversion-plugin-git-metadata
+    Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME); // Set a metadata value
+    Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
+    Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
+    Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
+    Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
     // << AdvantageKit
     // Monologue >>
     if (Constants.FeatureFlags.kEnableMonologue) {
@@ -117,14 +129,6 @@ public class Robot extends LoggedRobot implements Logged {
     }
     // << Monologue
 
-    // The reason why we log build time and other project metadata
-    // is so we can easily identify the version of the currently
-    // deployed code on the robot
-    Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME); // Set a metadata value
-    Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
-    Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
-    Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
-    Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled
     // commands, running already-scheduled commands, removing finished or
