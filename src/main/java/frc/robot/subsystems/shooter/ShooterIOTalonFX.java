@@ -11,7 +11,6 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.*;
 import com.ctre.phoenix6.hardware.TalonFX;
-import frc.robot.Constants;
 import frc.robot.utils.PhoenixUtil;
 
 public class ShooterIOTalonFX implements ShooterIO {
@@ -137,7 +136,7 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   @Override
   public void off() {
-    if (Constants.FeatureFlags.shooterRegenBraking) {
+    if (ShooterConstants.kUseShooterRegenBraking) {
       shooterMotor.setControl(regenRequest);
       shooterMotorFollower.setControl(regenRequest);
     } else {

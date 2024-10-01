@@ -21,25 +21,29 @@ public final class Constants {
     public static final int kOperatorControllerPort = 0;
   }
 
+  // Naming scheme for FeatureFlags:
+  // k___Enabled = enables/disables a subsystem
+  // kUse___ = enables/disables a specific feature
+  // but all of the kUse constants should
+  // be in their specific SubsystemConstants file
   public static class FeatureFlags {
     // AdvantageKit is a logging library we use that
     // can provide logging replay and it's how we can
     // do comprehensive logging. Logging to NetworkTables
     // is disabled on field (FMS connected).
-    public static final boolean kEnableAdvKit = true;
+    public static final boolean kAdvKitEnabled = true;
     // Monologue is another logging library that we use for
     // sending values to our dashboard because we don't want
     // AdvantageKit (which logs EVERYTHING) to dump to NetworkTables
     // during competition. So we use Monologue to log the things
     // for our dashboard (it will ALWAYS log to NetworkTables;
     // AdvantageKit can be configured to log to a file when connected to FMS)
-    public static final boolean kEnableMonologue = true;
+    public static final boolean kMonologueEnabled = true;
     // If true, the LoggedTunableNumber will work and do TunableNumber things
-    public static final boolean kTuningMode = false;
-    // Enables the controller map generation
+    public static final boolean kTuningModeEnabled = false;
+    // Toggle whether or not the controller map should dump
     public static final boolean kControllerMapEnabled = true;
 
-    public static final boolean shooterRegenBraking = true;
     public static final boolean kSwerveEnabled = true;
     public static final boolean kClimbEnabled = true;
     public static final boolean kIntakeEnabled = true;
