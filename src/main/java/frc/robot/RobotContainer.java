@@ -41,8 +41,7 @@ public class RobotContainer {
       new CommandXboxController(ControllerConstants.kOperatorControllerPort);
 
   private final ControllerMapper controls =
-      new ControllerMapper(
-          Constants.FeatureFlags.kControllerMapEnabled, m_driverController, m_operatorController);
+      new ControllerMapper(m_driverController, m_operatorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -70,8 +69,11 @@ public class RobotContainer {
     controls
         .bindDriver("b", "exampleMethodCommand")
         .whileTrue(m_exampleSubsystem.exampleMethodCommand());
-
-    controls.dumpControllerMap();
+    // This should be at the end of the configureBindings method.
+    // No other bindings should be added after this line.
+    if (Constants.FeatureFlags.kControllerMapEnabled) {
+      controls.dumpControllerMap();
+    }
   }
 
   /**

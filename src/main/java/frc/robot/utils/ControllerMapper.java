@@ -17,13 +17,10 @@ import org.littletonrobotics.junction.Logger;
 public class ControllerMapper {
   private CommandXboxController driver;
   private CommandXboxController operator;
-  private boolean enabled;
 
   public Map<String, Map<String, String>> buttonMap = new HashMap<>();
 
-  public ControllerMapper(
-      boolean enabled, CommandXboxController driver, CommandXboxController operator) {
-    this.enabled = enabled;
+  public ControllerMapper(CommandXboxController driver, CommandXboxController operator) {
     this.driver = driver;
     this.operator = operator;
     buttonMap.put("driver", new HashMap<>());
@@ -84,9 +81,6 @@ public class ControllerMapper {
   }
 
   public void dumpControllerMap() {
-    if (!this.enabled) {
-      return;
-    }
     Gson gson = new Gson();
     Logger.recordOutput("controllerMap", gson.toJson(buttonMap));
   }
