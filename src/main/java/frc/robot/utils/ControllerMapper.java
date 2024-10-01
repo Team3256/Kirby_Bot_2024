@@ -39,13 +39,17 @@ public class ControllerMapper {
   }
 
   public Trigger bindOperator(String button, String commmandDescription) {
-    buttonMap.get("operator").put(button, commmandDescription);
+    labelButton("operator", button, commmandDescription);
     return getButton(operator, button);
   }
 
   public Trigger bindDriver(String button, String commmandDescription) {
-    buttonMap.get("driver").put(button, commmandDescription);
+    labelButton("driver", button, commmandDescription);
     return getButton(driver, button);
+  }
+
+  public void labelButton(String controller, String button, String label) {
+    buttonMap.get(controller).put(button, label);
   }
 
   private Trigger getButton(CommandXboxController controller, String button) {
