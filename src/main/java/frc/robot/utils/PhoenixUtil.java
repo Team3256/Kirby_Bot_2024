@@ -11,6 +11,7 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import java.util.function.Supplier;
 
 // The only method you should really use is applyMotorConfigs
@@ -59,6 +60,9 @@ public class PhoenixUtil {
   public static boolean applyMotorConfigs(
       TalonFX motor, TalonFXConfiguration motorConfig, int numTries) {
     for (int i = 0; i < numTries; i++) {
+      if (RobotBase.isSimulation()) {
+        return motor.getConfigurator().apply(motorConfig).isOK();
+      }
       if (spamGetStatusCode(() -> motor.getConfigurator().apply(motorConfig))) {
         // API says we applied config, lets make sure it's right
         if (readAndVerifyConfiguration(motor, motorConfig)) {
