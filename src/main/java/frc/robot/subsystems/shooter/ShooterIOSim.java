@@ -44,8 +44,6 @@ public class ShooterIOSim extends ShooterIOTalonFX {
     // For Advantage Kit >>>
     inputs.shooterMotorVoltage = shooterMotorSim.getMotorVoltage();
     inputs.shooterMotorVelocity = leftFlywheelSimModel.getAngularVelocityRPM() / 60;
-    // In a perfect motor, the supply current and stator current would be equal
-    inputs.shooterMotorStatorCurrent = shooterMotorSim.getSupplyCurrent();
     inputs.shooterMotorSupplyCurrent = shooterMotorSim.getSupplyCurrent();
     inputs.shooterMotorTemperature = 0.0; // In a perfect motor, no heat is generated
     // XXX:
@@ -57,7 +55,6 @@ public class ShooterIOSim extends ShooterIOTalonFX {
 
     inputs.shooterMotorFollowerVoltage = shooterFollowerMotorSim.getMotorVoltage();
     inputs.shooterMotorFollowerVelocity = rightFlywheelSimModel.getAngularVelocityRPM() / 60;
-    inputs.shooterMotorFollowerStatorCurrent = shooterFollowerMotorSim.getSupplyCurrent();
     inputs.shooterMotorFollowerSupplyCurrent = shooterFollowerMotorSim.getSupplyCurrent();
     inputs.shooterMotorFollowerTemperature = 0.0;
     inputs.shooterMotorFollowerReferenceSlope =
@@ -86,5 +83,8 @@ public class ShooterIOSim extends ShooterIOTalonFX {
     RoboRioSim.setVInVoltage(
         BatterySim.calculateDefaultBatteryLoadedVoltage(
             leftFlywheelSimModel.getCurrentDrawAmps(), rightFlywheelSimModel.getCurrentDrawAmps()));
+
+    inputs.shooterMotorStatorCurrent = leftFlywheelSimModel.getCurrentDrawAmps();
+    inputs.shooterMotorFollowerStatorCurrent = rightFlywheelSimModel.getCurrentDrawAmps();
   }
 }
