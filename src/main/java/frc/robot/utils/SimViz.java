@@ -19,26 +19,29 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public enum SimViz implements Subsystem {
   INSTANCE;
 
-  private static final Mechanism2d mech = new Mechanism2d(1, 1);
+  private static final Mechanism2d mech = new Mechanism2d(3.0, 3.0);
   private static final MechanismRoot2d leftShooterAxle =
-      mech.getRoot("Left Shooter Axle", 0.0, 0.0);
+      mech.getRoot("Left Shooter Axle", 1.0, 2.0);
   private static final MechanismLigament2d leftShooterViz =
       leftShooterAxle.append(
           new MechanismLigament2d(
-              "Left Shooter Flywheel", 0.1, 0.0, 5.0, new Color8Bit(Color.kYellow)));
+              "Left Shooter Flywheel", .5, 0.0, 5.0, new Color8Bit(Color.kYellow)));
   private static final MechanismRoot2d rightShooterAxle =
-      mech.getRoot("Right Shooter Axle", 0.0, 0.0);
+      mech.getRoot("Right Shooter Axle", 2.0, 2.0);
   private static final MechanismLigament2d rightShooterViz =
       rightShooterAxle.append(
           new MechanismLigament2d(
-              "Right Shooter Flywheel", 0.1, 0.0, 5.0, new Color8Bit(Color.kYellow)));
+              "Right Shooter Flywheel", 0.5, 0.0, 5.0, new Color8Bit(Color.kYellow)));
 
   private SimViz() {
     System.out.println("Here");
   }
 
-  public static SimViz getInstance() {
+  public static void init() {
     SmartDashboard.putData("/SimViz", mech);
+  }
+
+  public static SimViz getInstance() {
     return INSTANCE;
   }
 
