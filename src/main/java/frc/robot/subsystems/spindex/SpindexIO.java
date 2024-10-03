@@ -7,4 +7,23 @@
 
 package frc.robot.subsystems.spindex;
 
-public class SpindexIO {}
+import org.littletonrobotics.junction.AutoLog;
+
+public interface SpindexIO {
+  @AutoLog
+  public static class SpindexIOInputs {
+    public double spindexMotorVoltage = 0.0;
+    public double spindexMotorVelocity = 0.0;
+    public double spindexMotorStatorCurrent = 0.0;
+    public double spindexMotorSupplyCurrent = 0.0;
+    public double spindexMotorTemperature = 0.0;
+  }
+
+  public default void updateInputs(SpindexIOInputs inputs) {}
+
+  public default void setSpindexVoltage(double voltage) {}
+
+  public default void setSpindexVelocity(double velocity) {}
+
+  public default void off() {}
+}

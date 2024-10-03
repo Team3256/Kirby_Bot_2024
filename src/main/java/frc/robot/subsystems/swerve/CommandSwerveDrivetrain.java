@@ -9,8 +9,10 @@ package frc.robot.subsystems.swerve;
 
 import static edu.wpi.first.units.Units.Volts;
 
-import com.choreo.lib.Choreo;
-import com.choreo.lib.ChoreoTrajectory;
+import choreo.Choreo;
+import choreo.auto.AutoFactory;
+import choreo.auto.AutoTrajectory;
+import choreo.trajectory.SwerveSample;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.*;
@@ -20,6 +22,8 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -34,7 +38,6 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.utils.LimelightHelpers;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -42,7 +45,7 @@ import java.util.function.Supplier;
  * in command-based projects easily.
  */
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
-  private final boolean disabled;
+  private final boolean enabled;
   private static final double kSimLoopPeriod = 0.005; // 5 ms
   private Notifier m_simNotifier = null;
   private double m_lastSimTime;
@@ -54,9 +57,12 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   /* Keep track if we've ever applied the operator perspective before or not */
   private boolean hasAppliedOperatorPerspective = false;
 
+  private final PIDController xController = new PIDController(10, 0, 0);
+  private final PIDController yController = new PIDController(10, 0, 0);
+  private final PIDController thetaController = new PIDController(7, 0, 0);
+
   private final SwerveRequest.ApplyChassisSpeeds AutoRequest =
-      new SwerveRequest.ApplyChassisSpeeds()
-          .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
+      new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
   private final SwerveRequest.SysIdSwerveTranslation TranslationCharacterization =
       new SwerveRequest.SysIdSwerveTranslation();
@@ -64,6 +70,17 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
       new SwerveRequest.SysIdSwerveRotation();
   private final SwerveRequest.SysIdSwerveSteerGains SteerCharacterization =
       new SwerveRequest.SysIdSwerveSteerGains();
+
+  public final AutoFactory autoFactory =
+      Choreo.createAutoFactory(
+          this,
+          () -> this.getState().Pose,
+          this::choreoController,
+          (speeds) -> this.setControl(AutoRequest.withSpeeds(speeds)),
+          () ->
+              DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
+                  == DriverStation.Alliance.Red,
+          new AutoFactory.ChoreoAutoBindings());
 
   /* Use one of these sysidroutines for your particular test */
   private SysIdRoutine SysIdRoutineTranslation =
@@ -99,12 +116,12 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   private final SysIdRoutine RoutineToApply = SysIdRoutineTranslation;
 
   public CommandSwerveDrivetrain(
-      boolean disabled,
+      boolean enabled,
       SwerveDrivetrainConstants driveTrainConstants,
       double OdometryUpdateFrequency,
       SwerveModuleConstants... modules) {
     super(driveTrainConstants, OdometryUpdateFrequency, modules);
-    this.disabled = disabled;
+    this.enabled = enabled;
     configurePathPlanner();
     if (Utils.isSimulation()) {
       startSimThread();
@@ -112,11 +129,11 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   }
 
   public CommandSwerveDrivetrain(
-      boolean disabled,
+      boolean enabled,
       SwerveDrivetrainConstants driveTrainConstants,
       SwerveModuleConstants... modules) {
     super(driveTrainConstants, modules);
-    this.disabled = disabled;
+    this.enabled = enabled;
     configurePathPlanner();
     if (Utils.isSimulation()) {
       startSimThread();
@@ -125,9 +142,19 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
   @Override
   public void setControl(SwerveRequest request) {
-    if (!disabled) {
+    if (enabled) {
       super.setControl(request);
     }
+  }
+
+  public ChassisSpeeds choreoController(Pose2d currentPose, SwerveSample sample) {
+    return ChassisSpeeds.fromFieldRelativeSpeeds(
+        new ChassisSpeeds(
+            xController.calculate(currentPose.getX(), sample.x) + sample.vx,
+            yController.calculate(currentPose.getY(), sample.y) + sample.vy,
+            thetaController.calculate(currentPose.getRotation().getRadians(), sample.heading)
+                + sample.omega),
+        currentPose.getRotation());
   }
 
   public void updateVision() {
@@ -252,6 +279,11 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     return run(() -> this.setControl(requestSupplier.get()));
   }
 
+  public void resetOdometry(AutoTrajectory traj) {
+    this.m_odometry.resetPosition(
+        traj.getInitialPose().get().getRotation(), m_modulePositions, traj.getInitialPose().get());
+  }
+
   public Command getAutoPath(String pathName) {
     return new PathPlannerAuto(pathName);
   }
@@ -289,21 +321,21 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     m_simNotifier.startPeriodic(kSimLoopPeriod);
   }
 
-  public Command runChoreoTraj(ChoreoTrajectory trajectory) {
-    return Choreo.choreoSwerveCommand(
-        trajectory,
-        () -> (this.getState().Pose),
-        SwerveConstants.choreoTranslationController,
-        SwerveConstants.choreoTranslationController,
-        SwerveConstants.choreoRotationController,
-        ((ChassisSpeeds speeds) ->
-            this.setControl(new SwerveRequest.ApplyChassisSpeeds().withSpeeds(speeds))),
-        () -> {
-          Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
-          return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
-        },
-        this);
-  }
+  //  public Command runChoreoTraj(ChoreoTrajectory trajectory) {
+  //    return Choreo.choreoSwerveCommand(
+  //        trajectory,
+  //        () -> (this.getState().Pose),
+  //        SwerveConstants.choreoTranslationController,
+  //        SwerveConstants.choreoTranslationController,
+  //        SwerveConstants.choreoRotationController,
+  //        ((ChassisSpeeds speeds) ->
+  //            this.setControl(new SwerveRequest.ApplyChassisSpeeds().withSpeeds(speeds))),
+  //        () -> {
+  //          Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
+  //          return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
+  //        },
+  //        this);
+  //  }
 
   /*
    * This method comes from 1690's <a

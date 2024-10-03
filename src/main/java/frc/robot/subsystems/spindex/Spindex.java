@@ -7,10 +7,9 @@
 
 package frc.robot.subsystems.spindex;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utils.DisableSubsystem;
+import org.littletonrobotics.junction.Logger;
 
 // Copyright (c) 2024 FRC 3256
 // https://github.com/Team3256
@@ -19,50 +18,45 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-public class Spindex extends SubsystemBase {
-  private TalonFX newMotor = new TalonFX(SpindexConstants.spindexMotorID);
-  private DigitalInput beamBreak = new DigitalInput(SpindexConstants.beambreakID);
+public class Spindex extends DisableSubsystem {
+
+  private final SpindexIO spindexIO;
+  private final SpindexIOInputsAutoLogged spindexIOAutoLogged = new SpindexIOInputsAutoLogged();
+
+  private final BeamBreakIO beamBreakIO;
+  private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =
+      new BeamBreakIOInputsAutoLogged();
 
   // private beambreak Beambreak = new beamreak(1)
-  public Spindex() {}
-
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command spin() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return run(() -> {
-          newMotor.set(SpindexConstants.spindexMotorSpeed);
-        })
-        .finallyDo(this::stop)
-        .until(beamBreak::get);
-  }
-
-  public void stop() {
-    newMotor.set(0);
-  }
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+  public Spindex(boolean disabled, SpindexIO spindexIO, BeamBreakIO beamBreakIO) {
+    super(disabled);
+    this.spindexIO = spindexIO;
+    this.beamBreakIO = beamBreakIO;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     super.periodic();
+    spindexIO.updateInputs(spindexIOAutoLogged);
+    Logger.processInputs(this.getClass().getSimpleName(), spindexIOAutoLogged);
   }
 
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
+  public Command setSpindexVoltage(double voltage) {
+    return this.run(() -> spindexIO.setSpindexVoltage(voltage)).finallyDo(() -> spindexIO.off());
+  }
+
+  public Command setSpindexVelocity(double velocity) {
+    return this.run(() -> spindexIO.setSpindexVelocity(velocity)).finallyDo(() -> spindexIO.off());
+  }
+
+  public Command goToShooter() {
+    return setSpindexVelocity(SpindexConstants.spindexMotorSpeedRPS)
+        .until(() -> beamBreakIOAutoLogged.beamBroken)
+        .andThen(this.off());
+  }
+
+  public Command off() {
+    return this.run(() -> spindexIO.off());
   }
 }

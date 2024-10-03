@@ -7,13 +7,23 @@
 
 package frc.robot;
 
+import choreo.auto.AutoChooser;
+import com.ctre.phoenix6.Utils;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.Autos;
+import frc.robot.commands.AutoRoutines;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.sim.SimMechs;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
+import frc.robot.subsystems.swerve.SwerveTelemetry;
+import frc.robot.subsystems.swerve.TunerConstants;
 import frc.robot.subsystems.turret.*;
 import frc.robot.utils.ControllerMapper;
 
@@ -26,6 +36,8 @@ import frc.robot.utils.ControllerMapper;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+
+  private final CommandSwerveDrivetrain swerve = TunerConstants.DriveTrain;
 
   private final Turret turret =
       new Turret(
@@ -43,10 +55,22 @@ public class RobotContainer {
   private final ControllerMapper controls =
       new ControllerMapper(m_driverController, m_operatorController);
 
+  private final AutoRoutines autoRoutines = new AutoRoutines(swerve);
+
+  private final AutoChooser autoChooser = new AutoChooser(swerve.autoFactory, "Auto Chooser");
+  private final SwerveTelemetry swerveTelemetry = new SwerveTelemetry(TunerConstants.kSpeedAt12VoltsMps);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    configureAutoChooser();
+    if (Utils.isSimulation()) {
+      swerve.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+    }
+    swerve.registerTelemetry(swerveTelemetry::telemeterize);
+
+    SmartDashboard.putData("Mech2d", SimMechs.mech);
   }
 
   /**
@@ -76,6 +100,14 @@ public class RobotContainer {
     }
   }
 
+  private void configureAutoChooser() {
+    autoChooser.addAutoRoutine("Box", autoRoutines::boxAuto);
+  }
+
+  private void configureSwerve() {
+
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -83,6 +115,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return autoChooser.getSelectedAutoRoutine();
+  }
+
+  public void periodic() {
+    autoChooser.update();
   }
 }
