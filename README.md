@@ -4,7 +4,7 @@ A cute pink circular turret bot, competing at CalGames 2024.
 
 ## Code structure
 
-Since we're using AdvantageKit, we follow the [IO-layer](https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/RECORDING-INPUTS.md)-based, [command-based](https://docs.wpilib.org/en/stable/docs/software/commandbased/index.html), project structure [similar to MechanicalAdvantage](https://github.com/Mechanical-Advantage/RobotCode2022/tree/main/src/main/java/frc/robot/subsystems).
+Since we're using AdvantageKit, we follow the [IO-layer](https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/RECORDING-INPUTS.md)-based, [command-based](https://docs.wpilib.org/en/stable/docs/software/commandbased/index.html), project structure [similar to Highlander Robotics](https://github.com/HighlanderRobotics/Crescendo).
 
 The dependencies we use are (besides [WPILIB](https://docs.wpilib.org/en/stable/index.html)):
 
