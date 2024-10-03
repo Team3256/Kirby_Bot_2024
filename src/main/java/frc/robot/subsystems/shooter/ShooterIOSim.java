@@ -17,13 +17,13 @@ public class ShooterIOSim extends ShooterIOTalonFX {
   private final FlywheelSim leftFlywheelSimModel =
       new FlywheelSim(
           ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
-          ShooterConstants.kLeftGearingRatio,
-          ShooterConstants.kLeftMomentOfInertia);
+          ShooterConstants.SimulationConstants.kLeftGearingRatio,
+          ShooterConstants.SimulationConstants.kLeftMomentOfInertia);
   private final FlywheelSim rightFlywheelSimModel =
       new FlywheelSim(
           ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
-          ShooterConstants.kRightGearingRatio,
-          ShooterConstants.kRightMomentOfInertia);
+          ShooterConstants.SimulationConstants.kRightGearingRatio,
+          ShooterConstants.SimulationConstants.kRightMomentOfInertia);
   private final TalonFXSimState shooterMotorSim;
   private final TalonFXSimState shooterFollowerMotorSim;
 
@@ -69,7 +69,11 @@ public class ShooterIOSim extends ShooterIOTalonFX {
     shooterFollowerMotorSim.addRotorPosition(rightRps * LoggedRobot.defaultPeriodSecs);
     SimViz.getInstance()
         .addToShooterFlywheelAngle(
-            Math.toDegrees(leftRps) * LoggedRobot.defaultPeriodSecs,
-            Math.toDegrees(rightRps) * LoggedRobot.defaultPeriodSecs);
+            Math.toDegrees(leftRps)
+                * LoggedRobot.defaultPeriodSecs
+                * ShooterConstants.SimulationConstants.kAngularVelocityScalar,
+            Math.toDegrees(rightRps)
+                * LoggedRobot.defaultPeriodSecs
+                * ShooterConstants.SimulationConstants.kAngularVelocityScalar);
   }
 }
