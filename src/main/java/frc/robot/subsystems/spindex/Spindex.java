@@ -7,10 +7,7 @@
 
 package frc.robot.subsystems.spindex;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.DisableSubsystem;
 import org.littletonrobotics.junction.Logger;
 
@@ -26,9 +23,9 @@ public class Spindex extends DisableSubsystem {
   private final SpindexIO spindexIO;
   private final SpindexIOInputsAutoLogged spindexIOAutoLogged = new SpindexIOInputsAutoLogged();
 
-  private final BeamBreakIO beamBreakIO ;
-    private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged = new BeamBreakIOInputsAutoLogged();
-
+  private final BeamBreakIO beamBreakIO;
+  private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =
+      new BeamBreakIOInputsAutoLogged();
 
   // private beambreak Beambreak = new beamreak(1)
   public Spindex(boolean disabled, SpindexIO spindexIO, BeamBreakIO beamBreakIO) {
@@ -45,20 +42,21 @@ public class Spindex extends DisableSubsystem {
     Logger.processInputs(this.getClass().getSimpleName(), spindexIOAutoLogged);
   }
 
+  public Command setSpindexVoltage(double voltage) {
+    return this.run(() -> spindexIO.setSpindexVoltage(voltage)).finallyDo(() -> spindexIO.off());
+  }
 
-    public Command setSpindexVoltage(double voltage) {
-        return this.run(() -> spindexIO.setSpindexVoltage(voltage)).finallyDo(()->spindexIO.off());
-    }
+  public Command setSpindexVelocity(double velocity) {
+    return this.run(() -> spindexIO.setSpindexVelocity(velocity)).finallyDo(() -> spindexIO.off());
+  }
 
-    public Command setSpindexVelocity(double velocity) {
-        return this.run(() -> spindexIO.setSpindexVelocity(velocity)).finallyDo(()->spindexIO.off());
-    }
+  public Command goToShooter() {
+    return setSpindexVelocity(SpindexConstants.spindexMotorSpeedRPS)
+        .until(() -> beamBreakIOAutoLogged.beamBroken)
+        .andThen(this.off());
+  }
 
-    public Command goToShooter() {
-        return setSpindexVelocity(SpindexConstants.spindexMotorSpeedRPS).until(()->beamBreakIOAutoLogged.beamBroken).andThen(this.off());
-    }
-
-    public Command off() {
-        return this.run(() -> spindexIO.off());
-    }
+  public Command off() {
+    return this.run(() -> spindexIO.off());
+  }
 }
