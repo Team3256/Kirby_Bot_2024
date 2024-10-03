@@ -140,6 +140,7 @@ public class Robot extends LoggedRobot implements Logged {
       // properly.
       Monologue.updateAll();
     }
+    m_robotContainer.periodic();
     // << Monologue
 
     // Runs the Scheduler. This is responsible for polling buttons, adding

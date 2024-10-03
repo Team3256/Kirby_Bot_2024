@@ -9,6 +9,10 @@ package frc.robot.subsystems.swerve;
 
 import static edu.wpi.first.units.Units.Volts;
 
+import choreo.Choreo;
+import choreo.auto.AutoFactory;
+import choreo.auto.AutoTrajectory;
+import choreo.trajectory.SwerveSample;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.*;
@@ -18,6 +22,8 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -51,6 +57,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   /* Keep track if we've ever applied the operator perspective before or not */
   private boolean hasAppliedOperatorPerspective = false;
 
+  private final PIDController xController = new PIDController(10, 0, 0);
+  private final PIDController yController = new PIDController(10, 0, 0);
+  private final PIDController thetaController = new PIDController(7, 0, 0);
+
   private final SwerveRequest.ApplyChassisSpeeds AutoRequest =
       new SwerveRequest.ApplyChassisSpeeds()
           .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
@@ -61,6 +71,17 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
       new SwerveRequest.SysIdSwerveRotation();
   private final SwerveRequest.SysIdSwerveSteerGains SteerCharacterization =
       new SwerveRequest.SysIdSwerveSteerGains();
+
+  public final AutoFactory autoFactory =
+      Choreo.createAutoFactory(
+          this,
+          () -> this.getState().Pose,
+          this::choreoController,
+          (speeds) -> this.setControl(AutoRequest.withSpeeds(speeds)),
+          () ->
+              DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
+                  == DriverStation.Alliance.Red,
+          new AutoFactory.ChoreoAutoBindings());
 
   /* Use one of these sysidroutines for your particular test */
   private SysIdRoutine SysIdRoutineTranslation =
@@ -125,6 +146,16 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     if (!disabled) {
       super.setControl(request);
     }
+  }
+
+  public ChassisSpeeds choreoController(Pose2d currentPose, SwerveSample sample) {
+    return ChassisSpeeds.fromFieldRelativeSpeeds(
+        new ChassisSpeeds(
+            xController.calculate(currentPose.getX(), sample.x) + sample.vx,
+            yController.calculate(currentPose.getY(), sample.y) + sample.vy,
+            thetaController.calculate(currentPose.getRotation().getRadians(), sample.heading)
+                + sample.omega),
+        currentPose.getRotation());
   }
 
   public void updateVision() {
@@ -247,6 +278,11 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
   public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
     return run(() -> this.setControl(requestSupplier.get()));
+  }
+
+  public void resetOdometry(AutoTrajectory traj) {
+    this.m_odometry.resetPosition(
+        traj.getInitialPose().get().getRotation(), m_modulePositions, traj.getInitialPose().get());
   }
 
   public Command getAutoPath(String pathName) {
