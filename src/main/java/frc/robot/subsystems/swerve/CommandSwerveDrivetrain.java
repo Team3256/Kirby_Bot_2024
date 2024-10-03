@@ -45,7 +45,7 @@ import java.util.function.Supplier;
  * in command-based projects easily.
  */
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
-  private final boolean disabled;
+  private final boolean enabled;
   private static final double kSimLoopPeriod = 0.005; // 5 ms
   private Notifier m_simNotifier = null;
   private double m_lastSimTime;
@@ -62,8 +62,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   private final PIDController thetaController = new PIDController(7, 0, 0);
 
   private final SwerveRequest.ApplyChassisSpeeds AutoRequest =
-      new SwerveRequest.ApplyChassisSpeeds()
-          .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
+      new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
   private final SwerveRequest.SysIdSwerveTranslation TranslationCharacterization =
       new SwerveRequest.SysIdSwerveTranslation();
@@ -117,12 +116,12 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   private final SysIdRoutine RoutineToApply = SysIdRoutineTranslation;
 
   public CommandSwerveDrivetrain(
-      boolean disabled,
+      boolean enabled,
       SwerveDrivetrainConstants driveTrainConstants,
       double OdometryUpdateFrequency,
       SwerveModuleConstants... modules) {
     super(driveTrainConstants, OdometryUpdateFrequency, modules);
-    this.disabled = disabled;
+    this.enabled = enabled;
     configurePathPlanner();
     if (Utils.isSimulation()) {
       startSimThread();
@@ -130,11 +129,11 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   }
 
   public CommandSwerveDrivetrain(
-      boolean disabled,
+      boolean enabled,
       SwerveDrivetrainConstants driveTrainConstants,
       SwerveModuleConstants... modules) {
     super(driveTrainConstants, modules);
-    this.disabled = disabled;
+    this.enabled = enabled;
     configurePathPlanner();
     if (Utils.isSimulation()) {
       startSimThread();
@@ -143,7 +142,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
   @Override
   public void setControl(SwerveRequest request) {
-    if (!disabled) {
+    if (enabled) {
       super.setControl(request);
     }
   }

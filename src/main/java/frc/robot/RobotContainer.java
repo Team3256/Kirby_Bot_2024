@@ -8,6 +8,10 @@
 package frc.robot;
 
 import choreo.auto.AutoChooser;
+import com.ctre.phoenix6.Utils;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -16,6 +20,7 @@ import frc.robot.commands.AutoRoutines;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
+import frc.robot.subsystems.swerve.SwerveTelemetry;
 import frc.robot.subsystems.swerve.TunerConstants;
 import frc.robot.subsystems.turret.*;
 
@@ -45,12 +50,17 @@ public class RobotContainer {
   private final AutoRoutines autoRoutines = new AutoRoutines(swerve);
 
   private final AutoChooser autoChooser = new AutoChooser(swerve.autoFactory, "Auto Chooser");
+  private final SwerveTelemetry swerveTelemetry = new SwerveTelemetry(TunerConstants.kSpeedAt12VoltsMps);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
     configureAutoChooser();
+    if (Utils.isSimulation()) {
+      swerve.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+    }
+    swerve.registerTelemetry(swerveTelemetry::telemeterize);
   }
 
   /**
@@ -74,6 +84,10 @@ public class RobotContainer {
 
   private void configureAutoChooser() {
     autoChooser.addAutoRoutine("Box", autoRoutines::boxAuto);
+  }
+
+  private void configureSwerve() {
+
   }
 
   /**

@@ -12,8 +12,10 @@ import choreo.auto.AutoLoop;
 import choreo.auto.AutoTrajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
+
 
 public final class AutoRoutines {
   /** Example static factory for an autonomous command. */
@@ -24,7 +26,7 @@ public final class AutoRoutines {
   private final CommandSwerveDrivetrain swerve;
 
   public Command boxAuto(AutoFactory factory) {
-    final AutoLoop loop = factory.newLoop("Box");
+    final AutoLoop loop = factory.newLoop("box");
 
     final AutoTrajectory box = factory.trajectory("box", loop);
 
