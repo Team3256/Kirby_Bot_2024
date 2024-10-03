@@ -88,7 +88,7 @@ public class Robot extends LoggedRobot implements Logged {
     // CAN motor controllers are limited by the rate of their CAN frames, so the
     // extra precision on the RIO is insignificant in most cases.
 
-    if (Constants.FeatureFlags.kEnableAdvKit) {
+    if (Constants.FeatureFlags.kAdvKitEnabled) {
       // Start logging! No more data receivers, replay sources, or metadata values may
       // be added.
       Logger.start();
