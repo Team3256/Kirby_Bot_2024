@@ -14,14 +14,16 @@ import frc.robot.utils.SimViz;
 import org.littletonrobotics.junction.LoggedRobot;
 
 public class ShooterIOSim extends ShooterIOTalonFX {
-  private final FlywheelSim leftFlywheelSimModel = new FlywheelSim(
-      ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
-      ShooterConstants.kLeftGearingRatio,
-      ShooterConstants.kLeftMomentOfInertia);
-  private final FlywheelSim rightFlywheelSimModel = new FlywheelSim(
-      ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
-      ShooterConstants.kRightGearingRatio,
-      ShooterConstants.kRightMomentOfInertia);
+  private final FlywheelSim leftFlywheelSimModel =
+      new FlywheelSim(
+          ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
+          ShooterConstants.kLeftGearingRatio,
+          ShooterConstants.kLeftMomentOfInertia);
+  private final FlywheelSim rightFlywheelSimModel =
+      new FlywheelSim(
+          ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
+          ShooterConstants.kRightGearingRatio,
+          ShooterConstants.kRightMomentOfInertia);
   private final TalonFXSimState shooterMotorSim;
   private final TalonFXSimState shooterFollowerMotorSim;
 
@@ -44,15 +46,16 @@ public class ShooterIOSim extends ShooterIOTalonFX {
     // 1. This could be optimized
     // 2. what about BaseStatusSignal.refreshAll
     // 3. I'm not even sure if this work in sim
-    inputs.shooterMotorReferenceSlope = super.getMotor().getClosedLoopReferenceSlope().getValueAsDouble();
+    inputs.shooterMotorReferenceSlope =
+        super.getMotor().getClosedLoopReferenceSlope().getValueAsDouble();
 
     inputs.shooterMotorFollowerVoltage = shooterFollowerMotorSim.getMotorVoltage();
     inputs.shooterMotorFollowerVelocity = rightFlywheelSimModel.getAngularVelocityRPM() / 60;
     inputs.shooterMotorFollowerStatorCurrent = shooterFollowerMotorSim.getSupplyCurrent();
     inputs.shooterMotorFollowerSupplyCurrent = shooterFollowerMotorSim.getSupplyCurrent();
     inputs.shooterMotorFollowerTemperature = 0.0;
-    inputs.shooterMotorFollowerReferenceSlope = super.getFollowerMotor().getClosedLoopReferenceSlope()
-        .getValueAsDouble();
+    inputs.shooterMotorFollowerReferenceSlope =
+        super.getFollowerMotor().getClosedLoopReferenceSlope().getValueAsDouble();
     // <<< For Advantage Kit
     leftFlywheelSimModel.setInput(shooterMotorSim.getMotorVoltage());
     leftFlywheelSimModel.update(LoggedRobot.defaultPeriodSecs);
