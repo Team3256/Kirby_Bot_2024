@@ -10,7 +10,9 @@ package frc.robot.subsystems.shooter;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import frc.robot.utils.SimViz;
 import org.littletonrobotics.junction.LoggedRobot;
 
@@ -81,10 +83,8 @@ public class ShooterIOSim extends ShooterIOTalonFX {
                 * ShooterConstants.SimulationConstants.kAngularVelocityScalar);
 
     // Update battery voltage
-    // RoboRioSim.setVInVoltage(
-    // BatterySim.calculateDefaultBatteryLoadedVoltage(
-    // leftFlywheelSimModel.getCurrentDrawAmps(),
-    // rightFlywheelSimModel.getCurrentDrawAmps()));
-
+    RoboRioSim.setVInVoltage(
+        BatterySim.calculateDefaultBatteryLoadedVoltage(
+            leftFlywheelSimModel.getCurrentDrawAmps(), rightFlywheelSimModel.getCurrentDrawAmps()));
   }
 }
