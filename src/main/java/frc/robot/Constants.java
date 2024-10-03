@@ -49,7 +49,11 @@ public final class Constants {
     public static final boolean kTurretEnabled = true;
   }
 
-  // Defaults from Monologue docs
-  public static final boolean kMonologueFileOnly = false;
-  public static final boolean kMonologueLazyLogging = false;
+  public static class Logging {
+    public static final boolean kLogToUSB = true;
+    public static final boolean kAdvkitUseReplayLogs = false;
+    // Defaults from Monologue docs
+    public static final boolean kMonologueFileOnly = false;
+    public static final boolean kMonologueLazyLogging = false;
+  }
 }

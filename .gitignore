@@ -178,3 +178,5 @@ logs/
 ctre_sim/
 # Running simulation will generate a WPI log file
 *.wpilog
+# Auto-generated file; should be ignored by Git
+src/main/java/frc/robot/BuildConstants.java
