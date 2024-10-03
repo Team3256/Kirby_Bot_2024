@@ -31,7 +31,8 @@ public final class ShooterConstants {
               new Slot0Configs()
                   .withKS(0)
                   .withKV(0.145) // Original 0.145
-                  // .withKA(1.48)// Original 0 only for feedforward, might not use
+                  // .withKA(1.48)// Original 0 only for feedforward, might not
+                  // use
                   .withKP(0.4)
                   .withKI(0)
                   .withKD(0))
@@ -68,6 +69,9 @@ public final class ShooterConstants {
   public static double kShooterFeederRPS = 42;
   public static double kShooterFollowerFeederRPS = 45;
 
+  public static double kGearingRatio = 1.0; // TODO: Update this value
+  public static double kMomentOfInertia = 0.0001; // TODO: Update this value
+
   /* Misc */
   public static double kShooterAngle = 10; // The fixed angle for the shooter (in degrees)
   // before: 1800/6
@@ -78,5 +82,5 @@ public final class ShooterConstants {
   public static InvertedValue shooterInverted = InvertedValue.Clockwise_Positive;
   public static InvertedValue shooterFollowerInverted = InvertedValue.CounterClockwise_Positive;
 
-  public static double flashConfigRetries = 5;
+  public static int flashConfigRetries = 5;
 }
