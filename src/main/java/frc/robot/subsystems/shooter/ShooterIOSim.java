@@ -9,6 +9,7 @@ package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.utils.SimViz;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -35,6 +36,9 @@ public class ShooterIOSim extends ShooterIOTalonFX {
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
+    // Update battery voltage
+    shooterMotorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+    shooterFollowerMotorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
     // For Advantage Kit >>>
     inputs.shooterMotorVoltage = shooterMotorSim.getMotorVoltage();
     inputs.shooterMotorVelocity = leftFlywheelSimModel.getAngularVelocityRPM() / 60;
@@ -75,5 +79,12 @@ public class ShooterIOSim extends ShooterIOTalonFX {
             Math.toDegrees(rightRps)
                 * LoggedRobot.defaultPeriodSecs
                 * ShooterConstants.SimulationConstants.kAngularVelocityScalar);
+
+    // Update battery voltage
+    // RoboRioSim.setVInVoltage(
+    // BatterySim.calculateDefaultBatteryLoadedVoltage(
+    // leftFlywheelSimModel.getCurrentDrawAmps(),
+    // rightFlywheelSimModel.getCurrentDrawAmps()));
+
   }
 }
