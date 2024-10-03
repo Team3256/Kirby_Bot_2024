@@ -43,4 +43,7 @@ public final class AmpevatorConstants {
                   .withStatorCurrentLimit(60));
   public static int flashConfigRetries = 5;
   public static boolean useMotionMagic = false;
+  public static double ampPreset = 69; // tune pls
+  public static double trapPreset = 10; // we never getting this are we
+  public static double stowPreset = 0;
 }

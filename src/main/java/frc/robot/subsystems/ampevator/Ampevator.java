@@ -34,6 +34,18 @@ public class Ampevator extends DisableSubsystem {
     return this.run(() -> ampevatorIO.setVoltage(voltage)).finallyDo(() -> ampevatorIO.off());
   }
 
+  public Command setAmpPosition() {
+    return setPosition(AmpevatorConstants.ampPreset);
+  }
+
+  public Command setStowPosition() {
+    return setPosition(AmpevatorConstants.stowPreset);
+  }
+
+  public Command setTrapPosition() {
+    return setPosition(AmpevatorConstants.trapPreset);
+  }
+
   public Command off() {
     return this.run(() -> ampevatorIO.off());
   }
