@@ -106,7 +106,7 @@ public class Robot extends LoggedRobot implements Logged {
     Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
     // << AdvantageKit
     // Monologue >>
-    if (Constants.FeatureFlags.kEnableMonologue) {
+    if (Constants.FeatureFlags.kMonologueEnabled) {
       Monologue.setupMonologue(
           this,
           "MonologueRobot",
@@ -130,7 +130,7 @@ public class Robot extends LoggedRobot implements Logged {
   @Override
   public void robotPeriodic() {
     // Monologue >>
-    if (Constants.FeatureFlags.kEnableMonologue) {
+    if (Constants.FeatureFlags.kMonologueEnabled) {
       // setFileOnly is used to shut off NetworkTables broadcasting for most
       // logging calls.
       // Basing this condition on the connected state of the FMS is a suggestion only.

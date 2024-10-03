@@ -58,7 +58,7 @@ public class LoggedTunableNumber implements DoubleSupplier {
     if (!hasDefault) {
       hasDefault = true;
       this.defaultValue = defaultValue;
-      if (Constants.FeatureFlags.kTuningMode) {
+      if (Constants.FeatureFlags.kTuningModeEnabled) {
         dashboardNumber = new LoggedDashboardNumber(key, defaultValue);
       }
     }
@@ -73,7 +73,7 @@ public class LoggedTunableNumber implements DoubleSupplier {
     if (!hasDefault) {
       return 0.0;
     } else {
-      return Constants.FeatureFlags.kTuningMode ? dashboardNumber.get() : defaultValue;
+      return Constants.FeatureFlags.kTuningModeEnabled ? dashboardNumber.get() : defaultValue;
     }
   }
 
@@ -86,7 +86,7 @@ public class LoggedTunableNumber implements DoubleSupplier {
    */
   public double getOrUse(double fallbackValue) {
     dashboardNumber.setDefault(fallbackValue);
-    return Constants.FeatureFlags.kTuningMode ? dashboardNumber.get() : defaultValue;
+    return Constants.FeatureFlags.kTuningModeEnabled ? dashboardNumber.get() : defaultValue;
   }
 
   /**

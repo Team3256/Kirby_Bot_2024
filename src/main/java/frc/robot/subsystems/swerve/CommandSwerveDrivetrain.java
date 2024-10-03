@@ -9,8 +9,6 @@ package frc.robot.subsystems.swerve;
 
 import static edu.wpi.first.units.Units.Volts;
 
-import com.choreo.lib.Choreo;
-import com.choreo.lib.ChoreoTrajectory;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.*;
@@ -34,7 +32,6 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.utils.LimelightHelpers;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -289,21 +286,21 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     m_simNotifier.startPeriodic(kSimLoopPeriod);
   }
 
-  public Command runChoreoTraj(ChoreoTrajectory trajectory) {
-    return Choreo.choreoSwerveCommand(
-        trajectory,
-        () -> (this.getState().Pose),
-        SwerveConstants.choreoTranslationController,
-        SwerveConstants.choreoTranslationController,
-        SwerveConstants.choreoRotationController,
-        ((ChassisSpeeds speeds) ->
-            this.setControl(new SwerveRequest.ApplyChassisSpeeds().withSpeeds(speeds))),
-        () -> {
-          Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
-          return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
-        },
-        this);
-  }
+  //  public Command runChoreoTraj(ChoreoTrajectory trajectory) {
+  //    return Choreo.choreoSwerveCommand(
+  //        trajectory,
+  //        () -> (this.getState().Pose),
+  //        SwerveConstants.choreoTranslationController,
+  //        SwerveConstants.choreoTranslationController,
+  //        SwerveConstants.choreoRotationController,
+  //        ((ChassisSpeeds speeds) ->
+  //            this.setControl(new SwerveRequest.ApplyChassisSpeeds().withSpeeds(speeds))),
+  //        () -> {
+  //          Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
+  //          return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
+  //        },
+  //        this);
+  //  }
 
   /*
    * This method comes from 1690's <a
