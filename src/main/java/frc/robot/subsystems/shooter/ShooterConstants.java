@@ -69,8 +69,10 @@ public final class ShooterConstants {
   public static double kShooterFeederRPS = 42;
   public static double kShooterFollowerFeederRPS = 45;
 
-  public static double kGearingRatio = 1.0; // TODO: Update this value
-  public static double kMomentOfInertia = 0.0001; // TODO: Update this value
+  public static double kLeftGearingRatio = 1.0; // TODO: Update this value
+  public static double kLeftMomentOfInertia = 0.0001; // TODO: Update this value
+  public static double kRightGearingRatio = 1.0; // TODO: Update this value
+  public static double kRightMomentOfInertia = 0.0001; // TODO: Update this value
 
   /* Misc */
   public static double kShooterAngle = 10; // The fixed angle for the shooter (in degrees)

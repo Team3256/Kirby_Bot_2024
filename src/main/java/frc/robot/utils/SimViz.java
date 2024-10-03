@@ -1,3 +1,10 @@
+// Copyright (c) 2024 FRC 3256
+// https://github.com/Team3256
+//
+// Use of this source code is governed by a 
+// license that can be found in the LICENSE file at
+// the root directory of this project.
+
 package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
@@ -10,25 +17,34 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 
 // Singleton for simulation visualization
 public enum SimViz implements Subsystem {
-    INSTANCE;
+  INSTANCE;
 
-    private static final Mechanism2d mech = new Mechanism2d(1, 1);
-    private static final MechanismRoot2d shooterAxle = mech.getRoot("Shooter Axle", 0.0, 0.0);
-    private static final MechanismLigament2d shooterVis = shooterAxle.append(
-            new MechanismLigament2d("Shooter Flywheel", 0.1, 0.0, 5.0, new Color8Bit(Color.kYellow)));
+  private static final Mechanism2d mech = new Mechanism2d(1, 1);
+  private static final MechanismRoot2d leftShooterAxle =
+      mech.getRoot("Left Shooter Axle", 0.0, 0.0);
+  private static final MechanismLigament2d leftShooterViz =
+      leftShooterAxle.append(
+          new MechanismLigament2d(
+              "Left Shooter Flywheel", 0.1, 0.0, 5.0, new Color8Bit(Color.kYellow)));
+  private static final MechanismRoot2d rightShooterAxle =
+      mech.getRoot("Right Shooter Axle", 0.0, 0.0);
+  private static final MechanismLigament2d rightShooterViz =
+      rightShooterAxle.append(
+          new MechanismLigament2d(
+              "Right Shooter Flywheel", 0.1, 0.0, 5.0, new Color8Bit(Color.kYellow)));
 
-    private SimViz() {
-        System.out.println("Here");
-    }
+  private SimViz() {
+    System.out.println("Here");
+  }
 
-    public static SimViz getInstance() {
-        SmartDashboard.putData("/SimViz", mech);
-        return INSTANCE;
-    }
+  public static SimViz getInstance() {
+    SmartDashboard.putData("/SimViz", mech);
+    return INSTANCE;
+  }
 
-    // angle is in degrees
-    public void addToShooterFlywheelAngle(double angle) {
-        shooterVis.setAngle(shooterVis.getAngle() + angle);
-    }
-
+  // angle is in degrees
+  public void addToShooterFlywheelAngle(double leftAngle, double rightAngle) {
+    leftShooterViz.setAngle(leftShooterViz.getAngle() + leftAngle);
+    rightShooterViz.setAngle(rightShooterViz.getAngle() + rightAngle);
+  }
 }

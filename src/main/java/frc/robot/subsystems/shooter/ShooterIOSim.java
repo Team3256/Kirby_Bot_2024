@@ -11,32 +11,45 @@ import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.utils.SimViz;
-
 import org.littletonrobotics.junction.LoggedRobot;
 
 public class ShooterIOSim extends ShooterIOTalonFX {
-  private final FlywheelSim flywheelSimModel = new FlywheelSim(
-      ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(2) : DCMotor.getKrakenX60(2),
-      ShooterConstants.kGearingRatio,
-      ShooterConstants.kMomentOfInertia);
+  private final FlywheelSim leftFlywheelSimModel =
+      new FlywheelSim(
+          ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
+          ShooterConstants.kLeftGearingRatio,
+          ShooterConstants.kLeftMomentOfInertia);
+  private final FlywheelSim rightFlywheelSimModel =
+      new FlywheelSim(
+          ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
+          ShooterConstants.kRightGearingRatio,
+          ShooterConstants.kRightMomentOfInertia);
   private final TalonFXSimState shooterMotorSim;
+  private final TalonFXSimState shooterFollowerMotorSim;
 
   public ShooterIOSim() {
     super();
     shooterMotorSim = super.getMotor().getSimState();
+    shooterFollowerMotorSim = super.getFollowerMotor().getSimState();
   }
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
     // TODO: Don't use super.updateInputs(inputs)
     super.updateInputs(inputs);
-    // XXX: Hey since we're using 2 motors, should I be adding the 2 motor's
-    // voltages??
-    flywheelSimModel.setInput(shooterMotorSim.getMotorVoltage());
-    flywheelSimModel.update(LoggedRobot.defaultPeriodSecs);
-    double rps = flywheelSimModel.getAngularVelocityRPM() / 60;
-    shooterMotorSim.setRotorVelocity(rps);
-    shooterMotorSim.addRotorPosition(rps * LoggedRobot.defaultPeriodSecs);
-    SimViz.getInstance().addToShooterFlywheelAngle(Math.toDegrees(rps) * LoggedRobot.defaultPeriodSecs);
+    leftFlywheelSimModel.setInput(shooterMotorSim.getMotorVoltage());
+    leftFlywheelSimModel.update(LoggedRobot.defaultPeriodSecs);
+    rightFlywheelSimModel.setInput(shooterFollowerMotorSim.getMotorVoltage());
+    rightFlywheelSimModel.update(LoggedRobot.defaultPeriodSecs);
+    double leftRps = leftFlywheelSimModel.getAngularVelocityRPM() / 60;
+    shooterMotorSim.setRotorVelocity(leftRps);
+    shooterMotorSim.addRotorPosition(leftRps * LoggedRobot.defaultPeriodSecs);
+    double rightRps = rightFlywheelSimModel.getAngularVelocityRPM() / 60;
+    shooterFollowerMotorSim.setRotorVelocity(rightRps);
+    shooterFollowerMotorSim.addRotorPosition(rightRps * LoggedRobot.defaultPeriodSecs);
+    SimViz.getInstance()
+        .addToShooterFlywheelAngle(
+            Math.toDegrees(leftRps) * LoggedRobot.defaultPeriodSecs,
+            Math.toDegrees(rightRps) * LoggedRobot.defaultPeriodSecs);
   }
 }
