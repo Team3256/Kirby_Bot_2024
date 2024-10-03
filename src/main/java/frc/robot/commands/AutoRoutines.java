@@ -35,7 +35,6 @@ public final class AutoRoutines {
 
   public AutoRoutines(CommandSwerveDrivetrain swerve) {
     this.swerve = swerve;
-    throw new UnsupportedOperationException("This is a utility class!");
   }
 
   private static final class AutoCommands {
