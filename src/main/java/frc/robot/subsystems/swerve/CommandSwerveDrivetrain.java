@@ -62,7 +62,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   private final PIDController thetaController = new PIDController(7, 0, 0);
 
   private final SwerveRequest.ApplyChassisSpeeds AutoRequest =
-      new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
+      new SwerveRequest.ApplyChassisSpeeds()
+          .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
   private final SwerveRequest.SysIdSwerveTranslation TranslationCharacterization =
       new SwerveRequest.SysIdSwerveTranslation();
