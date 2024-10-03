@@ -52,7 +52,8 @@ public class RobotContainer {
   private final AutoRoutines autoRoutines = new AutoRoutines(swerve);
 
   private final AutoChooser autoChooser = new AutoChooser(swerve.autoFactory, "Auto Chooser");
-  private final SwerveTelemetry swerveTelemetry = new SwerveTelemetry(TunerConstants.kSpeedAt12VoltsMps);
+  private final SwerveTelemetry swerveTelemetry =
+      new SwerveTelemetry(TunerConstants.kSpeedAt12VoltsMps);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -90,9 +91,7 @@ public class RobotContainer {
     autoChooser.addAutoRoutine("Box", autoRoutines::boxAuto);
   }
 
-  private void configureSwerve() {
-
-  }
+  private void configureSwerve() {}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
