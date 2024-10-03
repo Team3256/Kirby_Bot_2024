@@ -14,16 +14,14 @@ import frc.robot.utils.SimViz;
 import org.littletonrobotics.junction.LoggedRobot;
 
 public class ShooterIOSim extends ShooterIOTalonFX {
-  private final FlywheelSim leftFlywheelSimModel =
-      new FlywheelSim(
-          ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
-          ShooterConstants.kLeftGearingRatio,
-          ShooterConstants.kLeftMomentOfInertia);
-  private final FlywheelSim rightFlywheelSimModel =
-      new FlywheelSim(
-          ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
-          ShooterConstants.kRightGearingRatio,
-          ShooterConstants.kRightMomentOfInertia);
+  private final FlywheelSim leftFlywheelSimModel = new FlywheelSim(
+      ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
+      ShooterConstants.kLeftGearingRatio,
+      ShooterConstants.kLeftMomentOfInertia);
+  private final FlywheelSim rightFlywheelSimModel = new FlywheelSim(
+      ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
+      ShooterConstants.kRightGearingRatio,
+      ShooterConstants.kRightMomentOfInertia);
   private final TalonFXSimState shooterMotorSim;
   private final TalonFXSimState shooterFollowerMotorSim;
 
@@ -35,8 +33,27 @@ public class ShooterIOSim extends ShooterIOTalonFX {
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
-    // TODO: Don't use super.updateInputs(inputs)
-    super.updateInputs(inputs);
+    // For Advantage Kit >>>
+    inputs.shooterMotorVoltage = shooterMotorSim.getMotorVoltage();
+    inputs.shooterMotorVelocity = leftFlywheelSimModel.getAngularVelocityRPM() / 60;
+    // In a perfect motor, the supply current and stator current would be equal
+    inputs.shooterMotorStatorCurrent = shooterMotorSim.getSupplyCurrent();
+    inputs.shooterMotorSupplyCurrent = shooterMotorSim.getSupplyCurrent();
+    inputs.shooterMotorTemperature = 0.0; // In a perfect motor, no heat is generated
+    // XXX:
+    // 1. This could be optimized
+    // 2. what about BaseStatusSignal.refreshAll
+    // 3. I'm not even sure if this work in sim
+    inputs.shooterMotorReferenceSlope = super.getMotor().getClosedLoopReferenceSlope().getValueAsDouble();
+
+    inputs.shooterMotorFollowerVoltage = shooterFollowerMotorSim.getMotorVoltage();
+    inputs.shooterMotorFollowerVelocity = rightFlywheelSimModel.getAngularVelocityRPM() / 60;
+    inputs.shooterMotorFollowerStatorCurrent = shooterFollowerMotorSim.getSupplyCurrent();
+    inputs.shooterMotorFollowerSupplyCurrent = shooterFollowerMotorSim.getSupplyCurrent();
+    inputs.shooterMotorFollowerTemperature = 0.0;
+    inputs.shooterMotorFollowerReferenceSlope = super.getFollowerMotor().getClosedLoopReferenceSlope()
+        .getValueAsDouble();
+    // <<< For Advantage Kit
     leftFlywheelSimModel.setInput(shooterMotorSim.getMotorVoltage());
     leftFlywheelSimModel.update(LoggedRobot.defaultPeriodSecs);
     rightFlywheelSimModel.setInput(shooterFollowerMotorSim.getMotorVoltage());
