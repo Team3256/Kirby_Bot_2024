@@ -46,19 +46,13 @@ public class ShooterIOSim extends ShooterIOTalonFX {
     inputs.shooterMotorVelocity = leftFlywheelSimModel.getAngularVelocityRPM() / 60;
     inputs.shooterMotorSupplyCurrent = shooterMotorSim.getSupplyCurrent();
     inputs.shooterMotorTemperature = 0.0; // In a perfect motor, no heat is generated
-    // XXX:
-    // 1. This could be optimized
-    // 2. what about BaseStatusSignal.refreshAll
-    // 3. I'm not even sure if this work in sim
-    inputs.shooterMotorReferenceSlope =
-        super.getMotor().getClosedLoopReferenceSlope().getValueAsDouble();
+    inputs.shooterMotorReferenceSlope = 69420; // No idea how to simulate this
 
     inputs.shooterMotorFollowerVoltage = shooterFollowerMotorSim.getMotorVoltage();
     inputs.shooterMotorFollowerVelocity = rightFlywheelSimModel.getAngularVelocityRPM() / 60;
     inputs.shooterMotorFollowerSupplyCurrent = shooterFollowerMotorSim.getSupplyCurrent();
     inputs.shooterMotorFollowerTemperature = 0.0;
-    inputs.shooterMotorFollowerReferenceSlope =
-        super.getFollowerMotor().getClosedLoopReferenceSlope().getValueAsDouble();
+    inputs.shooterMotorFollowerReferenceSlope = 69420;
     // <<< For Advantage Kit
     leftFlywheelSimModel.setInput(shooterMotorSim.getMotorVoltage());
     leftFlywheelSimModel.update(LoggedRobot.defaultPeriodSecs);
