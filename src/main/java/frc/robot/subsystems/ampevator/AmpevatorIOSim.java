@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems.ampevator;
 
-import com.ctre.phoenix6.mechanisms.MechanismState;
 import com.ctre.phoenix6.sim.ChassisReference;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -41,8 +40,6 @@ public class AmpevatorIOSim extends AmpevatorIOTalonFX {
 
   @Override
   public void updateInputs(AmpevatorIOInputs inputs) {
-
-    System.out.println(ampevatorSimState.getMotorVoltage());
     ampevatorSimState = super.getMotor().getSimState();
     ampevatorSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
     ampevatorSimModel.setInputVoltage(ampevatorSimState.getMotorVoltage());

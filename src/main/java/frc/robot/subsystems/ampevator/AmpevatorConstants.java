@@ -11,6 +11,7 @@ import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.util.Units;
 
 public final class AmpevatorConstants {
 
@@ -47,10 +48,11 @@ public final class AmpevatorConstants {
   public static final double trapPreset = 10; // we never getting this are we
   public static final double stowPreset = 0;
 
-  public static final double simGearing = 10;
-  public static final double carriageMass = 0.5;
-  public static final double drumRadius = 0.1;
+  public static final double simGearing = 11 / 10;
+  public static final double carriageMass = 4.420;
+  public static final double drumRadius = Units.inchesToMeters(0.4945);
   public static final double minHeight = 0;
-  public static final double maxHeight = 4;
+  public static final double maxHeight =
+      2; // this isn't right but i also dont care cuz sim is just for fun
   public static final double startingHeight = 0;
 }
