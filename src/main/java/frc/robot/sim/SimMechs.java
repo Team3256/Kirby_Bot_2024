@@ -20,7 +20,11 @@ public final class SimMechs {
   private static final MechanismRoot2d pivot = mech.getRoot("pivot", 4, 0);
 
   private static final MechanismLigament2d m_ampevator =
-      ampevator.append(new MechanismLigament2d("ampevator", 2, 90));
+      ampevator.append(new MechanismLigament2d("ampevator", 3, 90));
   private static final MechanismLigament2d m_ampevatorRollers =
       m_ampevator.append(new MechanismLigament2d("rollers", 1, 0));
+
+  public static void updateAmpevator(double position) {
+    m_ampevator.setLength(position);
+  }
 }
