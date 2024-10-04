@@ -50,12 +50,12 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   public ShooterIOTalonFX() {
     PhoenixUtil.applyMotorConfigs(
-        shooterMotor, ShooterConstants.motorConfigs, (int) ShooterConstants.flashConfigRetries);
+        shooterMotor, ShooterConstants.motorConfigs, ShooterConstants.flashConfigRetries);
 
     PhoenixUtil.applyMotorConfigs(
         shooterMotorFollower,
         ShooterConstants.followerMotorConfigs,
-        (int) ShooterConstants.flashConfigRetries);
+        ShooterConstants.flashConfigRetries);
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         ShooterConstants.updateFrequency,
@@ -148,6 +148,11 @@ public class ShooterIOTalonFX implements ShooterIO {
   @Override
   public TalonFX getMotor() {
     return shooterMotor;
+  }
+
+  @Override
+  public TalonFX getFollowerMotor() {
+    return shooterMotorFollower;
   }
 
   @Override

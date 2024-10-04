@@ -55,8 +55,8 @@ public class Robot extends LoggedRobot implements Logged {
       new PowerDistribution(
           1, ModuleType.kRev); // Ignore this "resource leak"; it was the example code from docs
     } else {
-      setUseTiming(false); // Run as fast as possible
       if (Constants.Logging.kAdvkitUseReplayLogs) {
+        setUseTiming(false); // Run as fast as possible
         String logPath =
             LogFileUtil
                 .findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
@@ -64,7 +64,6 @@ public class Robot extends LoggedRobot implements Logged {
         // Save outputs to a new log
         Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
       } else {
-        Logger.addDataReceiver(new WPILOGWriter(""));
         Logger.addDataReceiver(new NT4Publisher());
       }
     }

@@ -12,15 +12,17 @@ import com.ctre.phoenix6.Utils;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoRoutines;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.sim.SimMechs;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterIOSim;
+import frc.robot.subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.subsystems.ampevator.Ampevator;
 import frc.robot.subsystems.ampevator.AmpevatorIOSim;
 import frc.robot.subsystems.ampevator.AmpevatorIOTalonFX;
@@ -28,6 +30,7 @@ import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swerve.SwerveTelemetry;
 import frc.robot.subsystems.swerve.TunerConstants;
 import frc.robot.subsystems.turret.*;
+import frc.robot.utils.SimViz;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -50,10 +53,16 @@ public class RobotContainer {
           new TurretIOTalonFX(),
           new EncoderIOCancoder(TurretConstants.kCanCoderID1),
           new EncoderIOCancoder(TurretConstants.kCanCoderID2));
+  private final Shooter shooter =
+      new Shooter(
+          Constants.FeatureFlags.kShooterEnabled,
+          RobotBase.isReal() ? new ShooterIOTalonFX() : new ShooterIOSim());
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_operatorController =
+      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
   private final AutoRoutines autoRoutines = new AutoRoutines(swerve);
 
@@ -71,7 +80,7 @@ public class RobotContainer {
     }
     swerve.registerTelemetry(swerveTelemetry::telemeterize);
 
-    SmartDashboard.putData("Mech2d", SimMechs.mech);
+    SimViz.init();
   }
 
   /**
@@ -88,9 +97,11 @@ public class RobotContainer {
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
+    // pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_operatorController.b().whileTrue(shooter.setVelocity(100, 100));
     m_driverController.x().onTrue(ampevator.setVoltage(10));
     m_driverController.y().onTrue(ampevator.setVoltage(-10));
   }
