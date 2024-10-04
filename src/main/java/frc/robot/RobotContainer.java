@@ -13,7 +13,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -32,7 +31,6 @@ import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swerve.SwerveTelemetry;
 import frc.robot.subsystems.swerve.TunerConstants;
 import frc.robot.subsystems.turret.*;
-import frc.robot.utils.SimViz;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -82,8 +80,7 @@ public class RobotContainer {
     }
     swerve.registerTelemetry(swerveTelemetry::telemeterize);
 
-    SimViz.init();
-    SmartDashboard.putData("Mech Something", SimMechs.mech);
+    SimMechs.init();
   }
 
   /**

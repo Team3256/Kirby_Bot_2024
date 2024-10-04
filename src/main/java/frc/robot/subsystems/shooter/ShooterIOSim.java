@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
-import frc.robot.utils.SimViz;
+import frc.robot.sim.SimMechs;
 import org.littletonrobotics.junction.LoggedRobot;
 
 public class ShooterIOSim extends ShooterIOTalonFX {
@@ -74,13 +74,12 @@ public class ShooterIOSim extends ShooterIOTalonFX {
     inputs.shooterMotorFollowerReferenceSlope = 69420;
     // <<< For Advantage Kit
 
-    SimViz.getInstance()
-        .addToShooterFlywheelAngle(
-            Math.toDegrees(leftRps)
-                * LoggedRobot.defaultPeriodSecs
-                * ShooterConstants.SimulationConstants.kAngularVelocityScalar,
-            Math.toDegrees(rightRps)
-                * LoggedRobot.defaultPeriodSecs
-                * ShooterConstants.SimulationConstants.kAngularVelocityScalar);
+    SimMechs.addToShooterFlywheelAngle(
+        Math.toDegrees(leftRps)
+            * LoggedRobot.defaultPeriodSecs
+            * ShooterConstants.SimulationConstants.kAngularVelocityScalar,
+        Math.toDegrees(rightRps)
+            * LoggedRobot.defaultPeriodSecs
+            * ShooterConstants.SimulationConstants.kAngularVelocityScalar);
   }
 }

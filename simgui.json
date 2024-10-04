@@ -5,12 +5,14 @@
       "/FMSInfo": "FMSInfo",
       "/Pose": "Field2d",
       "/SmartDashboard//SimViz": "Mechanism2d",
+      "/SmartDashboard/Ampevator": "Mechanism2d",
       "/SmartDashboard/Mech Something": "Mechanism2d",
       "/SmartDashboard/Mech2d": "Mechanism2d",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
       "/SmartDashboard/Module 2": "Mechanism2d",
-      "/SmartDashboard/Module 3": "Mechanism2d"
+      "/SmartDashboard/Module 3": "Mechanism2d",
+      "/SmartDashboard/Shooter": "Mechanism2d"
     },
     "windows": {
       "/Auto Chooser/AutoChooser": {
@@ -29,12 +31,12 @@
           "visible": true
         }
       },
-      "/SmartDashboard//SimViz": {
+      "/SmartDashboard/Ampevator": {
         "window": {
           "visible": true
         }
       },
-      "/SmartDashboard/Mech Something": {
+      "/SmartDashboard/Shooter": {
         "window": {
           "visible": true
         }
