@@ -24,6 +24,9 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ampevator.Ampevator;
 import frc.robot.subsystems.ampevator.AmpevatorIOSim;
 import frc.robot.subsystems.ampevator.AmpevatorIOTalonFX;
+import frc.robot.subsystems.pivotshooter.PivotShooter;
+import frc.robot.subsystems.pivotshooter.PivotShooterIOSim;
+import frc.robot.subsystems.pivotshooter.PivotShooterIOTalonFX;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOTalonFX;
@@ -57,6 +60,10 @@ public class RobotContainer {
       new Shooter(
           Constants.FeatureFlags.kShooterEnabled,
           RobotBase.isReal() ? new ShooterIOTalonFX() : new ShooterIOSim());
+
+  private final PivotShooter pivotShooter = new PivotShooter(
+      Constants.FeatureFlags.kPivotShooterEnabled,
+      Utils.isSimulation() ? new PivotShooterIOSim() : new PivotShooterIOTalonFX());
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -102,8 +109,8 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     m_operatorController.b().whileTrue(shooter.setVelocity(100, 100));
-    m_driverController.x().onTrue(ampevator.setPosition(100));
-    m_driverController.y().onTrue(ampevator.setPosition(-100));
+    m_driverController.x().onTrue(pivotShooter.setPosition(100));
+    m_driverController.y().onTrue(pivotShooter.setPosition(-100));
   }
 
   private void configureAutoChooser() {

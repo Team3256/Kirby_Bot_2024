@@ -11,7 +11,9 @@ import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 
 public final class PivotShooterConstants {
   // public static final double kSubWooferPreset = (3.5 + 0.3) / 138.33; // idk if
@@ -29,7 +31,7 @@ public final class PivotShooterConstants {
   public static final double kPodiumLeftPreset = 6.5 / 138.33;
   public static final double kPodiumRPreset = 6 / 138.33;
 
-  public static final int kPivotMotorID = 12;
+  public static final int kPivotMotorID = 60;
 
   /* PID */
   public static final TrapezoidProfile.Constraints kPivotProfileContraints =
@@ -89,4 +91,16 @@ public final class PivotShooterConstants {
               new CurrentLimitsConfigs()
                   .withStatorCurrentLimitEnable(true)
                   .withStatorCurrentLimit(60));
+
+  public static final class sim {
+    public static final double simGearing = 11 / 10;
+
+
+    public static final double armLength = .2;
+    public static final double jkGMetersSquared = SingleJointedArmSim.estimateMOI(armLength, 2);
+
+    public static final Rotation2d minAngle = Rotation2d.fromDegrees(90);
+    public static final Rotation2d maxAngle = Rotation2d.fromDegrees(270);
+    public static final Rotation2d startingAngle = Rotation2d.fromDegrees(90);
+  }
 }

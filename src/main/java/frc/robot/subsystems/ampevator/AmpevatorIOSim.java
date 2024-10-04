@@ -22,13 +22,13 @@ public class AmpevatorIOSim extends AmpevatorIOTalonFX {
   private final ElevatorSim ampevatorSimModel =
       new ElevatorSim(
           DCMotor.getKrakenX60(1),
-          AmpevatorConstants.simGearing,
-          AmpevatorConstants.carriageMass,
-          AmpevatorConstants.drumRadius,
-          AmpevatorConstants.minHeight,
-          AmpevatorConstants.maxHeight,
+          AmpevatorConstants.sim.simGearing,
+          AmpevatorConstants.sim.carriageMass,
+          AmpevatorConstants.sim.drumRadius,
+          AmpevatorConstants.sim.minHeight,
+          AmpevatorConstants.sim.maxHeight,
           true,
-          AmpevatorConstants.startingHeight);
+          AmpevatorConstants.sim.startingHeight);
 
   private TalonFXSimState ampevatorSimState;
 
@@ -45,19 +45,12 @@ public class AmpevatorIOSim extends AmpevatorIOTalonFX {
     ampevatorSimModel.setInputVoltage(ampevatorSimState.getMotorVoltage());
     ampevatorSimModel.update(LoggedRobot.defaultPeriodSecs);
     ampevatorSimState.setRawRotorPosition(
-        ampevatorSimModel.getPositionMeters() * AmpevatorConstants.simGearing);
+        ampevatorSimModel.getPositionMeters() * AmpevatorConstants.sim.simGearing);
     ampevatorSimState.setRotorVelocity(
-        ampevatorSimModel.getVelocityMetersPerSecond() * AmpevatorConstants.simGearing);
+        ampevatorSimModel.getVelocityMetersPerSecond() * AmpevatorConstants.sim.simGearing);
     RoboRioSim.setVInVoltage(
         BatterySim.calculateDefaultBatteryLoadedVoltage(ampevatorSimModel.getCurrentDrawAmps()));
-    inputs.ampevatorMotorVoltage = ampevatorSimState.getMotorVoltage();
-    inputs.ampevatorMotorVelocity =
-        ampevatorSimModel.getVelocityMetersPerSecond() * AmpevatorConstants.simGearing;
-    inputs.ampevatorMotorPosition =
-        ampevatorSimModel.getPositionMeters() * AmpevatorConstants.simGearing;
-    inputs.ampevatorMotorStatorCurrent = ampevatorSimModel.getCurrentDrawAmps();
-    inputs.ampevatorMotorSupplyCurrent = ampevatorSimModel.getCurrentDrawAmps();
-    inputs.ampevatorMotorTemperature = 0;
+    super.updateInputs(inputs);
 
     SimMechs.updateAmpevator(ampevatorSimModel.getPositionMeters());
   }

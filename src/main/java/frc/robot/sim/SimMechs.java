@@ -7,6 +7,7 @@
 
 package frc.robot.sim;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -28,6 +29,12 @@ public final class SimMechs {
       m_ampevator.append(new MechanismLigament2d("rollers", 1, 0));
 
   private static final Mechanism2d shooter = new Mechanism2d(3.0, 3.0);
+
+  private static final MechanismRoot2d pivotShooterRoot = shooter.getRoot("Pivot Shooter", 0.1, 0.1);
+  private static final MechanismLigament2d pivotShooterViz =
+      pivotShooterRoot.append(
+          new MechanismLigament2d(
+              "Pivot Shooter", 0.5, 0.0, 5.0, new Color8Bit(Color.kGreen)));
   private static final MechanismRoot2d leftShooterAxle =
       shooter.getRoot("Left Shooter Axle", 1.0, 2.0);
   private static final MechanismLigament2d leftShooterViz =
@@ -48,6 +55,10 @@ public final class SimMechs {
   public static void addToShooterFlywheelAngle(double leftAngle, double rightAngle) {
     leftShooterViz.setAngle(leftShooterViz.getAngle() + leftAngle);
     rightShooterViz.setAngle(rightShooterViz.getAngle() + rightAngle);
+  }
+
+  public static void updatePivotShooter(Rotation2d angle) {
+    pivotShooterViz.setAngle(angle.getDegrees());
   }
 
   public static void init() {
