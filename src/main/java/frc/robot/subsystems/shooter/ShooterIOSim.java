@@ -41,29 +41,39 @@ public class ShooterIOSim extends ShooterIOTalonFX {
     // Update battery voltage
     shooterMotorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
     shooterFollowerMotorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
-    // For Advantage Kit >>>
-    inputs.shooterMotorVoltage = shooterMotorSim.getMotorVoltage();
-    inputs.shooterMotorVelocity = leftFlywheelSimModel.getAngularVelocityRPM() / 60;
-    inputs.shooterMotorSupplyCurrent = shooterMotorSim.getSupplyCurrent();
-    inputs.shooterMotorTemperature = 0.0; // In a perfect motor, no heat is generated
-    inputs.shooterMotorReferenceSlope = 69420; // No idea how to simulate this
-
-    inputs.shooterMotorFollowerVoltage = shooterFollowerMotorSim.getMotorVoltage();
-    inputs.shooterMotorFollowerVelocity = rightFlywheelSimModel.getAngularVelocityRPM() / 60;
-    inputs.shooterMotorFollowerSupplyCurrent = shooterFollowerMotorSim.getSupplyCurrent();
-    inputs.shooterMotorFollowerTemperature = 0.0;
-    inputs.shooterMotorFollowerReferenceSlope = 69420;
-    // <<< For Advantage Kit
+    // Update physics models
     leftFlywheelSimModel.setInput(shooterMotorSim.getMotorVoltage());
     leftFlywheelSimModel.update(LoggedRobot.defaultPeriodSecs);
     rightFlywheelSimModel.setInput(shooterFollowerMotorSim.getMotorVoltage());
     rightFlywheelSimModel.update(LoggedRobot.defaultPeriodSecs);
+
     double leftRps = leftFlywheelSimModel.getAngularVelocityRPM() / 60;
     shooterMotorSim.setRotorVelocity(leftRps);
     shooterMotorSim.addRotorPosition(leftRps * LoggedRobot.defaultPeriodSecs);
     double rightRps = rightFlywheelSimModel.getAngularVelocityRPM() / 60;
     shooterFollowerMotorSim.setRotorVelocity(rightRps);
     shooterFollowerMotorSim.addRotorPosition(rightRps * LoggedRobot.defaultPeriodSecs);
+
+    // Update battery voltage (after the effects of physics models)
+    RoboRioSim.setVInVoltage(
+        BatterySim.calculateDefaultBatteryLoadedVoltage(
+            leftFlywheelSimModel.getCurrentDrawAmps(), rightFlywheelSimModel.getCurrentDrawAmps()));
+    // For Advantage Kit >>>
+    inputs.shooterMotorVoltage = shooterMotorSim.getMotorVoltage();
+    inputs.shooterMotorVelocity = leftFlywheelSimModel.getAngularVelocityRPM() / 60;
+    inputs.shooterMotorStatorCurrent = leftFlywheelSimModel.getCurrentDrawAmps();
+    inputs.shooterMotorSupplyCurrent = shooterMotorSim.getSupplyCurrent();
+    inputs.shooterMotorTemperature = 0.0; // In a perfect motor, no heat is generated
+    inputs.shooterMotorReferenceSlope = 69420; // No idea how to simulate this
+
+    inputs.shooterMotorFollowerVoltage = shooterFollowerMotorSim.getMotorVoltage();
+    inputs.shooterMotorFollowerVelocity = rightFlywheelSimModel.getAngularVelocityRPM() / 60;
+    inputs.shooterMotorFollowerStatorCurrent = rightFlywheelSimModel.getCurrentDrawAmps();
+    inputs.shooterMotorFollowerSupplyCurrent = shooterFollowerMotorSim.getSupplyCurrent();
+    inputs.shooterMotorFollowerTemperature = 0.0;
+    inputs.shooterMotorFollowerReferenceSlope = 69420;
+    // <<< For Advantage Kit
+
     SimViz.getInstance()
         .addToShooterFlywheelAngle(
             Math.toDegrees(leftRps)
@@ -72,13 +82,5 @@ public class ShooterIOSim extends ShooterIOTalonFX {
             Math.toDegrees(rightRps)
                 * LoggedRobot.defaultPeriodSecs
                 * ShooterConstants.SimulationConstants.kAngularVelocityScalar);
-
-    // Update battery voltage
-    RoboRioSim.setVInVoltage(
-        BatterySim.calculateDefaultBatteryLoadedVoltage(
-            leftFlywheelSimModel.getCurrentDrawAmps(), rightFlywheelSimModel.getCurrentDrawAmps()));
-
-    inputs.shooterMotorStatorCurrent = leftFlywheelSimModel.getCurrentDrawAmps();
-    inputs.shooterMotorFollowerStatorCurrent = rightFlywheelSimModel.getCurrentDrawAmps();
   }
 }
