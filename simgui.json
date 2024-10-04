@@ -4,6 +4,8 @@
       "/Auto Chooser/AutoChooser": "String Chooser",
       "/FMSInfo": "FMSInfo",
       "/Pose": "Field2d",
+      "/SmartDashboard//SimViz": "Mechanism2d",
+      "/SmartDashboard/Mech Something": "Mechanism2d",
       "/SmartDashboard/Mech2d": "Mechanism2d",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
@@ -27,7 +29,12 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Mech2d": {
+      "/SmartDashboard//SimViz": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Mech Something": {
         "window": {
           "visible": true
         }

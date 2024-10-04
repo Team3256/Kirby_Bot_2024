@@ -51,6 +51,6 @@ public final class AmpevatorConstants {
   public static final double carriageMass = 0.5;
   public static final double drumRadius = 0.1;
   public static final double minHeight = 0;
-  public static final double maxHeight = 1;
-  public static final double startingHeight = 1;
+  public static final double maxHeight = 4;
+  public static final double startingHeight = 0;
 }
