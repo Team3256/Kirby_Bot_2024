@@ -102,8 +102,8 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     m_operatorController.b().whileTrue(shooter.setVelocity(100, 100));
-    m_driverController.x().onTrue(ampevator.setVoltage(10));
-    m_driverController.y().onTrue(ampevator.setVoltage(-10));
+    m_driverController.x().onTrue(ampevator.setPosition(100));
+    m_driverController.y().onTrue(ampevator.setPosition(-100));
   }
 
   private void configureAutoChooser() {

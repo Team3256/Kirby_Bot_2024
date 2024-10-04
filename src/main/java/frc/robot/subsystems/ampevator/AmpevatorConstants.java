@@ -14,7 +14,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public final class AmpevatorConstants {
 
-  public static final int ampevatorID = 0;
+  public static final int ampevatorID = 62;
   public static final int ampevatorBeamBreakID = 0;
 
   public static final TalonFXConfiguration motorConfigs =
