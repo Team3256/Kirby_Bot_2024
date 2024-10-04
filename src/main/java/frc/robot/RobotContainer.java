@@ -61,9 +61,10 @@ public class RobotContainer {
           Constants.FeatureFlags.kShooterEnabled,
           RobotBase.isReal() ? new ShooterIOTalonFX() : new ShooterIOSim());
 
-  private final PivotShooter pivotShooter = new PivotShooter(
-      Constants.FeatureFlags.kPivotShooterEnabled,
-      Utils.isSimulation() ? new PivotShooterIOSim() : new PivotShooterIOTalonFX());
+  private final PivotShooter pivotShooter =
+      new PivotShooter(
+          Constants.FeatureFlags.kPivotShooterEnabled,
+          Utils.isSimulation() ? new PivotShooterIOSim() : new PivotShooterIOTalonFX());
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -107,8 +108,7 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    m_operatorController.b().whileTrue(shooter.setVelocity(100, 100));
+    m_driverController.b().whileTrue(shooter.setVelocity(100, 100));
     m_driverController.x().onTrue(pivotShooter.setPosition(100));
     m_driverController.y().onTrue(pivotShooter.setPosition(-100));
   }

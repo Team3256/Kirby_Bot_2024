@@ -93,14 +93,13 @@ public final class PivotShooterConstants {
                   .withStatorCurrentLimit(60));
 
   public static final class sim {
-    public static final double simGearing = 11 / 10;
+    public static final double simGearing = 62.67;
 
-
-    public static final double armLength = .2;
+    public static final double armLength = .5;
     public static final double jkGMetersSquared = SingleJointedArmSim.estimateMOI(armLength, 2);
 
-    public static final Rotation2d minAngle = Rotation2d.fromDegrees(90);
-    public static final Rotation2d maxAngle = Rotation2d.fromDegrees(270);
-    public static final Rotation2d startingAngle = Rotation2d.fromDegrees(90);
+    public static final Rotation2d minAngle = Rotation2d.fromDegrees(0);
+    public static final Rotation2d maxAngle = Rotation2d.fromDegrees(90);
+    public static final Rotation2d startingAngle = Rotation2d.fromDegrees(25);
   }
 }

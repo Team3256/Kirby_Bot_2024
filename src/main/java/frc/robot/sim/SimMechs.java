@@ -21,32 +21,24 @@ public final class SimMechs {
 
   private static final MechanismRoot2d ampevator = mech.getRoot("ampevator", 1, 0);
 
-  private static final MechanismRoot2d pivot = mech.getRoot("pivot", 4, 0);
-
   private static final MechanismLigament2d m_ampevator =
       ampevator.append(new MechanismLigament2d("ampevator", 2, 90));
   private static final MechanismLigament2d m_ampevatorRollers =
-      m_ampevator.append(new MechanismLigament2d("rollers", 1, 0));
+      m_ampevator.append(
+          new MechanismLigament2d("rollers", .35, 0, 5.0, new Color8Bit(Color.kPurple)));
 
-  private static final Mechanism2d shooter = new Mechanism2d(3.0, 3.0);
-
-  private static final MechanismRoot2d pivotShooterRoot = shooter.getRoot("Pivot Shooter", 0.1, 0.1);
+  private static final MechanismRoot2d pivotShooterRoot = mech.getRoot("Pivot Shooter", 3.5, 0.2);
   private static final MechanismLigament2d pivotShooterViz =
       pivotShooterRoot.append(
-          new MechanismLigament2d(
-              "Pivot Shooter", 0.5, 0.0, 5.0, new Color8Bit(Color.kGreen)));
-  private static final MechanismRoot2d leftShooterAxle =
-      shooter.getRoot("Left Shooter Axle", 1.0, 2.0);
-  private static final MechanismLigament2d leftShooterViz =
-      leftShooterAxle.append(
-          new MechanismLigament2d(
-              "Left Shooter Flywheel", .5, 0.0, 5.0, new Color8Bit(Color.kYellow)));
-  private static final MechanismRoot2d rightShooterAxle =
-      shooter.getRoot("Right Shooter Axle", 2.0, 2.0);
+          new MechanismLigament2d("Pivot Shooter", 1, 0.0, 5.0, new Color8Bit(Color.kGreen)));
   private static final MechanismLigament2d rightShooterViz =
-      rightShooterAxle.append(
+      pivotShooterViz.append(
           new MechanismLigament2d(
-              "Right Shooter Flywheel", 0.5, 0.0, 5.0, new Color8Bit(Color.kYellow)));
+              "Right Shooter Flywheel", 0.35, 90, 2.5, new Color8Bit(Color.kRed)));
+  private static final MechanismLigament2d leftShooterViz =
+      pivotShooterViz.append(
+          new MechanismLigament2d(
+              "Left Shooter Flywheel", .25, 0.0, 2.5, new Color8Bit(Color.kYellow)));
 
   public static void updateAmpevator(double position) {
     m_ampevator.setLength(position);
@@ -63,6 +55,5 @@ public final class SimMechs {
 
   public static void init() {
     SmartDashboard.putData("Ampevator", mech);
-    SmartDashboard.putData("Shooter", shooter);
   }
 }

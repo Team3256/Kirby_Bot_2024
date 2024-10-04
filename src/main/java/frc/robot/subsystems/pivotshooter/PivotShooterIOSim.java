@@ -43,7 +43,6 @@ public class PivotShooterIOSim extends PivotShooterIOTalonFX {
   @Override
   public void updateInputs(PivotShooterIOInputs inputs) {
 
-
     pivotShooterSimState = super.getMotor().getSimState();
     pivotShooterSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
     pivotShooterSimModel.setInputVoltage(pivotShooterSimState.getMotorVoltage());
@@ -57,7 +56,6 @@ public class PivotShooterIOSim extends PivotShooterIOTalonFX {
     RoboRioSim.setVInVoltage(
         BatterySim.calculateDefaultBatteryLoadedVoltage(pivotShooterSimModel.getCurrentDrawAmps()));
     super.updateInputs(inputs);
-    System.out.println(pivotShooterSimModel.getAngleRads());
     SimMechs.updatePivotShooter(Rotation2d.fromRadians(pivotShooterSimModel.getAngleRads()));
   }
 }
