@@ -21,6 +21,9 @@ import frc.robot.commands.AutoRoutines;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.sim.SimMechs;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ampevator.Ampevator;
+import frc.robot.subsystems.ampevator.AmpevatorIOSim;
+import frc.robot.subsystems.ampevator.AmpevatorIOTalonFX;
 import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swerve.SwerveTelemetry;
 import frc.robot.subsystems.swerve.TunerConstants;
@@ -37,6 +40,9 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final CommandSwerveDrivetrain swerve = TunerConstants.DriveTrain;
+
+  private final Ampevator ampevator =
+      new Ampevator(true, (Utils.isSimulation()) ? new AmpevatorIOSim() : new AmpevatorIOTalonFX());
 
   private final Turret turret =
       new Turret(
@@ -85,6 +91,8 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_driverController.x().onTrue(ampevator.setVoltage(10));
+    m_driverController.y().onTrue(ampevator.setVoltage(-10));
   }
 
   private void configureAutoChooser() {

@@ -17,7 +17,7 @@ public final class AmpevatorConstants {
   public static final int ampevatorID = 0;
   public static final int ampevatorBeamBreakID = 0;
 
-  public static TalonFXConfiguration motorConfigs =
+  public static final TalonFXConfiguration motorConfigs =
       new TalonFXConfiguration()
           .withSlot0(
               new Slot0Configs()
@@ -41,9 +41,16 @@ public final class AmpevatorConstants {
               new CurrentLimitsConfigs()
                   .withStatorCurrentLimitEnable(true)
                   .withStatorCurrentLimit(60));
-  public static int flashConfigRetries = 5;
-  public static boolean useMotionMagic = false;
-  public static double ampPreset = 69; // tune pls
-  public static double trapPreset = 10; // we never getting this are we
-  public static double stowPreset = 0;
+  public static final int flashConfigRetries = 5;
+  public static final boolean useMotionMagic = false;
+  public static final double ampPreset = 69; // tune pls
+  public static final double trapPreset = 10; // we never getting this are we
+  public static final double stowPreset = 0;
+
+  public static final double simGearing = 10;
+  public static final double carriageMass = 0.5;
+  public static final double drumRadius = 0.1;
+  public static final double minHeight = 0;
+  public static final double maxHeight = 1;
+  public static final double startingHeight = 1;
 }

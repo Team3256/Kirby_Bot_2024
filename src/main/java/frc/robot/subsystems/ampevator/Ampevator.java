@@ -9,6 +9,7 @@ package frc.robot.subsystems.ampevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.utils.DisableSubsystem;
+import org.littletonrobotics.junction.Logger;
 
 public class Ampevator extends DisableSubsystem {
   private final AmpevatorIO ampevatorIO;
@@ -24,6 +25,7 @@ public class Ampevator extends DisableSubsystem {
   public void periodic() {
     super.periodic();
     ampevatorIO.updateInputs(ampevatorIOAutoLogged);
+    Logger.processInputs(this.getClass().getSimpleName(), ampevatorIOAutoLogged);
   }
 
   public Command setPosition(double position) {
