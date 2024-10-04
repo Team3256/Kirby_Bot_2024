@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.utils.DisableSubsystem;
 import org.littletonrobotics.junction.Logger;
 
-public class Intake extends DisableSubsystem {
+public class Intake extends DisableSubsystem { // note for me later - this has also controls the redirect roller
   private final IntakeIO intakeIO;
   private final IntakeIOInputsAutoLogged intakeIOAutoLogged = new IntakeIOInputsAutoLogged();
   private final SysIdRoutine intake_sysIdRoutine;
