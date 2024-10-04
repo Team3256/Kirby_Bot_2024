@@ -19,19 +19,31 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoRoutines;
 import frc.robot.sim.SimMechs;
+import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.ampevator.Ampevator;
 import frc.robot.subsystems.ampevator.AmpevatorIOSim;
 import frc.robot.subsystems.ampevator.AmpevatorIOTalonFX;
+import frc.robot.subsystems.ampevatorrollers.Roller;
+import frc.robot.subsystems.ampevatorrollers.RollerIOTalonFX;
+import frc.robot.subsystems.climb.Climb;
+import frc.robot.subsystems.climb.ClimbIOTalonFX;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeIOTalonFX;
 import frc.robot.subsystems.pivotshooter.PivotShooter;
 import frc.robot.subsystems.pivotshooter.PivotShooterIOSim;
 import frc.robot.subsystems.pivotshooter.PivotShooterIOTalonFX;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOTalonFX;
+import frc.robot.subsystems.spindex.BeamBreakIOBanner;
+import frc.robot.subsystems.spindex.Spindex;
+import frc.robot.subsystems.spindex.SpindexIOTalonFX;
 import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swerve.SwerveTelemetry;
 import frc.robot.subsystems.swerve.TunerConstants;
 import frc.robot.subsystems.turret.*;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionIOLimelight;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -62,6 +74,29 @@ public class RobotContainer {
       new PivotShooter(
           Constants.FeatureFlags.kPivotShooterEnabled,
           Utils.isSimulation() ? new PivotShooterIOSim() : new PivotShooterIOTalonFX());
+
+  private final Roller ampevatorRollers =
+      new Roller(Constants.FeatureFlags.kAmpevatorRollersEnabled, new RollerIOTalonFX());
+
+  private final Climb climb = new Climb(Constants.FeatureFlags.kClimbEnabled, new ClimbIOTalonFX());
+  private final Intake intake =
+      new Intake(Constants.FeatureFlags.kIntakeEnabled, new IntakeIOTalonFX());
+  private final Spindex spindex =
+      new Spindex(
+          Constants.FeatureFlags.kSpindexEnabled, new SpindexIOTalonFX(), new BeamBreakIOBanner());
+  private final Vision vision = new Vision(new VisionIOLimelight());
+
+  private final Superstructure superstructure =
+      new Superstructure(
+          ampevator,
+          ampevatorRollers,
+          turret,
+          climb,
+          intake,
+          spindex,
+          pivotShooter,
+          shooter,
+          vision);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
