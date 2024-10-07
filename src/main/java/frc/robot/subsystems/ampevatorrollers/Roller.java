@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-package frc.robot.subsystems.intake;
+package frc.robot.subsystems.ampevatorrollers;
 
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
@@ -17,20 +17,19 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.utils.DisableSubsystem;
 import org.littletonrobotics.junction.Logger;
 
-public class Intake
-    extends DisableSubsystem { // note for me later - this has also controls the redirect roller
-  private final IntakeIO intakeIO;
-  private final IntakeIOInputsAutoLogged intakeIOAutoLogged = new IntakeIOInputsAutoLogged();
-  private final SysIdRoutine intake_sysIdRoutine;
+public class Roller extends DisableSubsystem {
+  private final RollerIO rollerIO;
+  private final RollerIOInputsAutoLogged rollerIOAutoLogged = new RollerIOInputsAutoLogged();
+  private final SysIdRoutine roller_sysIdRoutine;
 
   private final Trigger debouncedBeamBreak = new Trigger(this::isBeamBroken).debounce(0.1);
   ;
 
-  public Intake(boolean disabled, IntakeIO intakeIO) {
+  public Roller(boolean disabled, RollerIO rollerIO) {
     super(disabled);
 
-    this.intakeIO = intakeIO;
-    intake_sysIdRoutine =
+    this.rollerIO = rollerIO;
+    roller_sysIdRoutine =
         new SysIdRoutine(
             new SysIdRoutine.Config(
                 Volts.of(0.2).per(Seconds.of(1)), // Use default ramp rate (1 V/s)
@@ -40,9 +39,9 @@ public class Intake
                 (state) -> SignalLogger.writeString("state", state.toString())),
             new SysIdRoutine.Mechanism(
                 (volts) ->
-                    intakeIO
-                        .getIntakeMotor()
-                        .setControl(intakeIO.getIntakeVoltageRequest().withOutput(volts.in(Volts))),
+                    rollerIO
+                        .getRollerMotor()
+                        .setControl(rollerIO.getRollerVoltageRequest().withOutput(volts.in(Volts))),
                 null,
                 this));
   }
@@ -50,37 +49,37 @@ public class Intake
   @Override
   public void periodic() {
     super.periodic();
-    intakeIO.updateInputs(intakeIOAutoLogged);
-    Logger.processInputs(this.getClass().getSimpleName(), intakeIOAutoLogged);
+    rollerIO.updateInputs(rollerIOAutoLogged);
+    Logger.processInputs(this.getClass().getSimpleName(), rollerIOAutoLogged);
   }
 
   public Command setVoltage(double voltage) {
-    return this.run(() -> intakeIO.setIntakeVoltage(voltage)).finallyDo(intakeIO::off);
+    return this.run(() -> rollerIO.setRollerVoltage(voltage)).finallyDo(rollerIO::off);
   }
 
   public Command setVelocity(double velocity, double passthroughVelocity) {
-    return this.run(() -> intakeIO.setIntakeVelocity(velocity)).finallyDo(intakeIO::off);
+    return this.run(() -> rollerIO.setRollerVelocity(velocity)).finallyDo(rollerIO::off);
   }
 
   public Command off() {
-    return this.runOnce(intakeIO::off);
+    return this.runOnce(rollerIO::off);
   }
 
-  public Command intakeIn() {
-    return this.run(() -> intakeIO.setIntakeVoltage(IntakeConstants.kIntakeIntakeVoltage))
+  public Command outtake() {
+    return this.run(() -> rollerIO.setRollerVoltage(RollerConstants.kRollerRollerVoltage))
         .until(debouncedBeamBreak)
         .andThen(this.off());
   }
 
-  public Command intakeSysIdQuasistatic(SysIdRoutine.Direction direction) {
-    return intake_sysIdRoutine.quasistatic(direction);
+  public Command rollerSysIdQuasistatic(SysIdRoutine.Direction direction) {
+    return roller_sysIdRoutine.quasistatic(direction);
   }
 
-  public Command intakeSysIdDynamic(SysIdRoutine.Direction direction) {
-    return intake_sysIdRoutine.dynamic(direction);
+  public Command rollerSysIdDynamic(SysIdRoutine.Direction direction) {
+    return roller_sysIdRoutine.dynamic(direction);
   }
 
   public boolean isBeamBroken() {
-    return intakeIO.isBeamBroken();
+    return rollerIO.isBeamBroken();
   }
 }

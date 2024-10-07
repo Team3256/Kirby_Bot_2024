@@ -57,4 +57,9 @@ public abstract class DisableSubsystem extends SubsystemBase {
         this.getClass().getSimpleName() + "/CurrentCommand",
         this.getCurrentCommand() != null ? this.getCurrentCommand().getName() : "none");
   }
+
+  @Override
+  public void simulationPeriodic() {
+    this.periodic();
+  }
 }

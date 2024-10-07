@@ -81,4 +81,9 @@ public class AmpevatorIOTalonFX implements AmpevatorIO {
   public void zero() {
     ampevator.setControl(positionRequest.withPosition(0));
   }
+
+  @Override
+  public TalonFX getMotor() {
+    return ampevator;
+  }
 }

@@ -43,6 +43,10 @@ public interface ShooterIO {
     return new TalonFX(0);
   }
 
+  public default TalonFX getFollowerMotor() {
+    return new TalonFX(0);
+  }
+
   public default VoltageOut getVoltageRequest() {
     return new VoltageOut(0);
   }
