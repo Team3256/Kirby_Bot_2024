@@ -39,8 +39,8 @@ public class Vision extends SubsystemBase {
     lastLastCenterLimelightY = lastCenterLimelightY;
     lastCenterLimelightX = centerLimelightX;
     lastCenterLimelightY = centerLimelightY;
-    centerLimelightX = visionIOAutoLogged.centerLimelightX;
-    centerLimelightY = visionIOAutoLogged.centerLimelightY;
+    centerLimelightX = visionIOAutoLogged.turretLimelightX;
+    centerLimelightY = visionIOAutoLogged.turretLimelightY;
   }
 
   public double getCenterLimelightX() {
@@ -72,7 +72,8 @@ public class Vision extends SubsystemBase {
     return -(VisionConstants.noteLimelightHeightInches - VisionConstants.noteHeightInches)
         / Math.tan(
             Units.degreesToRadians(
-                visionIOAutoLogged.noteLimelightY + VisionConstants.noteLimelightAngleDegrees));
+                visionIOAutoLogged.ampevatorLimelightY
+                    + VisionConstants.noteLimelightAngleDegrees));
   }
 
   public Pose2d getNotePose(Pose2d robotPose) {
@@ -84,10 +85,10 @@ public class Vision extends SubsystemBase {
                     Units.inchesToMeters(getDistanceToNote()),
                     robotPose
                         .getRotation()
-                        .plus(Rotation2d.fromDegrees(visionIOAutoLogged.noteLimelightX))),
+                        .plus(Rotation2d.fromDegrees(visionIOAutoLogged.ampevatorLimelightX))),
                 robotPose
                     .getRotation()
-                    .plus(Rotation2d.fromDegrees(visionIOAutoLogged.noteLimelightX))));
+                    .plus(Rotation2d.fromDegrees(visionIOAutoLogged.ampevatorLimelightX))));
   }
 
   @AutoLogOutput

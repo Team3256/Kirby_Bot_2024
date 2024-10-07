@@ -14,7 +14,6 @@ import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.utils.PhoenixUtil;
 
 public class RollerIOTalonFX implements RollerIO {
@@ -31,8 +30,6 @@ public class RollerIOTalonFX implements RollerIO {
   private final StatusSignal<Double> rollerMotorTemperature = rollerMotor.getDeviceTemp();
   private final StatusSignal<Double> rollerMotorReferenceSlope =
       rollerMotor.getClosedLoopReferenceSlope();
-
-  private DigitalInput beamBreakInput = new DigitalInput(RollerConstants.kRollerBeamBreakDIO);
 
   public RollerIOTalonFX() {
     PhoenixUtil.applyMotorConfigs(
@@ -64,8 +61,6 @@ public class RollerIOTalonFX implements RollerIO {
     inputs.rollerMotorSupplyCurrent = rollerMotorSupplyCurrent.getValueAsDouble();
     inputs.rollerMotorTemperature = rollerMotorTemperature.getValueAsDouble();
     inputs.rollerMotorReferenceSlope = rollerMotorReferenceSlope.getValueAsDouble();
-
-    inputs.isBeamBroken = !beamBreakInput.get();
   }
 
   @Override
@@ -85,11 +80,6 @@ public class RollerIOTalonFX implements RollerIO {
   @Override
   public void off() {
     rollerMotor.setControl(new NeutralOut());
-  }
-
-  @Override
-  public boolean isBeamBroken() {
-    return !beamBreakInput.get();
   }
 
   @Override

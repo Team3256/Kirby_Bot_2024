@@ -20,8 +20,6 @@ public interface IntakeIO {
     public double intakeMotorSupplyCurrent = 0.0;
     public double intakeMotorTemperature = 0.0;
     public double intakeMotorReferenceSlope = 0.0;
-
-    public boolean isBeamBroken = false;
   }
 
   public default void updateInputs(IntakeIOInputs inputs) {}
@@ -39,8 +37,4 @@ public interface IntakeIO {
   }
 
   public default void off() {}
-
-  public default boolean isBeamBroken() {
-    return false;
-  }
 }

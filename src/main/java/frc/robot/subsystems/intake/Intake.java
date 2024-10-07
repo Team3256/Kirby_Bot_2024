@@ -14,6 +14,8 @@ import com.ctre.phoenix6.SignalLogger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.subsystems.BeamBreakIO;
+import frc.robot.subsystems.BeamBreakIOInputsAutoLogged;
 import frc.robot.utils.DisableSubsystem;
 import org.littletonrobotics.junction.Logger;
 
@@ -24,12 +26,16 @@ public class Intake
   private final SysIdRoutine intake_sysIdRoutine;
 
   private final Trigger debouncedBeamBreak = new Trigger(this::isBeamBroken).debounce(0.1);
-  ;
 
-  public Intake(boolean disabled, IntakeIO intakeIO) {
+  private final BeamBreakIO beamBreakIO;
+  private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =
+      new BeamBreakIOInputsAutoLogged();
+
+  public Intake(boolean disabled, IntakeIO intakeIO, BeamBreakIO beamBreakIO) {
     super(disabled);
 
     this.intakeIO = intakeIO;
+    this.beamBreakIO = beamBreakIO;
     intake_sysIdRoutine =
         new SysIdRoutine(
             new SysIdRoutine.Config(
@@ -51,7 +57,9 @@ public class Intake
   public void periodic() {
     super.periodic();
     intakeIO.updateInputs(intakeIOAutoLogged);
+    beamBreakIO.updateInputs(beamBreakIOAutoLogged);
     Logger.processInputs(this.getClass().getSimpleName(), intakeIOAutoLogged);
+    Logger.processInputs(this.getClass().getSimpleName(), beamBreakIOAutoLogged);
   }
 
   public Command setVoltage(double voltage) {
@@ -81,6 +89,6 @@ public class Intake
   }
 
   public boolean isBeamBroken() {
-    return intakeIO.isBeamBroken();
+    return beamBreakIOAutoLogged.beamBroken;
   }
 }

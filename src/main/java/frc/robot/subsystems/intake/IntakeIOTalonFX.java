@@ -14,7 +14,6 @@ import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.utils.PhoenixUtil;
 
 public class IntakeIOTalonFX implements IntakeIO {
@@ -31,8 +30,6 @@ public class IntakeIOTalonFX implements IntakeIO {
   private final StatusSignal<Double> intakeMotorTemperature = intakeMotor.getDeviceTemp();
   private final StatusSignal<Double> intakeMotorReferenceSlope =
       intakeMotor.getClosedLoopReferenceSlope();
-
-  private DigitalInput beamBreakInput = new DigitalInput(IntakeConstants.kIntakeBeamBreakDIO);
 
   public IntakeIOTalonFX() {
     PhoenixUtil.applyMotorConfigs(
@@ -64,8 +61,6 @@ public class IntakeIOTalonFX implements IntakeIO {
     inputs.intakeMotorSupplyCurrent = intakeMotorSupplyCurrent.getValueAsDouble();
     inputs.intakeMotorTemperature = intakeMotorTemperature.getValueAsDouble();
     inputs.intakeMotorReferenceSlope = intakeMotorReferenceSlope.getValueAsDouble();
-
-    inputs.isBeamBroken = !beamBreakInput.get();
   }
 
   @Override
@@ -85,11 +80,6 @@ public class IntakeIOTalonFX implements IntakeIO {
   @Override
   public void off() {
     intakeMotor.setControl(new NeutralOut());
-  }
-
-  @Override
-  public boolean isBeamBroken() {
-    return !beamBreakInput.get();
   }
 
   @Override

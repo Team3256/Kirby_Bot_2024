@@ -8,6 +8,8 @@
 package frc.robot.subsystems.spindex;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.BeamBreakIO;
+import frc.robot.subsystems.BeamBreakIOInputsAutoLogged;
 import frc.robot.utils.DisableSubsystem;
 import org.littletonrobotics.junction.Logger;
 
@@ -39,7 +41,9 @@ public class Spindex extends DisableSubsystem {
     // This method will be called once per scheduler run
     super.periodic();
     spindexIO.updateInputs(spindexIOAutoLogged);
+    beamBreakIO.updateInputs(beamBreakIOAutoLogged);
     Logger.processInputs(this.getClass().getSimpleName(), spindexIOAutoLogged);
+    Logger.processInputs(this.getClass().getSimpleName(), beamBreakIOAutoLogged);
   }
 
   public Command setSpindexVoltage(double voltage) {

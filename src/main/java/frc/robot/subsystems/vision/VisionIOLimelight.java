@@ -15,10 +15,13 @@ public class VisionIOLimelight implements VisionIO {
 
   @Override
   public void updateInputs(VisionIOInputs inputs) {
-    inputs.noteLimelightX = LimelightHelpers.getTX(VisionConstants.noteDetectionLimelight);
-    inputs.noteLimelightY = LimelightHelpers.getTY(VisionConstants.noteDetectionLimelight);
+    inputs.ampevatorLimelightX = LimelightHelpers.getTX(VisionConstants.ampevatorLimelight);
+    inputs.ampevatorLimelightY = LimelightHelpers.getTY(VisionConstants.ampevatorLimelight);
 
-    inputs.centerLimelightX = LimelightHelpers.getTX(VisionConstants.centerLimelight);
-    inputs.centerLimelightY = LimelightHelpers.getTY(VisionConstants.centerLimelight);
+    inputs.turretLimelightX = LimelightHelpers.getTX(VisionConstants.turretLimelight);
+    inputs.turretLimelightY = LimelightHelpers.getTY(VisionConstants.turretLimelight);
+
+    inputs.turretLimelightConnected =
+        LimelightHelpers.getLatency_Capture(VisionConstants.turretLimelight) != 0;
   }
 }

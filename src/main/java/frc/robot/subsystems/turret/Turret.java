@@ -93,7 +93,7 @@ public class Turret extends DisableSubsystem {
    */
   public Command setPosition(Rotation2d position) {
     return this.runOnce(
-        () -> turretIO.setPosition(position.getRotations() / TurretConstants.gearRatio));
+        () -> turretIO.setPosition(position.getRotations() * TurretConstants.gearRatio));
   }
 
   /**
@@ -142,6 +142,12 @@ public class Turret extends DisableSubsystem {
                         getTurretPosition(
                             Rotation2d.fromDegrees(encoderIOInputs1.encoderPositionDegrees),
                             Rotation2d.fromDegrees(encoderIOInputs2.encoderPositionDegrees)))));
+  }
+
+  public Command shakeHead() {
+    return setPosition(Rotation2d.fromDegrees(90))
+        .andThen(setPosition(Rotation2d.fromDegrees(-90)))
+        .repeatedly();
   }
 
   /**

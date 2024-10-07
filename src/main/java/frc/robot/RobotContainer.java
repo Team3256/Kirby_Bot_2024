@@ -28,14 +28,27 @@ import frc.robot.subsystems.ampevator.AmpevatorIOSim;
 import frc.robot.subsystems.ampevator.AmpevatorIOTalonFX;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.climb.ClimbIOTalonFX;
+import frc.robot.subsystems.BeamBreakIOBanner;
+import frc.robot.subsystems.Superstructure;
+import frc.robot.subsystems.ampevator.Ampevator;
+import frc.robot.subsystems.ampevator.AmpevatorIOSim;
+import frc.robot.subsystems.ampevator.AmpevatorIOTalonFX;
+import frc.robot.subsystems.ampevatorrollers.Roller;
+import frc.robot.subsystems.ampevatorrollers.RollerConstants;
+import frc.robot.subsystems.ampevatorrollers.RollerIOTalonFX;
+import frc.robot.subsystems.climb.Climb;
+import frc.robot.subsystems.climb.ClimbIOTalonFX;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeConstants;
+import frc.robot.subsystems.intake.IntakeIOTalonFX;
 import frc.robot.subsystems.pivotshooter.PivotShooter;
 import frc.robot.subsystems.pivotshooter.PivotShooterIOSim;
 import frc.robot.subsystems.pivotshooter.PivotShooterIOTalonFX;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOTalonFX;
-import frc.robot.subsystems.spindex.BeamBreakIOBanner;
 import frc.robot.subsystems.spindex.Spindex;
+import frc.robot.subsystems.spindex.SpindexConstants;
 import frc.robot.subsystems.spindex.SpindexIOTalonFX;
 import frc.robot.subsystems.swerve.AzimuthConstants;
 import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
@@ -77,16 +90,24 @@ public class RobotContainer {
           Constants.FeatureFlags.kPivotShooterEnabled,
           Utils.isSimulation() ? new PivotShooterIOSim() : new PivotShooterIOTalonFX());
 
-  // private final Roller ampevatorRollers =
-  // new Roller(Constants.FeatureFlags.kAmpevatorRollersEnabled, new
-  // RollerIOTalonFX());
+  private final Roller ampevatorRollers =
+      new Roller(
+          Constants.FeatureFlags.kAmpevatorRollersEnabled,
+          new RollerIOTalonFX(),
+          new BeamBreakIOBanner(RollerConstants.kRollerBeamBreakDIO));
 
   private final Climb climb = new Climb(Constants.FeatureFlags.kClimbEnabled, new ClimbIOTalonFX());
-  // private final Intake intake =
-  // new Intake(Constants.FeatureFlags.kIntakeEnabled, new IntakeIOTalonFX());
+  private final Intake intake =
+      new Intake(
+          Constants.FeatureFlags.kIntakeEnabled,
+          new IntakeIOTalonFX(),
+          new BeamBreakIOBanner(IntakeConstants.kIntakeBeamBreakDIO));
+
   private final Spindex spindex =
       new Spindex(
-          Constants.FeatureFlags.kSpindexEnabled, new SpindexIOTalonFX(), new BeamBreakIOBanner());
+          Constants.FeatureFlags.kSpindexEnabled,
+          new SpindexIOTalonFX(),
+          new BeamBreakIOBanner(SpindexConstants.kSpindexBeamBreakDIO));
   private final Vision vision = new Vision(new VisionIOLimelight());
 
   // private final Superstructure superstructure =

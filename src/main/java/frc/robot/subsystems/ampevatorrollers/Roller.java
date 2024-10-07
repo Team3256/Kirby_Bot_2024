@@ -14,21 +14,29 @@ import com.ctre.phoenix6.SignalLogger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.subsystems.BeamBreakIO;
+import frc.robot.subsystems.BeamBreakIOInputsAutoLogged;
 import frc.robot.utils.DisableSubsystem;
 import org.littletonrobotics.junction.Logger;
 
 public class Roller extends DisableSubsystem {
   private final RollerIO rollerIO;
   private final RollerIOInputsAutoLogged rollerIOAutoLogged = new RollerIOInputsAutoLogged();
+
+  private final BeamBreakIO beamBreakIO;
+  private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =
+      new BeamBreakIOInputsAutoLogged();
+
   private final SysIdRoutine roller_sysIdRoutine;
 
   private final Trigger debouncedBeamBreak = new Trigger(this::isBeamBroken).debounce(0.1);
   ;
 
-  public Roller(boolean disabled, RollerIO rollerIO) {
+  public Roller(boolean disabled, RollerIO rollerIO, BeamBreakIO beamBreakIO) {
     super(disabled);
 
     this.rollerIO = rollerIO;
+    this.beamBreakIO = beamBreakIO;
     roller_sysIdRoutine =
         new SysIdRoutine(
             new SysIdRoutine.Config(
@@ -50,7 +58,9 @@ public class Roller extends DisableSubsystem {
   public void periodic() {
     super.periodic();
     rollerIO.updateInputs(rollerIOAutoLogged);
+    beamBreakIO.updateInputs(beamBreakIOAutoLogged);
     Logger.processInputs(this.getClass().getSimpleName(), rollerIOAutoLogged);
+    Logger.processInputs(this.getClass().getSimpleName(), beamBreakIOAutoLogged);
   }
 
   public Command setVoltage(double voltage) {
@@ -80,6 +90,6 @@ public class Roller extends DisableSubsystem {
   }
 
   public boolean isBeamBroken() {
-    return rollerIO.isBeamBroken();
+    return beamBreakIOAutoLogged.beamBroken;
   }
 }

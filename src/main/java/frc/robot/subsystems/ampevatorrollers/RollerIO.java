@@ -20,8 +20,6 @@ public interface RollerIO {
     public double rollerMotorSupplyCurrent = 0.0;
     public double rollerMotorTemperature = 0.0;
     public double rollerMotorReferenceSlope = 0.0;
-
-    public boolean isBeamBroken = false;
   }
 
   public default void updateInputs(RollerIOInputs inputs) {}
@@ -39,8 +37,4 @@ public interface RollerIO {
   }
 
   public default void off() {}
-
-  public default boolean isBeamBroken() {
-    return false;
-  }
 }
