@@ -118,11 +118,15 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    configureAutoChooser();
     configureSwerve();
+    configureAutoChooser();
 
     if (Constants.FeatureFlags.kSimVizEnabled) {
       SimViz.init();
+    }
+    // No other bindings should be added after this line.
+    if (Constants.FeatureFlags.kControllerMapEnabled) {
+      controls.dumpControllerMap();
     }
   }
 
@@ -143,18 +147,13 @@ public class RobotContainer {
     controls
         .bindDriver("y", "Set pivot shooter position -100")
         .onTrue(pivotShooter.setPosition(-100));
-
-    // This should be at the end of the configureBindings method.
-    // No other bindings should be added after this line.
-    if (Constants.FeatureFlags.kControllerMapEnabled) {
-      controls.dumpControllerMap();
-    }
   }
 
   private void configureAutoChooser() {
     autoChooser.addAutoRoutine("Box", autoRoutines::boxAuto);
   }
 
+  // Swerve is its own behemoth of bindings, so it gets its own method
   private void configureSwerve() {
     double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps;
     double MaxAngularRate = 1.5 * Math.PI; // My drivetrain
