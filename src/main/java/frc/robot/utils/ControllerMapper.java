@@ -81,7 +81,11 @@ public class ControllerMapper {
   }
 
   public void dumpControllerMap() {
+    Logger.recordOutput("controllerMap", getControllerMap());
+  }
+
+  public String getControllerMap() {
     Gson gson = new Gson();
-    Logger.recordOutput("controllerMap", gson.toJson(buttonMap));
+    return gson.toJson(buttonMap);
   }
 }
