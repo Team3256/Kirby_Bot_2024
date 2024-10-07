@@ -42,10 +42,9 @@ import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swerve.SwerveTelemetry;
 import frc.robot.subsystems.swerve.TunerConstants;
 import frc.robot.subsystems.turret.*;
-import frc.robot.utils.ControllerMapper;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
-
+import frc.robot.utils.ControllerMapper;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -142,9 +141,6 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
-    controls
-        .bindDriver("b", "exampleMethodCommand")
-        .whileTrue(m_exampleSubsystem.exampleMethodCommand());
     // This should be at the end of the configureBindings method.
     // No other bindings should be added after this line.
     if (Constants.FeatureFlags.kControllerMapEnabled) {
