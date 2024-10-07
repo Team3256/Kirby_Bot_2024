@@ -50,6 +50,7 @@ public final class Constants {
     public static final boolean kControllerMapEnabled = true;
 
     public static final boolean kSwerveEnabled = true;
+    public static final boolean kVisionEnabled = false;
     public static final boolean kClimbEnabled = true;
     public static final boolean kIntakeEnabled = true;
     public static final boolean kShooterEnabled = true;

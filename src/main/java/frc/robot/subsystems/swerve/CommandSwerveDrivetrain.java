@@ -322,21 +322,21 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     m_simNotifier.startPeriodic(kSimLoopPeriod);
   }
 
-  //  public Command runChoreoTraj(ChoreoTrajectory trajectory) {
-  //    return Choreo.choreoSwerveCommand(
-  //        trajectory,
-  //        () -> (this.getState().Pose),
-  //        SwerveConstants.choreoTranslationController,
-  //        SwerveConstants.choreoTranslationController,
-  //        SwerveConstants.choreoRotationController,
-  //        ((ChassisSpeeds speeds) ->
-  //            this.setControl(new SwerveRequest.ApplyChassisSpeeds().withSpeeds(speeds))),
-  //        () -> {
-  //          Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
-  //          return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
-  //        },
-  //        this);
-  //  }
+  // public Command runChoreoTraj(ChoreoTrajectory trajectory) {
+  // return Choreo.choreoSwerveCommand(
+  // trajectory,
+  // () -> (this.getState().Pose),
+  // SwerveConstants.choreoTranslationController,
+  // SwerveConstants.choreoTranslationController,
+  // SwerveConstants.choreoRotationController,
+  // ((ChassisSpeeds speeds) ->
+  // this.setControl(new SwerveRequest.ApplyChassisSpeeds().withSpeeds(speeds))),
+  // () -> {
+  // Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
+  // return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
+  // },
+  // this);
+  // }
 
   /*
    * This method comes from 1690's <a
@@ -437,7 +437,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                         : BlueAlliancePerspectiveRotation);
                 hasAppliedOperatorPerspective = true;
               });
-      updateVision();
+      if (Constants.FeatureFlags.kVisionEnabled) {
+        updateVision();
+      }
     }
   }
 }
