@@ -100,6 +100,51 @@ public class MappedXboxController extends CommandXboxController {
     return this.rightTrigger(0.5, commandDescription);
   }
 
+  public Trigger povUp(String commandDescription) {
+    labelButton("povUp", commandDescription);
+    return this.pov(0);
+  }
+
+  public Trigger povUpRight(String commandDescription) {
+    labelButton("povUpRight", commandDescription);
+    return this.pov(45);
+  }
+
+  public Trigger povRight(String commandDescription) {
+    labelButton("povRight", commandDescription);
+    return this.pov(90);
+  }
+
+  public Trigger povDownRight(String commandDescription) {
+    labelButton("povDownRight", commandDescription);
+    return this.pov(135);
+  }
+
+  public Trigger povDown(String commandDescription) {
+    labelButton("povDown", commandDescription);
+    return this.pov(180);
+  }
+
+  public Trigger povDownLeft(String commandDescription) {
+    labelButton("povDownLeft", commandDescription);
+    return this.pov(225);
+  }
+
+  public Trigger povLeft(String commandDescription) {
+    labelButton("povLeft", commandDescription);
+    return this.pov(270);
+  }
+
+  public Trigger povUpLeft(String commandDescription) {
+    labelButton("povUpLeft", commandDescription);
+    return this.pov(315);
+  }
+
+  public Trigger povCenter(String commandDescription) {
+    labelButton("povCenter", commandDescription);
+    return this.pov(-1);
+  }
+
   public static void dumpControllerMap(
       MappedXboxController controller1, MappedXboxController controller2) {
     try {

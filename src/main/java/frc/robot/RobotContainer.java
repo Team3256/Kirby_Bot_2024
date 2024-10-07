@@ -9,9 +9,12 @@ package frc.robot;
 
 import choreo.auto.AutoChooser;
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -41,9 +44,8 @@ import frc.robot.subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.subsystems.spindex.Spindex;
 import frc.robot.subsystems.spindex.SpindexConstants;
 import frc.robot.subsystems.spindex.SpindexIOTalonFX;
-import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
-import frc.robot.subsystems.swerve.SwerveTelemetry;
-import frc.robot.subsystems.swerve.TunerConstants;
+import frc.robot.subsystems.swerve.*;
+import frc.robot.subsystems.swerve.requests.SwerveFieldCentricFacingAngle;
 import frc.robot.subsystems.turret.*;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
@@ -127,10 +129,6 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     configureAutoChooser();
-    if (Utils.isSimulation()) {
-      swerve.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
-    }
-    swerve.registerTelemetry(swerveTelemetry::telemeterize);
 
     SimMechs.init();
   }
@@ -162,7 +160,113 @@ public class RobotContainer {
     autoChooser.addAutoRoutine("Box", autoRoutines::boxAuto);
   }
 
-  private void configureSwerve() {}
+  private void configureSwerve() {
+    double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps;
+    double MaxAngularRate = 1.5 * Math.PI; // My drivetrain
+    double SlowMaxSpeed = MaxSpeed * 0.3;
+    double SlowMaxAngular = MaxAngularRate * 0.3;
+    SwerveRequest.FieldCentric drive =
+        new SwerveRequest.FieldCentric()
+            .withDeadband(Constants.ControllerConstants.DriverConstants.kStickDeadband * MaxSpeed)
+            .withRotationalDeadband(
+                Constants.ControllerConstants.DriverConstants.kRotationalDeadband
+                    * MaxAngularRate) // Add a 10% deadband
+            .withDriveRequestType(
+                SwerveModule.DriveRequestType.OpenLoopVoltage); // I want field-centric
+    SwerveFieldCentricFacingAngle azi =
+        new SwerveFieldCentricFacingAngle()
+            .withDeadband(MaxSpeed * .15) // TODO: update deadband
+            .withRotationalDeadband(MaxAngularRate * .15) // TODO: update deadband
+            .withHeadingController(SwerveConstants.azimuthController)
+            .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
+    swerve.setDefaultCommand(
+        // Drivetrain will execute this command periodically
+        swerve.applyRequest(
+            () ->
+                drive
+                    .withVelocityX(m_driverController.getLeftY() * MaxSpeed) // Drive -y is forward
+                    .withVelocityY(m_driverController.getLeftX() * MaxSpeed) // Drive -x is left
+                    .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate)));
+    /*
+     * Right stick absolute angle mode on trigger hold,
+     * robot adjusts heading to the angle right joystick creates
+     */
+    m_driverController
+        .rightTrigger("something")
+        .whileTrue(
+            swerve.applyRequest(
+                () ->
+                    drive
+                        .withVelocityX(
+                            -m_driverController.getLeftY() * MaxSpeed) // Drive -y is forward
+                        .withVelocityY(
+                            -m_driverController.getLeftX() * MaxSpeed) // Drive -x is left
+                        .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate)));
+    // Slows translational and rotational speed to 30%
+    m_driverController
+        .leftTrigger("something")
+        .whileTrue(
+            swerve.applyRequest(
+                () ->
+                    drive
+                        .withVelocityX(m_driverController.getLeftY() * (MaxSpeed * 0.17))
+                        .withVelocityY(m_driverController.getLeftX() * (MaxSpeed * 0.17))
+                        .withRotationalRate(
+                            -m_driverController.getRightX() * (1.3 * 0.2 * Math.PI))));
+    // Reset robot heading on button press
+    m_driverController.y("seed relative").onTrue(swerve.runOnce(() -> swerve.seedFieldRelative()));
+    // Azimuth angle bindings. isRed == true for red alliance presets. isRed != true
+    // for blue.
+    if (DriverStation.getAlliance()
+        .orElse(DriverStation.Alliance.Blue)
+        .equals(DriverStation.Alliance.Red)) {
+      m_driverController
+          .rightBumper("smth")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSourceRed)));
+      m_driverController
+          .a("smth")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziAmpRed)));
+      m_driverController
+          .povRight("smth")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziFeederRed)));
+    } else {
+      m_driverController
+          .rightBumper("smth")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSourceBlue)));
+      m_driverController
+          .a("smth")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziAmpBlue)));
+      m_driverController
+          .povRight("smth")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziFeederBlue)));
+    }
+    // Universal azimuth bindings
+    m_driverController
+        .leftBumper("smth")
+        .whileTrue(
+            swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferFront)));
+    m_driverController
+        .povDownLeft("azi")
+        .whileTrue(
+            swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferLeft)));
+    m_driverController
+        .povDownRight("azi")
+        .whileTrue(
+            swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferRight)));
+    m_driverController
+        .povDown("azi")
+        .whileTrue(swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziCleanUp)));
+    if (Utils.isSimulation()) {
+      swerve.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+    }
+    swerve.registerTelemetry(swerveTelemetry::telemeterize);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
