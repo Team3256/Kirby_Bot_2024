@@ -28,6 +28,9 @@ public final class TurretConstants {
   public static final double followTagI = 0;
   public static final double followTagD = 0;
 
+  public static final double kForwardLimit = 69; // TODO: Set limit
+  public static final double kReverseLimit = -69; // TODO: Set limit
+
   public static final TalonFXConfiguration motorConfigs = // TODO: Set configs
       new TalonFXConfiguration()
           .withSlot0(
@@ -50,15 +53,16 @@ public final class TurretConstants {
           .withCurrentLimits(
               new CurrentLimitsConfigs()
                   .withStatorCurrentLimitEnable(true)
-                  .withStatorCurrentLimit(60));
-
-  public static final int gearToothCountE1 = 1; // TODO: Set gear ratio
-  public static final int gearToothCountE2 = 1; // TODO: Set gear ratio
+                  .withStatorCurrentLimit(60))
+          .withSoftwareLimitSwitch(
+              new SoftwareLimitSwitchConfigs()
+                  .withForwardSoftLimitEnable(true)
+                  .withForwardSoftLimitThreshold(kForwardLimit)
+                  .withReverseSoftLimitEnable(true)
+                  .withReverseSoftLimitThreshold(kReverseLimit));
 
   public static final boolean kUseMotionMagic = false;
 
-  public static final double kForwardLimit = 69; // TODO: Set limit
-  public static final double kReverseLimit = -69; // TODO: Set limit
   public static int flashConfigRetries = 5;
 
   // CRT constants
