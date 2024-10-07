@@ -8,7 +8,6 @@
 package frc.robot.utils;
 
 import com.google.gson.Gson;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import java.io.IOException;
@@ -35,57 +34,57 @@ public class MappedXboxController extends CommandXboxController {
 
   public Trigger leftBumper(String commandDescription) {
     labelButton("leftBumper", commandDescription);
-    return this.leftBumper(CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.leftBumper();
   }
 
   public Trigger rightBumper(String commandDescription) {
     labelButton("rightBumper", commandDescription);
-    return this.rightBumper(CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.rightBumper();
   }
 
   public Trigger leftStick(String commandDescription) {
     labelButton("leftStick", commandDescription);
-    return this.leftStick(CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.leftStick();
   }
 
   public Trigger rightStick(String commandDescription) {
     labelButton("rightStick", commandDescription);
-    return this.rightStick(CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.rightStick();
   }
 
   public Trigger a(String commandDescription) {
     labelButton("a", commandDescription);
-    return this.a(CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.a();
   }
 
   public Trigger b(String commandDescription) {
     labelButton("b", commandDescription);
-    return this.b(CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.b();
   }
 
   public Trigger x(String commandDescription) {
     labelButton("x", commandDescription);
-    return this.x(CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.x();
   }
 
   public Trigger y(String commandDescription) {
     labelButton("y", commandDescription);
-    return this.y(CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.y();
   }
 
   public Trigger start(String commandDescription) {
     labelButton("start", commandDescription);
-    return this.start(CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.start();
   }
 
   public Trigger back(String commandDescription) {
     labelButton("back", commandDescription);
-    return this.back(CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.back();
   }
 
   public Trigger leftTrigger(double threshold, String commandDescription) {
     labelButton("leftTrigger", commandDescription);
-    return this.leftTrigger(threshold, CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.leftTrigger(threshold);
   }
 
   public Trigger leftTrigger(String commandDescription) {
@@ -93,56 +92,56 @@ public class MappedXboxController extends CommandXboxController {
   }
 
   public Trigger rightTrigger(double threshold, String commandDescription) {
-    return this.rightTrigger(threshold, CommandScheduler.getInstance().getDefaultButtonLoop());
+    return this.rightTrigger(threshold);
   }
 
   public Trigger rightTrigger(String commandDescription) {
     return this.rightTrigger(0.5, commandDescription);
   }
 
-  public Trigger povUp(String commandDescription) {
-    labelButton("povUp", commandDescription);
-    return this.pov(0);
-  }
-
-  public Trigger povUpRight(String commandDescription) {
-    labelButton("povUpRight", commandDescription);
-    return this.pov(45);
-  }
-
   public Trigger povRight(String commandDescription) {
     labelButton("povRight", commandDescription);
-    return this.pov(90);
-  }
-
-  public Trigger povDownRight(String commandDescription) {
-    labelButton("povDownRight", commandDescription);
-    return this.pov(135);
-  }
-
-  public Trigger povDown(String commandDescription) {
-    labelButton("povDown", commandDescription);
-    return this.pov(180);
-  }
-
-  public Trigger povDownLeft(String commandDescription) {
-    labelButton("povDownLeft", commandDescription);
-    return this.pov(225);
+    return this.povRight();
   }
 
   public Trigger povLeft(String commandDescription) {
     labelButton("povLeft", commandDescription);
-    return this.pov(270);
+    return this.povLeft();
+  }
+
+  public Trigger povUp(String commandDescription) {
+    labelButton("povUp", commandDescription);
+    return this.povUp();
+  }
+
+  public Trigger povDown(String commandDescription) {
+    labelButton("povDown", commandDescription);
+    return this.povDown();
+  }
+
+  public Trigger povUpRight(String commandDescription) {
+    labelButton("povUpRight", commandDescription);
+    return this.povUpRight();
   }
 
   public Trigger povUpLeft(String commandDescription) {
     labelButton("povUpLeft", commandDescription);
-    return this.pov(315);
+    return this.povUpLeft();
   }
 
-  public Trigger povCenter(String commandDescription) {
-    labelButton("povCenter", commandDescription);
-    return this.pov(-1);
+  public Trigger povDownRight(String commandDescription) {
+    labelButton("povDownRight", commandDescription);
+    return this.povDownRight();
+  }
+
+  public Trigger povDownLeft(String commandDescription) {
+    labelButton("povDownLeft", commandDescription);
+    return this.povDownLeft();
+  }
+
+  public Trigger pov(int angle, String commandDescription) {
+    labelButton("POV " + angle, commandDescription);
+    return this.pov(angle);
   }
 
   public static void dumpControllerMap(
