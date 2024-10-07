@@ -9,9 +9,13 @@ package frc.robot;
 
 import choreo.auto.AutoChooser;
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -41,9 +45,12 @@ import frc.robot.subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.subsystems.spindex.Spindex;
 import frc.robot.subsystems.spindex.SpindexConstants;
 import frc.robot.subsystems.spindex.SpindexIOTalonFX;
+import frc.robot.subsystems.swerve.AzimuthConstants;
 import frc.robot.subsystems.swerve.CommandSwerveDrivetrain;
+import frc.robot.subsystems.swerve.SwerveConstants;
 import frc.robot.subsystems.swerve.SwerveTelemetry;
 import frc.robot.subsystems.swerve.TunerConstants;
+import frc.robot.subsystems.swerve.requests.SwerveFieldCentricFacingAngle;
 import frc.robot.subsystems.turret.*;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
@@ -129,13 +136,18 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    configureSwerve();
     configureAutoChooser();
-    if (Utils.isSimulation()) {
-      swerve.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
-    }
-    swerve.registerTelemetry(swerveTelemetry::telemeterize);
 
     SimMechs.init();
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
+    // pressed,
+    // cancelling on release.
+    // This should be at the end of the configureBindings method.
+    // No other bindings should be added after this line.
+    if (Constants.FeatureFlags.kControllerMapEnabled) {
+      controls.dumpControllerMap();
+    }
   }
 
   /**
@@ -155,21 +167,127 @@ public class RobotContainer {
     controls
         .bindDriver("y", "Set pivot shooter position -100")
         .onTrue(pivotShooter.setPosition(-100));
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-    // pressed,
-    // cancelling on release.
-    // This should be at the end of the configureBindings method.
-    // No other bindings should be added after this line.
-    if (Constants.FeatureFlags.kControllerMapEnabled) {
-      controls.dumpControllerMap();
-    }
   }
 
   private void configureAutoChooser() {
     autoChooser.addAutoRoutine("Box", autoRoutines::boxAuto);
   }
 
-  private void configureSwerve() {}
+  private void configureSwerve() {
+    double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps;
+    double MaxAngularRate = 1.5 * Math.PI; // My drivetrain
+
+    double SlowMaxSpeed = MaxSpeed * 0.3;
+    double SlowMaxAngular = MaxAngularRate * 0.3;
+
+    SwerveRequest.FieldCentric drive =
+        new SwerveRequest.FieldCentric()
+            .withDeadband(Constants.ControllerConstants.DriverConstants.kStickDeadband * MaxSpeed)
+            .withRotationalDeadband(
+                Constants.ControllerConstants.DriverConstants.kRotationalDeadband
+                    * MaxAngularRate) // Add a 10% deadband
+            .withDriveRequestType(
+                SwerveModule.DriveRequestType.OpenLoopVoltage); // I want field-centric
+
+    SwerveFieldCentricFacingAngle azi =
+        new SwerveFieldCentricFacingAngle()
+            .withDeadband(MaxSpeed * .15) // TODO: update deadband
+            .withRotationalDeadband(MaxAngularRate * .15) // TODO: update deadband
+            .withHeadingController(SwerveConstants.azimuthController)
+            .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
+
+    swerve.setDefaultCommand(
+        // Drivetrain will execute this command periodically
+        swerve.applyRequest(
+            () ->
+                drive
+                    .withVelocityX(controls.driver.getLeftY() * MaxSpeed) // Drive -y is forward
+                    .withVelocityY(controls.driver.getLeftX() * MaxSpeed) // Drive -x is left
+                    .withRotationalRate(-controls.driver.getRightX() * MaxAngularRate)));
+
+    /*
+     * Right stick absolute angle mode on trigger hold,
+     * robot adjusts heading to the angle right joystick creates
+     */
+    controls
+        .bindDriver("rightTrigger", "No idea")
+        .whileTrue(
+            swerve.applyRequest(
+                () ->
+                    drive
+                        .withVelocityX(
+                            -controls.driver.getLeftY() * MaxSpeed) // Drive -y is forward
+                        .withVelocityY(-controls.driver.getLeftX() * MaxSpeed) // Drive -x is left
+                        .withRotationalRate(-controls.driver.getRightX() * MaxAngularRate)));
+
+    // Slows translational and rotational speed to 30%
+    controls
+        .bindDriver("leftTrigger", "help me sam")
+        .whileTrue(
+            swerve.applyRequest(
+                () ->
+                    drive
+                        .withVelocityX(controls.driver.getLeftY() * (MaxSpeed * 0.17))
+                        .withVelocityY(controls.driver.getLeftX() * (MaxSpeed * 0.17))
+                        .withRotationalRate(-controls.driver.getRightX() * (1.3 * 0.2 * Math.PI))));
+
+    // Reset robot heading on button press
+    controls
+        .bindDriver("y", "Seed field relative")
+        .onTrue(swerve.runOnce(() -> swerve.seedFieldRelative()));
+
+    // Azimuth angle bindings. isRed == true for red alliance presets. isRed != true
+    // for blue.
+    if (DriverStation.getAlliance().orElse(Alliance.Blue).equals(Alliance.Red)) {
+      controls
+          .bindDriver("rightBumper", "no idea")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSourceRed)));
+      controls
+          .bindDriver("a", "no idea")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziAmpRed)));
+      controls
+          .bindDriver("povRight", "no idea")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziFeederRed)));
+    } else {
+      controls
+          .bindDriver("rightBumper", "no idea")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSourceBlue)));
+      controls
+          .bindDriver("a", "no idea")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziAmpBlue)));
+      controls
+          .bindDriver("povRight", "no idea")
+          .whileTrue(
+              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziFeederBlue)));
+    }
+
+    // Universal azimuth bindings
+    controls
+        .bindDriver("leftBumper", "no idea")
+        .whileTrue(
+            swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferFront)));
+    controls
+        .bindDriver("povDownLeft", "no idea")
+        .whileTrue(
+            swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferLeft)));
+    controls
+        .bindDriver("povDownRight", "no idea")
+        .whileTrue(
+            swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferRight)));
+    controls
+        .bindDriver("povDown", "no idea")
+        .whileTrue(swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziCleanUp)));
+
+    if (Utils.isSimulation()) {
+      swerve.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+    }
+    swerve.registerTelemetry(swerveTelemetry::telemeterize);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

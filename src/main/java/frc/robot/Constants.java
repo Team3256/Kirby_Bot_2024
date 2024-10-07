@@ -19,6 +19,11 @@ public final class Constants {
   public static class ControllerConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
+
+    public static class DriverConstants {
+      public static final double kStickDeadband = 0.1;
+      public static final double kRotationalDeadband = 0.12;
+    }
   }
 
   // Naming scheme for FeatureFlags:
