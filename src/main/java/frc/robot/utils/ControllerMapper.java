@@ -15,8 +15,8 @@ import java.util.Map;
 import org.littletonrobotics.junction.Logger;
 
 public class ControllerMapper {
-  private CommandXboxController driver;
-  private CommandXboxController operator;
+  public CommandXboxController driver;
+  public CommandXboxController operator;
 
   public Map<String, Map<String, String>> buttonMap = new HashMap<>();
 
@@ -75,6 +75,22 @@ public class ControllerMapper {
         return controller.leftTrigger();
       case "rightTrigger":
         return controller.rightTrigger();
+      case "povUp":
+        return controller.povUp();
+      case "povDown":
+        return controller.povDown();
+      case "povDownRight":
+        return controller.povDownRight();
+      case "povDownLeft":
+        return controller.povDownLeft();
+      case "povUpRight":
+        return controller.povUpRight();
+      case "povUpLeft":
+        return controller.povUpLeft();
+      case "povLeft":
+        return controller.povLeft();
+      case "povRight":
+        return controller.povRight();
       default:
         return null;
     }

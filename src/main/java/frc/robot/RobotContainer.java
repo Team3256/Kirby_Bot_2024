@@ -102,13 +102,11 @@ public class RobotContainer {
   // vision);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(ControllerConstants.kDriverControllerPort);
-  private final CommandXboxController m_operatorController =
-      new CommandXboxController(ControllerConstants.kOperatorControllerPort);
 
   private final ControllerMapper controls =
-      new ControllerMapper(m_driverController, m_operatorController);
+      new ControllerMapper(
+          new CommandXboxController(ControllerConstants.kDriverControllerPort),
+          new CommandXboxController(ControllerConstants.kOperatorControllerPort));
 
   private final AutoRoutines autoRoutines = new AutoRoutines(swerve);
 
@@ -185,86 +183,86 @@ public class RobotContainer {
         swerve.applyRequest(
             () ->
                 drive
-                    .withVelocityX(m_driverController.getLeftY() * MaxSpeed) // Drive -y is forward
-                    .withVelocityY(m_driverController.getLeftX() * MaxSpeed) // Drive -x is left
-                    .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate)));
+                    .withVelocityX(controls.driver.getLeftY() * MaxSpeed) // Drive -y is forward
+                    .withVelocityY(controls.driver.getLeftX() * MaxSpeed) // Drive -x is left
+                    .withRotationalRate(-controls.driver.getRightX() * MaxAngularRate)));
 
     /*
      * Right stick absolute angle mode on trigger hold,
      * robot adjusts heading to the angle right joystick creates
      */
-    m_driverController
-        .rightTrigger()
+    controls
+        .bindDriver("rightTrigger", "No idea")
         .whileTrue(
             swerve.applyRequest(
                 () ->
                     drive
                         .withVelocityX(
-                            -m_driverController.getLeftY() * MaxSpeed) // Drive -y is forward
-                        .withVelocityY(
-                            -m_driverController.getLeftX() * MaxSpeed) // Drive -x is left
-                        .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate)));
+                            -controls.driver.getLeftY() * MaxSpeed) // Drive -y is forward
+                        .withVelocityY(-controls.driver.getLeftX() * MaxSpeed) // Drive -x is left
+                        .withRotationalRate(-controls.driver.getRightX() * MaxAngularRate)));
 
     // Slows translational and rotational speed to 30%
-    m_driverController
-        .leftTrigger()
+    controls
+        .bindDriver("leftTrigger", "help me sam")
         .whileTrue(
             swerve.applyRequest(
                 () ->
                     drive
-                        .withVelocityX(m_driverController.getLeftY() * (MaxSpeed * 0.17))
-                        .withVelocityY(m_driverController.getLeftX() * (MaxSpeed * 0.17))
-                        .withRotationalRate(
-                            -m_driverController.getRightX() * (1.3 * 0.2 * Math.PI))));
+                        .withVelocityX(controls.driver.getLeftY() * (MaxSpeed * 0.17))
+                        .withVelocityY(controls.driver.getLeftX() * (MaxSpeed * 0.17))
+                        .withRotationalRate(-controls.driver.getRightX() * (1.3 * 0.2 * Math.PI))));
 
     // Reset robot heading on button press
-    m_driverController.y().onTrue(swerve.runOnce(() -> swerve.seedFieldRelative()));
+    controls
+        .bindDriver("y", "Seed field relative")
+        .onTrue(swerve.runOnce(() -> swerve.seedFieldRelative()));
 
     // Azimuth angle bindings. isRed == true for red alliance presets. isRed != true
     // for blue.
     if (DriverStation.getAlliance().orElse(Alliance.Blue).equals(Alliance.Red)) {
-      m_driverController
-          .rightBumper()
+      controls
+          .bindDriver("rightBumper", "no idea")
           .whileTrue(
               swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSourceRed)));
-      m_driverController
-          .a()
+      controls
+          .bindDriver("a", "no idea")
           .whileTrue(
               swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziAmpRed)));
-      m_driverController
-          .povRight()
+      controls
+          .bindDriver("povRight", "no idea")
           .whileTrue(
               swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziFeederRed)));
     } else {
-      m_driverController
-          .rightBumper()
+      controls
+          .bindDriver("rightBumper", "no idea")
           .whileTrue(
               swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSourceBlue)));
-      m_driverController
-          .a()
+      controls
+          .bindDriver("a", "no idea")
           .whileTrue(
               swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziAmpBlue)));
-      m_driverController
-          .povRight()
+      controls
+          .bindDriver("povRight", "no idea")
           .whileTrue(
               swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziFeederBlue)));
     }
 
     // Universal azimuth bindings
-    m_driverController
-        .leftBumper()
+    controls
+        .bindDriver("leftBumper", "no idea")
         .whileTrue(
             swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferFront)));
-    m_driverController
-        .povDownLeft()
+    controls
+        .bindDriver("povDownLeft", "no idea")
         .whileTrue(
             swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferLeft)));
-    m_driverController
-        .povDownRight()
+    controls
+        .bindDriver("povDownRight", "no idea")
         .whileTrue(
             swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferRight)));
-    m_driverController
-        .povDown()
+    controls
+        .bindDriver("povDown", "no idea")
         .whileTrue(swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziCleanUp)));
 
     if (Utils.isSimulation()) {
