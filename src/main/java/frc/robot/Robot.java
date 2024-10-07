@@ -39,7 +39,14 @@ public class Robot extends LoggedRobot implements Logged {
    */
   @Override
   public void robotInit() {
-    // AdvantageKit >>
+    configureAdvantageKit();
+    configureMonologue();
+    // Instantiate our RobotContainer. This will perform all our button bindings,
+    // and put our autonomous chooser on the dashboard.
+    m_robotContainer = new RobotContainer();
+  }
+
+  private void configureAdvantageKit() {
     if (isReal()) {
       if (Constants.Logging.kLogToUSB) {
         // Note: By default, the WPILOGWriter class writes to a USB stick (at the path
@@ -103,8 +110,9 @@ public class Robot extends LoggedRobot implements Logged {
     Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
     Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
     Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
-    // << AdvantageKit
-    // Monologue >>
+  }
+
+  private void configureMonologue() {
     if (Constants.FeatureFlags.kMonologueEnabled) {
       Monologue.setupMonologue(
           this,
@@ -112,11 +120,6 @@ public class Robot extends LoggedRobot implements Logged {
           Constants.Logging.kMonologueFileOnly,
           Constants.Logging.kMonologueFileOnly);
     }
-    // << Monologue
-    // Instantiate our RobotContainer. This will perform all our button bindings,
-    // and put our
-    // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
   }
 
   /**
