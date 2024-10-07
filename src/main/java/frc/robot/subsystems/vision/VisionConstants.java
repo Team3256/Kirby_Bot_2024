@@ -12,8 +12,8 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public final class VisionConstants {
-  public static final String noteDetectionLimelight = "limelight-note";
-  public static final String centerLimelight = "limelight-speaker";
+  public static final String ampevatorLimelight = "limelight-note";
+  public static final String turretLimelight = "limelight-speaker";
 
   public static final double noteLimelightAngleDegrees = -29; // old -20.827
   public static final double noteLimelightHeightInches = 21; // TODO: idk tune

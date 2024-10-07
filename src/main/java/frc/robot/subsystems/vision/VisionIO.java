@@ -13,11 +13,13 @@ public interface VisionIO {
 
   @AutoLog
   public static class VisionIOInputs {
-    public double noteLimelightX = 0.0;
-    public double noteLimelightY = 0.0;
+    public double ampevatorLimelightX = 0.0;
+    public double ampevatorLimelightY = 0.0;
 
-    public double centerLimelightX = 0.0;
-    public double centerLimelightY = 0.0;
+    public double turretLimelightX = 0.0;
+    public double turretLimelightY = 0.0;
+
+    public boolean turretLimelightConnected = false;
   }
 
   public default void updateInputs(VisionIOInputs inputs) {}
