@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.utils.LimelightHelpers;
 import java.util.function.Supplier;
@@ -159,6 +160,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   }
 
   public void updateVision() {
+    if (!Constants.FeatureFlags.kVisionEnabled) {
+      return;
+    }
     boolean useMegaTag2 = true; // set to false to use MegaTag1
     boolean doRejectUpdate = false;
     if (useMegaTag2 == false) {
@@ -322,21 +326,21 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     m_simNotifier.startPeriodic(kSimLoopPeriod);
   }
 
-  //  public Command runChoreoTraj(ChoreoTrajectory trajectory) {
-  //    return Choreo.choreoSwerveCommand(
-  //        trajectory,
-  //        () -> (this.getState().Pose),
-  //        SwerveConstants.choreoTranslationController,
-  //        SwerveConstants.choreoTranslationController,
-  //        SwerveConstants.choreoRotationController,
-  //        ((ChassisSpeeds speeds) ->
-  //            this.setControl(new SwerveRequest.ApplyChassisSpeeds().withSpeeds(speeds))),
-  //        () -> {
-  //          Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
-  //          return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
-  //        },
-  //        this);
-  //  }
+  // public Command runChoreoTraj(ChoreoTrajectory trajectory) {
+  // return Choreo.choreoSwerveCommand(
+  // trajectory,
+  // () -> (this.getState().Pose),
+  // SwerveConstants.choreoTranslationController,
+  // SwerveConstants.choreoTranslationController,
+  // SwerveConstants.choreoRotationController,
+  // ((ChassisSpeeds speeds) ->
+  // this.setControl(new SwerveRequest.ApplyChassisSpeeds().withSpeeds(speeds))),
+  // () -> {
+  // Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
+  // return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
+  // },
+  // this);
+  // }
 
   /*
    * This method comes from 1690's <a
@@ -439,5 +443,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
               });
       updateVision();
     }
+    org.littletonrobotics.junction.Logger.recordOutput("Pose2d", this.getState().Pose);
   }
 }

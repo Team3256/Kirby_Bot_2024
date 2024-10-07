@@ -19,6 +19,11 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
+
+    public static class DriverConstants {
+      public static final double kStickDeadband = 0.1;
+      public static final double kRotationalDeadband = 0.12;
+    }
   }
 
   // Naming scheme for FeatureFlags:
@@ -41,6 +46,8 @@ public final class Constants {
     public static final boolean kMonologueEnabled = true;
     // If true, the LoggedTunableNumber will work and do TunableNumber things
     public static final boolean kTuningModeEnabled = false;
+    // Simulation visualization
+    public static final boolean kSimVizEnabled = true;
 
     public static final boolean kSwerveEnabled = true;
     public static final boolean kClimbEnabled = true;
@@ -51,6 +58,7 @@ public final class Constants {
     public static final boolean kAmpevatorEnabled = true;
     public static final boolean kAmpevatorRollersEnabled = true;
     public static final boolean kSpindexEnabled = true;
+    public static final boolean kVisionEnabled = false;
   }
 
   public static class Logging {
