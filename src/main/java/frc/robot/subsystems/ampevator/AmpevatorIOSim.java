@@ -30,7 +30,7 @@ public class AmpevatorIOSim extends AmpevatorIOTalonFX {
           true,
           AmpevatorConstants.sim.startingHeight);
 
-  private TalonFXSimState ampevatorSimState;
+  private final TalonFXSimState ampevatorSimState;
 
   public AmpevatorIOSim() {
     super();
@@ -40,17 +40,19 @@ public class AmpevatorIOSim extends AmpevatorIOTalonFX {
 
   @Override
   public void updateInputs(AmpevatorIOInputs inputs) {
-    ampevatorSimState = super.getMotor().getSimState();
+    super.updateInputs(inputs);
+
     ampevatorSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
+
     ampevatorSimModel.setInputVoltage(ampevatorSimState.getMotorVoltage());
     ampevatorSimModel.update(LoggedRobot.defaultPeriodSecs);
     ampevatorSimState.setRawRotorPosition(
         ampevatorSimModel.getPositionMeters() * AmpevatorConstants.sim.simGearing);
     ampevatorSimState.setRotorVelocity(
         ampevatorSimModel.getVelocityMetersPerSecond() * AmpevatorConstants.sim.simGearing);
+
     RoboRioSim.setVInVoltage(
         BatterySim.calculateDefaultBatteryLoadedVoltage(ampevatorSimModel.getCurrentDrawAmps()));
-    super.updateInputs(inputs);
 
     SimMechs.updateAmpevator(ampevatorSimModel.getPositionMeters());
   }
