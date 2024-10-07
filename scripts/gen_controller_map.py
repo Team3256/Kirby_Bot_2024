@@ -9,7 +9,8 @@ ALIASES = {
     "leftBumper": "lb",
     "rightBumper": "rb",
 }
-controller_map = json.loads('{"driver":{"b":"exampleMethodCommand"},"operator":{}}')
+
+controller_map = json.loads((Path(__file__).parent / "map.json").read_text())
 driver = controller_map["driver"].items()
 operator = controller_map["operator"].items()
 

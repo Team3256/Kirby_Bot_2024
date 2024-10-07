@@ -10,9 +10,12 @@ package frc.robot.utils;
 import com.google.gson.Gson;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import org.littletonrobotics.junction.Logger;
 
 public class ControllerMapper {
   public CommandXboxController driver;
@@ -97,7 +100,14 @@ public class ControllerMapper {
   }
 
   public void dumpControllerMap() {
-    Logger.recordOutput("controllerMap", getControllerMap());
+    // Logger.recordOutput("controllerMap", getControllerMap());
+    try {
+      Files.write(
+          Paths.get("./scripts/map.json"), getControllerMap().getBytes(StandardCharsets.UTF_8));
+      System.out.println("File written successfully!");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public String getControllerMap() {
