@@ -57,7 +57,9 @@ public class Intake
   public void periodic() {
     super.periodic();
     intakeIO.updateInputs(intakeIOAutoLogged);
+    beamBreakIO.updateInputs(beamBreakIOAutoLogged);
     Logger.processInputs(this.getClass().getSimpleName(), intakeIOAutoLogged);
+    Logger.processInputs(this.getClass().getSimpleName(), beamBreakIOAutoLogged);
   }
 
   public Command setVoltage(double voltage) {

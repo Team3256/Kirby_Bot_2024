@@ -58,7 +58,9 @@ public class Roller extends DisableSubsystem {
   public void periodic() {
     super.periodic();
     rollerIO.updateInputs(rollerIOAutoLogged);
+    beamBreakIO.updateInputs(beamBreakIOAutoLogged);
     Logger.processInputs(this.getClass().getSimpleName(), rollerIOAutoLogged);
+    Logger.processInputs(this.getClass().getSimpleName(), beamBreakIOAutoLogged);
   }
 
   public Command setVoltage(double voltage) {

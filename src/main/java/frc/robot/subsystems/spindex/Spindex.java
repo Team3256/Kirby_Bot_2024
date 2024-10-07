@@ -41,7 +41,9 @@ public class Spindex extends DisableSubsystem {
     // This method will be called once per scheduler run
     super.periodic();
     spindexIO.updateInputs(spindexIOAutoLogged);
+    beamBreakIO.updateInputs(beamBreakIOAutoLogged);
     Logger.processInputs(this.getClass().getSimpleName(), spindexIOAutoLogged);
+    Logger.processInputs(this.getClass().getSimpleName(), beamBreakIOAutoLogged);
   }
 
   public Command setSpindexVoltage(double voltage) {
