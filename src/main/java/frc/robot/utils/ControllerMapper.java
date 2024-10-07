@@ -15,8 +15,8 @@ import java.util.Map;
 import org.littletonrobotics.junction.Logger;
 
 public class ControllerMapper {
-  private CommandXboxController driver;
-  private CommandXboxController operator;
+  public CommandXboxController driver;
+  public CommandXboxController operator;
 
   public Map<String, Map<String, String>> buttonMap = new HashMap<>();
 
