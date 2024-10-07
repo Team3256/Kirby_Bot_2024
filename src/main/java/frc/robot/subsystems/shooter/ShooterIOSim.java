@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
-import frc.robot.sim.SimMechs;
+import frc.robot.subsystems.SimViz;
 import org.littletonrobotics.junction.LoggedRobot;
 
 public class ShooterIOSim extends ShooterIOTalonFX {
@@ -60,7 +60,7 @@ public class ShooterIOSim extends ShooterIOTalonFX {
         BatterySim.calculateDefaultBatteryLoadedVoltage(
             leftFlywheelSimModel.getCurrentDrawAmps(), rightFlywheelSimModel.getCurrentDrawAmps()));
     // Update simulation visuals
-    SimMechs.addToShooterFlywheelAngle(
+    SimViz.addToShooterFlywheelAngle(
         Math.toDegrees(leftRps)
             * LoggedRobot.defaultPeriodSecs
             * ShooterConstants.SimulationConstants.kAngularVelocityScalar,

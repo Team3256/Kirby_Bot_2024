@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import frc.robot.sim.SimMechs;
+import frc.robot.subsystems.SimViz;
 import org.littletonrobotics.junction.LoggedRobot;
 
 public class PivotShooterIOSim extends PivotShooterIOTalonFX {
@@ -58,6 +58,6 @@ public class PivotShooterIOSim extends PivotShooterIOTalonFX {
     RoboRioSim.setVInVoltage(
         BatterySim.calculateDefaultBatteryLoadedVoltage(pivotShooterSimModel.getCurrentDrawAmps()));
 
-    SimMechs.updatePivotShooter(Rotation2d.fromRadians(pivotShooterSimModel.getAngleRads()));
+    SimViz.updatePivotShooter(Rotation2d.fromRadians(pivotShooterSimModel.getAngleRads()));
   }
 }

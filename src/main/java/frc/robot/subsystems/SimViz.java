@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-package frc.robot.sim;
+package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
@@ -15,12 +15,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 
-public final class SimMechs {
+public final class SimViz {
 
   public static final Mechanism2d mech = new Mechanism2d(5, 5);
 
   private static final MechanismRoot2d ampevator = mech.getRoot("ampevator", 1, 0);
-
   private static final MechanismLigament2d m_ampevator =
       ampevator.append(new MechanismLigament2d("ampevator", 2, 90));
   private static final MechanismLigament2d m_ampevatorRollers =

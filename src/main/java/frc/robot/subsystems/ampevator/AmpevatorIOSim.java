@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
-import frc.robot.sim.SimMechs;
+import frc.robot.subsystems.SimViz;
 import org.littletonrobotics.junction.LoggedRobot;
 
 public class AmpevatorIOSim extends AmpevatorIOTalonFX {
@@ -54,6 +54,6 @@ public class AmpevatorIOSim extends AmpevatorIOTalonFX {
     RoboRioSim.setVInVoltage(
         BatterySim.calculateDefaultBatteryLoadedVoltage(ampevatorSimModel.getCurrentDrawAmps()));
 
-    SimMechs.updateAmpevator(ampevatorSimModel.getPositionMeters());
+    SimViz.updateAmpevator(ampevatorSimModel.getPositionMeters());
   }
 }
