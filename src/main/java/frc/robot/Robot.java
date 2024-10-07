@@ -40,7 +40,9 @@ public class Robot extends LoggedRobot implements Logged {
   @Override
   public void robotInit() {
     configureAdvantageKit();
-    configureMonologue();
+    if (Constants.FeatureFlags.kMonologueEnabled) {
+      configureMonologue();
+    }
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -113,13 +115,11 @@ public class Robot extends LoggedRobot implements Logged {
   }
 
   private void configureMonologue() {
-    if (Constants.FeatureFlags.kMonologueEnabled) {
-      Monologue.setupMonologue(
-          this,
-          "MonologueRobot",
-          Constants.Logging.kMonologueFileOnly,
-          Constants.Logging.kMonologueFileOnly);
-    }
+    Monologue.setupMonologue(
+        this,
+        "MonologueRobot",
+        Constants.Logging.kMonologueFileOnly,
+        Constants.Logging.kMonologueFileOnly);
   }
 
   /**

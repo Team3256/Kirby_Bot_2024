@@ -18,6 +18,23 @@ The dependencies we use are (besides [WPILib](https://docs.wpilib.org/en/stable/
 
 Other than the typical FRC code structure scaffold, we also have GitHub Actions and some scripts to help with deployment.
 
+### Constants file and feature flags
+
+I'm a bit pendantic about this because I care about consistence (I don't have OCD I swear) so here's the structure:
+
+- We have our subsystem-specific constants (`SubsystemConstants.java`) and configs decentralized. This includes
+  - Motor configs (e.g. gain values and current limits)
+  - Subsystem characteristics (for physics simulation and gear ratios)
+  - Position/velocity presets
+  - `kUse___` = enables/disables a specific feature in the subsystem
+- We have our feature flags and otherwise global constants (e.g. logging and controller constants) in the `Constants.java` file
+  - `k___Enabled` = enables/disables a subsystem
+  - Enabling features of a single subsystem should be within the decentralized subsystem constants file (unless it is a feature that spans across multiple subsystems)
+- Don't write feature flags for things that you could just straight up not use. Feature flags is the non-scuffed way of "temporarily disabling this code by commenting it out"
+  - If you ever find yourself needing to comment some code out, consider creating a feature flag
+- Have the feature flag-checking logic outside of your function (or, if it's a subsystem, passed in as a boolean value of `enabled` for that subsystem's `DisabledSubsystem` constructor)
+
+
 ## How to
 
 ### ...start developing??
