@@ -38,6 +38,8 @@ public class SwerveTelemetry {
   private final DoubleArrayPublisher fieldPub = table.getDoubleArrayTopic("robotPose").publish();
   private final StringPublisher fieldTypePub = table.getStringTopic(".type").publish();
 
+  StructPublisher<Pose2d> posePub = inst.getStructTopic("SkibidiPose", Pose2d.struct).publish();
+
   /* Robot speeds for general checking */
   private final NetworkTable driveStats = inst.getTable("Drive");
   private final DoublePublisher velocityX = driveStats.getDoubleTopic("Velocity X").publish();
@@ -93,6 +95,7 @@ public class SwerveTelemetry {
     Pose2d pose = state.Pose;
     fieldTypePub.set("Field2d");
     fieldPub.set(new double[] {pose.getX(), pose.getY(), pose.getRotation().getDegrees()});
+    posePub.set(pose);
 
     /* Telemeterize the robot's general speeds */
     double currentTime = Utils.getCurrentTimeSeconds();
