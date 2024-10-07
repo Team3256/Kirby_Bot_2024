@@ -17,14 +17,16 @@ import frc.robot.sim.SimMechs;
 import org.littletonrobotics.junction.LoggedRobot;
 
 public class ShooterIOSim extends ShooterIOTalonFX {
-  private final FlywheelSim leftFlywheelSimModel = new FlywheelSim(
-      ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
-      ShooterConstants.SimulationConstants.kLeftGearingRatio,
-      ShooterConstants.SimulationConstants.kLeftMomentOfInertia);
-  private final FlywheelSim rightFlywheelSimModel = new FlywheelSim(
-      ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
-      ShooterConstants.SimulationConstants.kRightGearingRatio,
-      ShooterConstants.SimulationConstants.kRightMomentOfInertia);
+  private final FlywheelSim leftFlywheelSimModel =
+      new FlywheelSim(
+          ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
+          ShooterConstants.SimulationConstants.kLeftGearingRatio,
+          ShooterConstants.SimulationConstants.kLeftMomentOfInertia);
+  private final FlywheelSim rightFlywheelSimModel =
+      new FlywheelSim(
+          ShooterConstants.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1),
+          ShooterConstants.SimulationConstants.kRightGearingRatio,
+          ShooterConstants.SimulationConstants.kRightMomentOfInertia);
   private final TalonFXSimState shooterMotorSim;
   private final TalonFXSimState shooterFollowerMotorSim;
 
