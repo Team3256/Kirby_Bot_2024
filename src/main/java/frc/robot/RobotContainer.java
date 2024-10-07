@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoRoutines;
 import frc.robot.sim.SimMechs;
 import frc.robot.subsystems.Superstructure;
@@ -44,6 +44,7 @@ import frc.robot.subsystems.swerve.TunerConstants;
 import frc.robot.subsystems.turret.*;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
+import frc.robot.utils.ControllerMapper;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -100,9 +101,12 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+      new CommandXboxController(ControllerConstants.kDriverControllerPort);
   private final CommandXboxController m_operatorController =
-      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+      new CommandXboxController(ControllerConstants.kOperatorControllerPort);
+
+  private final ControllerMapper controls =
+      new ControllerMapper(m_driverController, m_operatorController);
 
   private final AutoRoutines autoRoutines = new AutoRoutines(swerve);
 
@@ -133,10 +137,21 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
-    m_driverController.b().whileTrue(shooter.setVelocity(100, 100));
-    m_driverController.x().onTrue(pivotShooter.setPosition(100));
-    m_driverController.y().onTrue(pivotShooter.setPosition(-100));
+    controls.bindDriver("b", "Rev Shooter").whileTrue(shooter.setVelocity(100, 100));
+    controls
+        .bindDriver("x", "Set pivot shooter position 100")
+        .onTrue(pivotShooter.setPosition(100));
+    controls
+        .bindDriver("y", "Set pivot shooter position -100")
+        .onTrue(pivotShooter.setPosition(-100));
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
+    // pressed,
+    // cancelling on release.
+    // This should be at the end of the configureBindings method.
+    // No other bindings should be added after this line.
+    if (Constants.FeatureFlags.kControllerMapEnabled) {
+      controls.dumpControllerMap();
+    }
   }
 
   private void configureAutoChooser() {

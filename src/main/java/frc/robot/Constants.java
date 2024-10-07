@@ -16,7 +16,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static class OperatorConstants {
+  public static class ControllerConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
   }
@@ -41,6 +41,8 @@ public final class Constants {
     public static final boolean kMonologueEnabled = true;
     // If true, the LoggedTunableNumber will work and do TunableNumber things
     public static final boolean kTuningModeEnabled = false;
+    // Toggle whether or not the controller map should dump
+    public static final boolean kControllerMapEnabled = true;
 
     public static final boolean kSwerveEnabled = true;
     public static final boolean kClimbEnabled = true;
