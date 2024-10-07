@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-package frc.robot.subsystems.spindex;
+package frc.robot.subsystems;
 
 import org.littletonrobotics.junction.AutoLog;
 

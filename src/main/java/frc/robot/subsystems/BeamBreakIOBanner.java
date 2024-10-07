@@ -5,12 +5,16 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-package frc.robot.subsystems.spindex;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class BeamBreakIOBanner implements BeamBreakIO {
-  private final DigitalInput beamBreak = new DigitalInput(SpindexConstants.beambreakID);
+  private final DigitalInput beamBreak;
+
+  public BeamBreakIOBanner(int beambreakID) {
+    beamBreak = new DigitalInput(beambreakID);
+  }
 
   @Override
   public void updateInputs(BeamBreakIOInputs inputs) {

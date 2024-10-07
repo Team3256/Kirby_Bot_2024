@@ -8,6 +8,8 @@
 package frc.robot.subsystems.spindex;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.BeamBreakIO;
+import frc.robot.subsystems.BeamBreakIOInputsAutoLogged;
 import frc.robot.utils.DisableSubsystem;
 import org.littletonrobotics.junction.Logger;
 

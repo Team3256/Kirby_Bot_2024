@@ -14,7 +14,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 public class SpindexConstants {
   public static final int spindexMotorID = 0;
   public static final double spindexMotorSpeedRPS = 0.8;
-  public static final int beambreakID = 1;
   public static TalonFXConfiguration motorConfigs =
       new TalonFXConfiguration() // TODO: tune
           .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))
@@ -35,4 +34,5 @@ public class SpindexConstants {
   public static int flashConfigRetries = 5;
   public static double updateFrequency = 50; // idk if this is right
   public static boolean useMotionMagic = false;
+  public static int kSpindexBeamBreakDIO = 1;
 }
