@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.ampevator;
 
+import com.ctre.phoenix6.hardware.TalonFX;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface AmpevatorIO {
@@ -30,4 +31,8 @@ public interface AmpevatorIO {
   public default void off() {}
 
   public default void zero() {}
+
+  public default TalonFX getMotor() {
+    return new TalonFX(0);
+  }
 }

@@ -12,11 +12,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ampevator.Ampevator;
+import frc.robot.subsystems.ampevatorrollers.Roller;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.pivotshooter.PivotShooter;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.spindex.Spindex;
+import frc.robot.subsystems.turret.Turret;
 import frc.robot.subsystems.vision.Vision;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,11 +41,13 @@ public class Superstructure {
   }
 
   private final Ampevator ampevator;
+  private final Roller roller;
   private final Spindex spindex;
   private final Climb climb;
   private final Intake intake;
   private final PivotShooter pivotShooter;
   private final Shooter shooter;
+  private final Turret turret;
   private final Vision vision;
 
   private StructureState state = StructureState.IDLE;
@@ -55,12 +59,16 @@ public class Superstructure {
 
   public Superstructure(
       Ampevator ampevator,
+      Roller roller,
+      Turret turret,
       Climb climb,
       Intake intake,
       Spindex spindex,
       PivotShooter pivotShooter,
       Shooter shooter,
       Vision vision) {
+    this.turret = turret;
+    this.roller = roller;
     this.ampevator = ampevator;
     this.climb = climb;
     this.intake = intake;
@@ -81,6 +89,7 @@ public class Superstructure {
   public void configStateTransitions() {
     stateTriggers
         .get(StructureState.IDLE)
+        .onTrue(roller.off())
         .onTrue(ampevator.off())
         .onTrue(climb.off())
         .onTrue(intake.off())
