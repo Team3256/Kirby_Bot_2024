@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.NT4PublisherNoFMS;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
 import monologue.Logged;
 import monologue.Monologue;
 import org.littletonrobotics.junction.LogFileUtil;
@@ -46,6 +49,33 @@ public class Robot extends LoggedRobot implements Logged {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    Map<String, Integer> commandCounts = new HashMap<>();
+    BiConsumer<Command, Boolean> logCommandFunction =
+        (Command command, Boolean active) -> {
+          String name = command.getName();
+          int count = commandCounts.getOrDefault(name, 0) + (active ? 1 : -1);
+          commandCounts.put(name, count);
+
+          Logger.recordOutput(
+              "CommandsUnique/" + name + "_" + Integer.toHexString(command.hashCode()), active);
+          Logger.recordOutput("CommandsAll/" + name, count > 0);
+        };
+    CommandScheduler.getInstance()
+        .onCommandInitialize(
+            (Command command) -> {
+              logCommandFunction.accept(command, true);
+            });
+    CommandScheduler.getInstance()
+        .onCommandFinish(
+            (Command command) -> {
+              logCommandFunction.accept(command, false);
+            });
+    CommandScheduler.getInstance()
+        .onCommandInterrupt(
+            (Command command) -> {
+              logCommandFunction.accept(command, false);
+            });
   }
 
   private void configureAdvantageKit() {
@@ -96,6 +126,12 @@ public class Robot extends LoggedRobot implements Logged {
     // CAN motor controllers are limited by the rate of their CAN frames, so the
     // extra precision on the RIO is insignificant in most cases.
 
+    Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME); // Set a metadata value
+    Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
+    Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
+    Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
+    Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
+
     if (Constants.FeatureFlags.kAdvKitEnabled) {
       // Start logging! No more data receivers, replay sources, or metadata values may
       // be added.
@@ -107,11 +143,7 @@ public class Robot extends LoggedRobot implements Logged {
     // deployed code on the robot
     // It's also recommended ala
     // https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/INSTALLATION.md#gversion-plugin-git-metadata
-    Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME); // Set a metadata value
-    Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
-    Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
-    Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
-    Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
+
   }
 
   private void configureMonologue() {
@@ -152,6 +184,7 @@ public class Robot extends LoggedRobot implements Logged {
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
+
     CommandScheduler.getInstance().run();
   }
 
