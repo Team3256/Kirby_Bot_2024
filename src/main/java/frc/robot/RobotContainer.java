@@ -50,6 +50,7 @@ import frc.robot.subsystems.turret.*;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.utils.MappedXboxController;
+import frc.robot.utils.NamedCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -151,7 +152,12 @@ public class RobotContainer {
   private void configureBindings() {
     m_driverController.b("shoot").whileTrue(shooter.setVelocity(100, 100));
     m_driverController.x("pivot shooter wow").onTrue(pivotShooter.setPosition(100));
-    m_driverController.y("pivot shooter wow 2").onTrue(pivotShooter.setPosition(-100));
+    m_driverController
+        .y("pivot shooter wow 2")
+        .onTrue(
+            NamedCommands.parallel(
+                pivotShooter.setPosition(-100).withName("hi test"),
+                shooter.setVelocity(100, 100).withName("test 2")));
   }
 
   private void configureAutoChooser() {
