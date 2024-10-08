@@ -273,6 +273,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
+    // return shooter.setVelocity(90, 90);
     return autoChooser.getSelectedAutoRoutine();
   }
 
