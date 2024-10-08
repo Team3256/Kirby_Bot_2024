@@ -1,6 +1,6 @@
 # Kirby_Bot_2024
 
-A cute pink circular turret bot, competing at CalGames 2024. 
+A cute pink circular turret bot, competing at Madtown Throwdown 2024. 
 
 ## Code structure
 
@@ -13,10 +13,11 @@ The dependencies we use are (besides [WPILib](https://docs.wpilib.org/en/stable/
 - [Phoenix 6](https://api.ctr-electronics.com/phoenix6/release/java/) & [5](https://api.ctr-electronics.com/phoenix/release/java/) (for the [CANdle](https://api.ctr-electronics.com/phoenix/release/java/com/ctre/phoenix/led/CANdle.html)): library for interfacing with CTRE hardware
   - [CTRE generated swerve](https://v6.docs.ctr-electronics.com/en/latest/docs/tuner/tuner-swerve/index.html)
 - [Choreo](https://github.com/SleipnirGroup/Choreo): optimized auto path, generated ahead of time
-- [Pathplanner](https://pathplanner.dev/home.html): auto path composition & dynamic path generation
+- [Pathplanner](https://pathplanner.dev/home.html): dynamic path generation
 - ..and [Limelight](https://limelightvision.io/)'s [single-file library](https://github.com/LimelightVision/limelightlib-wpijava)
 
 Other than the typical FRC code structure scaffold, we also have GitHub Actions and some scripts to help with deployment.
+
 
 ### Constants file and feature flags
 
@@ -37,6 +38,9 @@ I'm a bit pendantic about this because I care about consistence (I don't have OC
 
 ## How to
 
+
+
+
 ### ...start developing??
 
 ```shell
@@ -50,6 +54,9 @@ cd Kirby_Bot_2024
 # or, if you want to simulate teh code
 ./gradlew simulateJava
 ```
+
+
+Gradle build will automatically run checkers to make sure there are no null pointers within robot container that could cause the robot code to crash when deployed on the robot but it isn't fool-proof so you should still simulate changes to make sure the code doesn't crash. 
 
 ### ...run the formatter?
 
@@ -69,9 +76,15 @@ python scripts/gen_controller_map.py
 open scripts/index.html
 ```
 
-After installing
+### Developing during comp
+
+Ideally, you're not making any changes during comp but just in case...
+Branch off main (or the most recent working development branch) and name the branch "event/(the event name)". This will ensure that a commit is created whenever robot code is deployed. After any changes, try simulating and going into both auto and teleOP to make sure nothing crashes. Once you deploy make sure you run either a systems check or if you do not have time check the driver station to make sure the robot code has at least booted up. 
+
 
 ## Style guide
+
+Check out the WB software manual for some styling stuff: https://docs.google.com/document/d/1stGoEnXgRHY7ff4rGbEselquu_KpRetePAEhrPY2oH0/edit
 
 We use Spotless for formatting (run `./gradlew spotlessApply`) and follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
