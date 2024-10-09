@@ -114,9 +114,9 @@ public class RobotContainer {
           vision);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final MappedXboxController m_driverController =
+  public final MappedXboxController m_driverController =
       new MappedXboxController(ControllerConstants.kDriverControllerPort, "driver");
-  private final MappedXboxController m_operatorController =
+  public final MappedXboxController m_operatorController =
       new MappedXboxController(ControllerConstants.kOperatorControllerPort, "operator");
 
   private final AutoRoutines autoRoutines = new AutoRoutines(swerve);
@@ -135,9 +135,6 @@ public class RobotContainer {
     SimMechs.init();
 
     // No other bindings should be added after this line.
-    if (Constants.FeatureFlags.kControllerMapEnabled) {
-      MappedXboxController.dumpControllerMap(m_driverController, m_operatorController);
-    }
   }
 
   /**
@@ -151,9 +148,9 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_driverController.b("shoot").whileTrue(shooter.setVelocity(100, 100));
-    m_driverController.x("pivot shooter wow").onTrue(pivotShooter.setPosition(100));
+    m_driverController.x("pivot shooter no").onTrue(pivotShooter.setPosition(100));
     m_driverController
-        .y("pivot shooter wow 2")
+        .y("pivot shooter wow heheheh")
         .onTrue(
             NamedCommands.parallel(
                 pivotShooter.setPosition(-100).withName("hi test"),
