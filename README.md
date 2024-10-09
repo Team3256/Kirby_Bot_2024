@@ -67,9 +67,8 @@ Gradle build will automatically run checkers to make sure there are no null poin
 ## ...generate controller maps?
 
 ```shell
-./gradlew spotlessApply
-# Go to NetworkTables > NetworkTables View > Transitory Values >
-# /AdvantageKit/RealOutputs/controllerMap 
+./gradlew simulateJava
+# Running simulateJava will dump the controller map onto a file. Quit it right after the program starts
 python scripts/gen_controller_map.py
 # Now, open the index.html
 # (`open` is a macOS-only command)
