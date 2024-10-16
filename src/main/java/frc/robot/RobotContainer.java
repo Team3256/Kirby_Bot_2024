@@ -155,6 +155,13 @@ public class RobotContainer {
             NamedCommands.parallel(
                 pivotShooter.setPosition(-100).withName("hi test"),
                 shooter.setVelocity(100, 100).withName("test 2")));
+
+    m_operatorController
+        .rightStick("Turret")
+        .whileTrue(
+            turret.setPositionFieldRelative(
+                new Rotation2d(m_operatorController.getLeftX(), m_operatorController.getLeftY()),
+                swerve));
   }
 
   private void configureAutoChooser() {
