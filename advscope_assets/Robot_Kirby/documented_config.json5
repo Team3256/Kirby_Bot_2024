@@ -1,0 +1,30 @@
+{
+	"name": "Kirby",
+	// "sourceUrl": string // Link to the original file, optional
+	// Sequence of rotations along the x, y, and z axes
+	"rotations": [
+		{
+			"axis": "x",
+			"degrees": 90
+		},
+		{
+			"axis": "z",
+			"degrees": 90
+		}
+	],
+	// Position offset in meters, applied after rotation
+	"position": [0, 0, 0],
+
+	"cameras": [
+		// Fixed camera positions, can be empty
+		// {
+		//   "name": string // Camera name
+		//   "rotations": { "axis": "x" | "y" | "z", "degrees": number }[] // Sequence of rotations along the x, y, and z axes
+		//   "position": [number, number, number] // Position offset in meters relative to the robot, applied after rotation
+		//   "resolution": [number, number] // Resolution in pixels, used to set the fixed aspect ratio
+		//   "fov": number // Horizontal field of view in degrees
+		// }
+	]
+	// Not going to implement articulated components for now
+	// "components": [...] // See "Articulated Components"
+}
