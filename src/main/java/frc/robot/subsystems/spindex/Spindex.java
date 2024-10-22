@@ -8,6 +8,7 @@
 package frc.robot.subsystems.spindex;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.BeamBreakIO;
 import frc.robot.subsystems.BeamBreakIOInputsAutoLogged;
 import frc.robot.utils.DisableSubsystem;
@@ -29,11 +30,17 @@ public class Spindex extends DisableSubsystem {
   private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =
       new BeamBreakIOInputsAutoLogged();
 
+  private final ShooterFeederIO shooterFeederIO;
+    private final ShooterFeederIOInputsAutoLogged shooterFeederIOAutoLogged = new ShooterFeederIOInputsAutoLogged();
+
+    public final Trigger debouncedBeamBreak = new Trigger(()->beamBreakIOAutoLogged.beamBroken);
+
   // private beambreak Beambreak = new beamreak(1)
-  public Spindex(boolean disabled, SpindexIO spindexIO, BeamBreakIO beamBreakIO) {
+  public Spindex(boolean disabled, SpindexIO spindexIO, ShooterFeederIO shooterFeeder,BeamBreakIO beamBreakIO) {
     super(disabled);
     this.spindexIO = spindexIO;
     this.beamBreakIO = beamBreakIO;
+    this.shooterFeederIO = shooterFeeder;
   }
 
   @Override
@@ -47,20 +54,37 @@ public class Spindex extends DisableSubsystem {
   }
 
   public Command setSpindexVoltage(double voltage) {
-    return this.run(() -> spindexIO.setSpindexVoltage(voltage)).finallyDo(() -> spindexIO.off());
+    return this.run(() -> spindexIO.setSpindexVoltage(voltage)).finallyDo(spindexIO::off);
   }
 
   public Command setSpindexVelocity(double velocity) {
-    return this.run(() -> spindexIO.setSpindexVelocity(velocity)).finallyDo(() -> spindexIO.off());
+    return this.run(() -> spindexIO.setSpindexVelocity(velocity)).finallyDo(spindexIO::off);
   }
+
+  public Command setShooterFeederVoltage(double voltage) {
+    return this.run(() -> shooterFeederIO.setFeederVoltage(voltage)).finallyDo(shooterFeederIO::off);
+  }
+
+    public Command setShooterFeederVelocity(double velocity) {
+        return this.run(() -> shooterFeederIO.setFeederVelocity(velocity)).finallyDo(shooterFeederIO::off);
+    }
 
   public Command goToShooter() {
     return setSpindexVelocity(SpindexConstants.spindexMotorSpeedRPS)
-        .until(() -> beamBreakIOAutoLogged.beamBroken)
-        .andThen(this.off());
+        .until(() -> beamBreakIOAutoLogged.beamBroken).finallyDo(spindexIO::off);
+  }
+
+  public Command feedNoteToShooter() {
+    return setShooterFeederVoltage(SpindexConstants.shooterFeederVoltage)
+        .until(() -> beamBreakIOAutoLogged.beamBroken).finallyDo(shooterFeederIO::off);
+  }
+
+  public Command goToAmpevator() {
+    return setSpindexVelocity(-SpindexConstants.spindexMotorSpeedRPS)
+        .until(() -> beamBreakIOAutoLogged.beamBroken).finallyDo(spindexIO::off);
   }
 
   public Command off() {
-    return this.run(() -> spindexIO.off());
+    return this.run(spindexIO::off);
   }
 }

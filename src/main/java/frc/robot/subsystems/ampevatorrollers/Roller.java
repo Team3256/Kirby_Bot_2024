@@ -29,7 +29,7 @@ public class Roller extends DisableSubsystem {
 
   private final SysIdRoutine roller_sysIdRoutine;
 
-  private final Trigger debouncedBeamBreak = new Trigger(this::isBeamBroken).debounce(0.1);
+  public final Trigger debouncedBeamBreak = new Trigger(this::isBeamBroken).debounce(0.1);
   ;
 
   public Roller(boolean disabled, RollerIO rollerIO, BeamBreakIO beamBreakIO) {
@@ -75,10 +75,14 @@ public class Roller extends DisableSubsystem {
     return this.runOnce(rollerIO::off);
   }
 
+  public Command intakeNote() {
+    return this.run(() -> rollerIO.setRollerVoltage(RollerConstants.kRollerIntakeVoltage)).until(debouncedBeamBreak).finallyDo(rollerIO::off);
+  }
+
   public Command outtake() {
-    return this.run(() -> rollerIO.setRollerVoltage(RollerConstants.kRollerRollerVoltage))
+    return this.run(() -> rollerIO.setRollerVoltage(RollerConstants.kRollerOuttakeVoltage))
         .until(debouncedBeamBreak)
-        .andThen(this.off());
+        .finallyDo(rollerIO::off);
   }
 
   public Command rollerSysIdQuasistatic(SysIdRoutine.Direction direction) {

@@ -10,6 +10,7 @@ package frc.robot.subsystems.turret;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.geometry.Rotation2d;
 
 public final class TurretConstants {
 
@@ -30,6 +31,9 @@ public final class TurretConstants {
 
   public static final double kForwardLimit = 69; // TODO: Set limit
   public static final double kReverseLimit = -69; // TODO: Set limit
+
+
+  public static final Rotation2d kSubPreset = Rotation2d.fromRotations(0);
 
   public static final TalonFXConfiguration motorConfigs = // TODO: Set configs
       new TalonFXConfiguration()
