@@ -41,6 +41,7 @@ import frc.robot.subsystems.pivotshooter.PivotShooterIOTalonFX;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOTalonFX;
+import frc.robot.subsystems.spindex.ShooterFeederIOTalonFX;
 import frc.robot.subsystems.spindex.Spindex;
 import frc.robot.subsystems.spindex.SpindexConstants;
 import frc.robot.subsystems.spindex.SpindexIOTalonFX;
@@ -98,6 +99,7 @@ public class RobotContainer {
       new Spindex(
           Constants.FeatureFlags.kSpindexEnabled,
           new SpindexIOTalonFX(),
+          new ShooterFeederIOTalonFX(),
           new BeamBreakIOBanner(SpindexConstants.kSpindexBeamBreakDIO));
   private final Vision vision = new Vision(new VisionIOLimelight());
 

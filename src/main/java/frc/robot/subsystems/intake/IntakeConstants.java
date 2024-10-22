@@ -42,4 +42,5 @@ public final class IntakeConstants {
                   .withStatorCurrentLimitEnable(true)
                   .withStatorCurrentLimit(80));
   public static int flashConfigRetries = 5;
+  public static double kIntakeRedirectVoltage = -2;
 }

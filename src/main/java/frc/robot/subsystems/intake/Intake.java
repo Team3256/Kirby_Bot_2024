@@ -77,7 +77,12 @@ public class Intake
   public Command intakeIn() {
     return this.run(() -> intakeIO.setIntakeVoltage(IntakeConstants.kIntakeIntakeVoltage))
         .until(debouncedBeamBreak)
-        .andThen(this.off());
+        .finallyDo(intakeIO::off);
+  }
+
+  public Command redirectToAmp() {
+    return this.run(() -> intakeIO.setIntakeVoltage(IntakeConstants.kIntakeRedirectVoltage))
+        .finallyDo(intakeIO::off);
   }
 
   public Command intakeSysIdQuasistatic(SysIdRoutine.Direction direction) {

@@ -16,9 +16,12 @@ import frc.robot.subsystems.ampevatorrollers.Roller;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.pivotshooter.PivotShooter;
+import frc.robot.subsystems.pivotshooter.PivotShooterConstants;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.subsystems.spindex.Spindex;
 import frc.robot.subsystems.turret.Turret;
+import frc.robot.subsystems.turret.TurretConstants;
 import frc.robot.subsystems.vision.Vision;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,18 +29,18 @@ import org.littletonrobotics.junction.Logger;
 
 public class Superstructure {
   public static enum StructureState {
+    AUTO,
     IDLE,
-    HOMED,
-    PREINTAKE,
-    INTAKE,
-    PRECLIMB,
-    CLIMB,
-    PRESUB,
-    PREPODIUM,
-    PREFEED,
-    SHOOT,
-    PREAMP,
-    OUTTAKE,
+    HOME,
+    AMP_PREP,
+    AMPING,
+    SUB_PREP,
+    SUBING,
+    FEED_PREP,
+    FEEDING,
+    TRAP_PREP,
+    TRAPPING,
+    POST_TRAP
   }
 
   private final Ampevator ampevator;
@@ -50,8 +53,8 @@ public class Superstructure {
   private final Turret turret;
   private final Vision vision;
 
-  private StructureState state = StructureState.IDLE;
-  private StructureState prevState = StructureState.IDLE;
+  private StructureState state = StructureState.AUTO;
+  private StructureState prevState = StructureState.AUTO;
 
   private Map<StructureState, Trigger> stateTriggers = new HashMap<StructureState, Trigger>();
 
@@ -96,6 +99,48 @@ public class Superstructure {
         .onTrue(spindex.off())
         .onTrue(pivotShooter.off())
         .onTrue(shooter.off());
+
+    stateTriggers
+        .get(StructureState.HOME)
+        .onTrue(roller.off())
+        .onTrue(ampevator.setStowPosition())
+        .onTrue(climb.retractClimber())
+        .onTrue(intake.off())
+        .onTrue(spindex.off())
+        .onTrue(pivotShooter.setPosition(0))
+        .onTrue(shooter.off())
+        .whileTrue(turret.getDefaultCommand());
+
+    stateTriggers
+        .get(StructureState.AMP_PREP)
+        .onTrue(spindex.goToAmpevator().until(roller.debouncedBeamBreak))
+        .onTrue(intake.redirectToAmp().until(roller.debouncedBeamBreak))
+        .onTrue(roller.intakeNote())
+        .and(roller.debouncedBeamBreak)
+        .onTrue(ampevator.setAmpPosition());
+    stateTriggers
+        .get(StructureState.AMPING)
+        .whileTrue(roller.outtake())
+        .and(roller.debouncedBeamBreak)
+        .onTrue(setState(StructureState.HOME));
+    stateTriggers
+        .get(StructureState.SUB_PREP)
+        .onTrue(spindex.goToShooter())
+        .onTrue(
+            pivotShooter.setPosition(
+                PivotShooterConstants.kSubWooferPreset * PivotShooterConstants.kPivotMotorGearing))
+        .onTrue(
+            shooter.setVelocity(
+                ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))
+        .onTrue(turret.setPosition(TurretConstants.kSubPreset));
+    stateTriggers
+        .get(StructureState.SUBING)
+        .onTrue(
+            shooter.setVelocity(
+                ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))
+        .onTrue(spindex.feedNoteToShooter())
+        .and(spindex.debouncedBeamBreak.debounce(1))
+        .onTrue(setState(StructureState.HOME));
   }
 
   // call manually

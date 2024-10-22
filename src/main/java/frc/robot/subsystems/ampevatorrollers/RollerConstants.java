@@ -15,7 +15,7 @@ public final class RollerConstants {
   /* CAN */
   public static final int kRollerMotorID = 33;
 
-  public static final double kRollerRollerVoltage = 12;
+  public static final double kRollerOuttakeVoltage = 12;
 
   // Time of Flight constants
   public static final double kBeamBreakDelayTime = 0;
@@ -42,4 +42,5 @@ public final class RollerConstants {
                   .withStatorCurrentLimitEnable(true)
                   .withStatorCurrentLimit(80));
   public static int flashConfigRetries = 5;
+  public static double kRollerIntakeVoltage = 4;
 }

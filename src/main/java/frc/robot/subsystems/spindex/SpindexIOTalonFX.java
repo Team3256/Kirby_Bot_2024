@@ -29,7 +29,7 @@ public class SpindexIOTalonFX implements SpindexIO {
 
   public SpindexIOTalonFX() {
     PhoenixUtil.applyMotorConfigs(
-        spindexMotor, SpindexConstants.motorConfigs, SpindexConstants.flashConfigRetries);
+        spindexMotor, SpindexConstants.spindexMotorConfigs, SpindexConstants.flashConfigRetries);
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         SpindexConstants.updateFrequency,
