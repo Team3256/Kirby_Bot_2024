@@ -76,7 +76,9 @@ public class Roller extends DisableSubsystem {
   }
 
   public Command intakeNote() {
-    return this.run(() -> rollerIO.setRollerVoltage(RollerConstants.kRollerIntakeVoltage)).until(debouncedBeamBreak).finallyDo(rollerIO::off);
+    return this.run(() -> rollerIO.setRollerVoltage(RollerConstants.kRollerIntakeVoltage))
+        .until(debouncedBeamBreak)
+        .finallyDo(rollerIO::off);
   }
 
   public Command outtake() {

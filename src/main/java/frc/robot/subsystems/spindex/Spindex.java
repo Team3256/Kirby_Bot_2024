@@ -31,12 +31,17 @@ public class Spindex extends DisableSubsystem {
       new BeamBreakIOInputsAutoLogged();
 
   private final ShooterFeederIO shooterFeederIO;
-    private final ShooterFeederIOInputsAutoLogged shooterFeederIOAutoLogged = new ShooterFeederIOInputsAutoLogged();
+  private final ShooterFeederIOInputsAutoLogged shooterFeederIOAutoLogged =
+      new ShooterFeederIOInputsAutoLogged();
 
-    public final Trigger debouncedBeamBreak = new Trigger(()->beamBreakIOAutoLogged.beamBroken);
+  public final Trigger debouncedBeamBreak = new Trigger(() -> beamBreakIOAutoLogged.beamBroken);
 
   // private beambreak Beambreak = new beamreak(1)
-  public Spindex(boolean disabled, SpindexIO spindexIO, ShooterFeederIO shooterFeeder,BeamBreakIO beamBreakIO) {
+  public Spindex(
+      boolean disabled,
+      SpindexIO spindexIO,
+      ShooterFeederIO shooterFeeder,
+      BeamBreakIO beamBreakIO) {
     super(disabled);
     this.spindexIO = spindexIO;
     this.beamBreakIO = beamBreakIO;
@@ -62,26 +67,31 @@ public class Spindex extends DisableSubsystem {
   }
 
   public Command setShooterFeederVoltage(double voltage) {
-    return this.run(() -> shooterFeederIO.setFeederVoltage(voltage)).finallyDo(shooterFeederIO::off);
+    return this.run(() -> shooterFeederIO.setFeederVoltage(voltage))
+        .finallyDo(shooterFeederIO::off);
   }
 
-    public Command setShooterFeederVelocity(double velocity) {
-        return this.run(() -> shooterFeederIO.setFeederVelocity(velocity)).finallyDo(shooterFeederIO::off);
-    }
+  public Command setShooterFeederVelocity(double velocity) {
+    return this.run(() -> shooterFeederIO.setFeederVelocity(velocity))
+        .finallyDo(shooterFeederIO::off);
+  }
 
   public Command goToShooter() {
     return setSpindexVelocity(SpindexConstants.spindexMotorSpeedRPS)
-        .until(() -> beamBreakIOAutoLogged.beamBroken).finallyDo(spindexIO::off);
+        .until(() -> beamBreakIOAutoLogged.beamBroken)
+        .finallyDo(spindexIO::off);
   }
 
   public Command feedNoteToShooter() {
     return setShooterFeederVoltage(SpindexConstants.shooterFeederVoltage)
-        .until(() -> beamBreakIOAutoLogged.beamBroken).finallyDo(shooterFeederIO::off);
+        .until(() -> beamBreakIOAutoLogged.beamBroken)
+        .finallyDo(shooterFeederIO::off);
   }
 
   public Command goToAmpevator() {
     return setSpindexVelocity(-SpindexConstants.spindexMotorSpeedRPS)
-        .until(() -> beamBreakIOAutoLogged.beamBroken).finallyDo(spindexIO::off);
+        .until(() -> beamBreakIOAutoLogged.beamBroken)
+        .finallyDo(spindexIO::off);
   }
 
   public Command off() {

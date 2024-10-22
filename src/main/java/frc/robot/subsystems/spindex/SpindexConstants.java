@@ -35,21 +35,23 @@ public class SpindexConstants {
   public static double updateFrequency = 50; // idk if this is right
   public static boolean useMotionMagic = false;
   public static int kSpindexBeamBreakDIO = 1;
-    public static TalonFXConfiguration feederMotorConfigs = new TalonFXConfiguration() // TODO: tune
-            .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))
-            .withMotorOutput(
-                    new MotorOutputConfigs()
-                            .withNeutralMode(NeutralModeValue.Brake)
-                            .withInverted(InvertedValue.Clockwise_Positive))
-            .withMotionMagic(
-                    new MotionMagicConfigs()
-                            .withMotionMagicAcceleration(120)
-                            .withMotionMagicCruiseVelocity(60)
-                            .withMotionMagicJerk(1200))
-            .withCurrentLimits(
-                    new CurrentLimitsConfigs()
-                            .withStatorCurrentLimitEnable(true)
-                            .withStatorCurrentLimit(80));;
+  public static TalonFXConfiguration feederMotorConfigs =
+      new TalonFXConfiguration() // TODO: tune
+          .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))
+          .withMotorOutput(
+              new MotorOutputConfigs()
+                  .withNeutralMode(NeutralModeValue.Brake)
+                  .withInverted(InvertedValue.Clockwise_Positive))
+          .withMotionMagic(
+              new MotionMagicConfigs()
+                  .withMotionMagicAcceleration(120)
+                  .withMotionMagicCruiseVelocity(60)
+                  .withMotionMagicJerk(1200))
+          .withCurrentLimits(
+              new CurrentLimitsConfigs()
+                  .withStatorCurrentLimitEnable(true)
+                  .withStatorCurrentLimit(80));
+  ;
   public static int shooterFeederMotorID = 43;
   public static double shooterFeederVoltage = 8;
 }

@@ -32,7 +32,6 @@ public final class TurretConstants {
   public static final double kForwardLimit = 69; // TODO: Set limit
   public static final double kReverseLimit = -69; // TODO: Set limit
 
-
   public static final Rotation2d kSubPreset = Rotation2d.fromRotations(0);
 
   public static final TalonFXConfiguration motorConfigs = // TODO: Set configs

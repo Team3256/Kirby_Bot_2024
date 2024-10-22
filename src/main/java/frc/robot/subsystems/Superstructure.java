@@ -100,38 +100,47 @@ public class Superstructure {
         .onTrue(pivotShooter.off())
         .onTrue(shooter.off());
 
-    stateTriggers.get(StructureState.HOME)
-            .onTrue(roller.off())
-            .onTrue(ampevator.setStowPosition())
-            .onTrue(climb.retractClimber())
-            .onTrue(intake.off())
-            .onTrue(spindex.off())
-            .onTrue(pivotShooter.setPosition(0))
-            .onTrue(shooter.off())
-            .whileTrue(turret.getDefaultCommand());
+    stateTriggers
+        .get(StructureState.HOME)
+        .onTrue(roller.off())
+        .onTrue(ampevator.setStowPosition())
+        .onTrue(climb.retractClimber())
+        .onTrue(intake.off())
+        .onTrue(spindex.off())
+        .onTrue(pivotShooter.setPosition(0))
+        .onTrue(shooter.off())
+        .whileTrue(turret.getDefaultCommand());
 
-    stateTriggers.get(StructureState.AMP_PREP)
-            .onTrue(spindex.goToAmpevator().until(roller.debouncedBeamBreak))
-            .onTrue(intake.redirectToAmp().until(roller.debouncedBeamBreak))
-            .onTrue(roller.intakeNote())
-            .and(roller.debouncedBeamBreak)
-            .onTrue(ampevator.setAmpPosition());
-    stateTriggers.get(StructureState.AMPING)
-            .whileTrue(roller.outtake())
-            .and(roller.debouncedBeamBreak)
-            .onTrue(setState(StructureState.HOME));
-    stateTriggers.get(StructureState.SUB_PREP)
-            .onTrue(spindex.goToShooter())
-            .onTrue(pivotShooter.setPosition(PivotShooterConstants.kSubWooferPreset*PivotShooterConstants.kPivotMotorGearing))
-            .onTrue(shooter.setVelocity(ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))
-            .onTrue(turret.setPosition(TurretConstants.kSubPreset));
-    stateTriggers.get(StructureState.SUBING)
-            .onTrue(shooter.setVelocity(ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))
-            .onTrue(spindex.feedNoteToShooter())
-            .and(spindex.debouncedBeamBreak.debounce(1))
-            .onTrue(setState(StructureState.HOME));
-
-
+    stateTriggers
+        .get(StructureState.AMP_PREP)
+        .onTrue(spindex.goToAmpevator().until(roller.debouncedBeamBreak))
+        .onTrue(intake.redirectToAmp().until(roller.debouncedBeamBreak))
+        .onTrue(roller.intakeNote())
+        .and(roller.debouncedBeamBreak)
+        .onTrue(ampevator.setAmpPosition());
+    stateTriggers
+        .get(StructureState.AMPING)
+        .whileTrue(roller.outtake())
+        .and(roller.debouncedBeamBreak)
+        .onTrue(setState(StructureState.HOME));
+    stateTriggers
+        .get(StructureState.SUB_PREP)
+        .onTrue(spindex.goToShooter())
+        .onTrue(
+            pivotShooter.setPosition(
+                PivotShooterConstants.kSubWooferPreset * PivotShooterConstants.kPivotMotorGearing))
+        .onTrue(
+            shooter.setVelocity(
+                ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))
+        .onTrue(turret.setPosition(TurretConstants.kSubPreset));
+    stateTriggers
+        .get(StructureState.SUBING)
+        .onTrue(
+            shooter.setVelocity(
+                ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))
+        .onTrue(spindex.feedNoteToShooter())
+        .and(spindex.debouncedBeamBreak.debounce(1))
+        .onTrue(setState(StructureState.HOME));
   }
 
   // call manually

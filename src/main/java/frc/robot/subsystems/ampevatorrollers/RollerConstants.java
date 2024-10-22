@@ -42,5 +42,5 @@ public final class RollerConstants {
                   .withStatorCurrentLimitEnable(true)
                   .withStatorCurrentLimit(80));
   public static int flashConfigRetries = 5;
-    public static double kRollerIntakeVoltage = 4;
+  public static double kRollerIntakeVoltage = 4;
 }
