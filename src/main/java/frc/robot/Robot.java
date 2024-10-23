@@ -44,7 +44,9 @@ public class Robot extends LoggedRobot implements Logged {
   @Override
   public void robotInit() {
 
-    RobotController.setBrownoutVoltage(4.75); // the "blackout" voltage is 4.5 // lowk if this bot dont work im setting this to like 0
+    RobotController.setBrownoutVoltage(
+        4.75); // the "blackout" voltage is 4.5 // lowk if this bot dont work im setting this to
+    // like 0
     configureAdvantageKit();
     if (Constants.FeatureFlags.kMonologueEnabled) {
       configureMonologue();
