@@ -47,7 +47,7 @@ public class PhoenixUtil {
       DriverStation.reportWarning(
           "Failed to read config for talon [" + talon.getDescription() + "]", false);
       return false;
-    } else if (!TalonConfigEquality.isEqual(config, readConfig)) {
+    } else if (!PhoenixConfigEquality.isEqual(config, readConfig)) {
       // configs did not match
       DriverStation.reportWarning(
           "Configuration verification failed for talon [" + talon.getDescription() + "]", false);
@@ -66,7 +66,7 @@ public class PhoenixUtil {
       DriverStation.reportWarning(
           "Failed to read config for CANCoder [" + cancoder.getDeviceID() + "]", false);
       return false;
-    } else if (!TalonConfigEquality.isEqual(config, readConfig)) {
+    } else if (!PhoenixConfigEquality.isEqual(config, readConfig)) {
       // configs did not match
       DriverStation.reportWarning(
           "Configuration verification failed for cancoder [" + cancoder.getDeviceID() + "]", false);
