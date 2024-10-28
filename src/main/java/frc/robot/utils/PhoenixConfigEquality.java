@@ -58,11 +58,12 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(Slot0Configs a, Slot0Configs b) {
-    boolean val = epsilonEquals(a.kP, b.kP, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kI, b.kI, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kD, b.kD, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kV, b.kV, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kS, b.kS, TALON_CONFIG_EPSILON);
+    boolean val =
+        epsilonEquals(a.kP, b.kP, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kI, b.kI, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kD, b.kD, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kV, b.kV, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kS, b.kS, TALON_CONFIG_EPSILON);
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("Slot0Configs not equal");
     }
@@ -70,11 +71,12 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(Slot1Configs a, Slot1Configs b) {
-    boolean val = epsilonEquals(a.kP, b.kP, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kI, b.kI, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kD, b.kD, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kV, b.kV, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kS, b.kS, TALON_CONFIG_EPSILON);
+    boolean val =
+        epsilonEquals(a.kP, b.kP, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kI, b.kI, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kD, b.kD, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kV, b.kV, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kS, b.kS, TALON_CONFIG_EPSILON);
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("Slot1Configs not equal");
     }
@@ -82,11 +84,12 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(Slot2Configs a, Slot2Configs b) {
-    boolean val = epsilonEquals(a.kP, b.kP, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kI, b.kI, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kD, b.kD, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kV, b.kV, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.kS, b.kS, TALON_CONFIG_EPSILON);
+    boolean val =
+        epsilonEquals(a.kP, b.kP, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kI, b.kI, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kD, b.kD, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kV, b.kV, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.kS, b.kS, TALON_CONFIG_EPSILON);
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("Slot2Configs not equal");
     }
@@ -94,12 +97,13 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(MotorOutputConfigs a, MotorOutputConfigs b) {
-    boolean val = a.Inverted.value == b.Inverted.value
-        && a.NeutralMode.value == b.NeutralMode.value
-        && epsilonEquals(
-            a.DutyCycleNeutralDeadband, b.DutyCycleNeutralDeadband, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.PeakForwardDutyCycle, b.PeakForwardDutyCycle, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.PeakReverseDutyCycle, b.PeakReverseDutyCycle, TALON_CONFIG_EPSILON);
+    boolean val =
+        a.Inverted.value == b.Inverted.value
+            && a.NeutralMode.value == b.NeutralMode.value
+            && epsilonEquals(
+                a.DutyCycleNeutralDeadband, b.DutyCycleNeutralDeadband, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.PeakForwardDutyCycle, b.PeakForwardDutyCycle, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.PeakReverseDutyCycle, b.PeakReverseDutyCycle, TALON_CONFIG_EPSILON);
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("MotorOutputConfigs not equal");
     }
@@ -107,10 +111,11 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(CurrentLimitsConfigs a, CurrentLimitsConfigs b) {
-    boolean val = epsilonEquals(a.StatorCurrentLimit, b.StatorCurrentLimit, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.SupplyCurrentLimit, b.SupplyCurrentLimit, TALON_CONFIG_EPSILON)
-        && a.StatorCurrentLimitEnable == b.StatorCurrentLimitEnable
-        && a.SupplyCurrentLimitEnable == b.SupplyCurrentLimitEnable;
+    boolean val =
+        epsilonEquals(a.StatorCurrentLimit, b.StatorCurrentLimit, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.SupplyCurrentLimit, b.SupplyCurrentLimit, TALON_CONFIG_EPSILON)
+            && a.StatorCurrentLimitEnable == b.StatorCurrentLimitEnable
+            && a.SupplyCurrentLimitEnable == b.SupplyCurrentLimitEnable;
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("CurrentLimitsConfigs not equal");
     }
@@ -118,10 +123,11 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(VoltageConfigs a, VoltageConfigs b) {
-    boolean val = epsilonEquals(
-        a.SupplyVoltageTimeConstant, b.SupplyVoltageTimeConstant, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.PeakForwardVoltage, b.PeakForwardVoltage)
-        && epsilonEquals(a.PeakReverseVoltage, b.PeakReverseVoltage);
+    boolean val =
+        epsilonEquals(
+                a.SupplyVoltageTimeConstant, b.SupplyVoltageTimeConstant, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.PeakForwardVoltage, b.PeakForwardVoltage)
+            && epsilonEquals(a.PeakReverseVoltage, b.PeakReverseVoltage);
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("VoltageConfigs not equal");
     }
@@ -129,11 +135,12 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(TorqueCurrentConfigs a, TorqueCurrentConfigs b) {
-    boolean val = epsilonEquals(a.PeakForwardTorqueCurrent, b.PeakForwardTorqueCurrent, TALON_CONFIG_EPSILON)
-        && epsilonEquals(
-            a.PeakReverseTorqueCurrent, b.PeakReverseTorqueCurrent, TALON_CONFIG_EPSILON)
-        && epsilonEquals(
-            a.TorqueNeutralDeadband, b.TorqueNeutralDeadband, TALON_CONFIG_EPSILON);
+    boolean val =
+        epsilonEquals(a.PeakForwardTorqueCurrent, b.PeakForwardTorqueCurrent, TALON_CONFIG_EPSILON)
+            && epsilonEquals(
+                a.PeakReverseTorqueCurrent, b.PeakReverseTorqueCurrent, TALON_CONFIG_EPSILON)
+            && epsilonEquals(
+                a.TorqueNeutralDeadband, b.TorqueNeutralDeadband, TALON_CONFIG_EPSILON);
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("TorqueCurrentConfigs not equal");
     }
@@ -141,12 +148,13 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(FeedbackConfigs a, FeedbackConfigs b) {
-    boolean val = epsilonEquals(a.FeedbackRotorOffset, b.FeedbackRotorOffset, TALON_CONFIG_EPSILON)
-        && epsilonEquals(
-            a.SensorToMechanismRatio, b.SensorToMechanismRatio, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.RotorToSensorRatio, b.RotorToSensorRatio, TALON_CONFIG_EPSILON)
-        && a.FeedbackSensorSource.value == b.FeedbackSensorSource.value
-        && a.FeedbackRemoteSensorID == b.FeedbackRemoteSensorID;
+    boolean val =
+        epsilonEquals(a.FeedbackRotorOffset, b.FeedbackRotorOffset, TALON_CONFIG_EPSILON)
+            && epsilonEquals(
+                a.SensorToMechanismRatio, b.SensorToMechanismRatio, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.RotorToSensorRatio, b.RotorToSensorRatio, TALON_CONFIG_EPSILON)
+            && a.FeedbackSensorSource.value == b.FeedbackSensorSource.value
+            && a.FeedbackRemoteSensorID == b.FeedbackRemoteSensorID;
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("FeedbackConfigs not equal");
       System.out.printf(
@@ -169,12 +177,13 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(OpenLoopRampsConfigs a, OpenLoopRampsConfigs b) {
-    boolean val = epsilonEquals(
-        a.DutyCycleOpenLoopRampPeriod, b.DutyCycleOpenLoopRampPeriod, TALON_CONFIG_EPSILON)
-        && epsilonEquals(
-            a.VoltageOpenLoopRampPeriod, b.VoltageOpenLoopRampPeriod, TALON_CONFIG_EPSILON)
-        && epsilonEquals(
-            a.TorqueOpenLoopRampPeriod, b.TorqueOpenLoopRampPeriod, TALON_CONFIG_EPSILON);
+    boolean val =
+        epsilonEquals(
+                a.DutyCycleOpenLoopRampPeriod, b.DutyCycleOpenLoopRampPeriod, TALON_CONFIG_EPSILON)
+            && epsilonEquals(
+                a.VoltageOpenLoopRampPeriod, b.VoltageOpenLoopRampPeriod, TALON_CONFIG_EPSILON)
+            && epsilonEquals(
+                a.TorqueOpenLoopRampPeriod, b.TorqueOpenLoopRampPeriod, TALON_CONFIG_EPSILON);
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("OpenLoopRampsConfigs not equal");
     }
@@ -182,14 +191,15 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(ClosedLoopRampsConfigs a, ClosedLoopRampsConfigs b) {
-    boolean val = epsilonEquals(
-        a.DutyCycleClosedLoopRampPeriod,
-        b.DutyCycleClosedLoopRampPeriod,
-        TALON_CONFIG_EPSILON)
-        && epsilonEquals(
-            a.VoltageClosedLoopRampPeriod, b.VoltageClosedLoopRampPeriod, TALON_CONFIG_EPSILON)
-        && epsilonEquals(
-            a.TorqueClosedLoopRampPeriod, b.TorqueClosedLoopRampPeriod, TALON_CONFIG_EPSILON);
+    boolean val =
+        epsilonEquals(
+                a.DutyCycleClosedLoopRampPeriod,
+                b.DutyCycleClosedLoopRampPeriod,
+                TALON_CONFIG_EPSILON)
+            && epsilonEquals(
+                a.VoltageClosedLoopRampPeriod, b.VoltageClosedLoopRampPeriod, TALON_CONFIG_EPSILON)
+            && epsilonEquals(
+                a.TorqueClosedLoopRampPeriod, b.TorqueClosedLoopRampPeriod, TALON_CONFIG_EPSILON);
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("ClosedLoopRampsConfigs not equal");
     }
@@ -197,24 +207,25 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(HardwareLimitSwitchConfigs a, HardwareLimitSwitchConfigs b) {
-    boolean val = a.ForwardLimitAutosetPositionEnable == b.ForwardLimitAutosetPositionEnable
-        && b.ForwardLimitEnable == b.ForwardLimitEnable
-        && a.ReverseLimitAutosetPositionEnable == b.ReverseLimitAutosetPositionEnable
-        && a.ReverseLimitEnable == b.ReverseLimitEnable
-        && epsilonEquals(
-            a.ForwardLimitAutosetPositionValue,
-            b.ForwardLimitAutosetPositionValue,
-            TALON_CONFIG_EPSILON)
-        && epsilonEquals(
-            a.ReverseLimitAutosetPositionValue,
-            b.ReverseLimitAutosetPositionValue,
-            TALON_CONFIG_EPSILON)
-        && a.ForwardLimitRemoteSensorID == b.ForwardLimitRemoteSensorID
-        && a.ReverseLimitRemoteSensorID == b.ReverseLimitRemoteSensorID
-        && a.ForwardLimitSource.value == b.ForwardLimitSource.value
-        && a.ReverseLimitSource.value == b.ReverseLimitSource.value
-        && a.ForwardLimitType.value == b.ForwardLimitType.value
-        && a.ReverseLimitType.value == b.ReverseLimitType.value;
+    boolean val =
+        a.ForwardLimitAutosetPositionEnable == b.ForwardLimitAutosetPositionEnable
+            && b.ForwardLimitEnable == b.ForwardLimitEnable
+            && a.ReverseLimitAutosetPositionEnable == b.ReverseLimitAutosetPositionEnable
+            && a.ReverseLimitEnable == b.ReverseLimitEnable
+            && epsilonEquals(
+                a.ForwardLimitAutosetPositionValue,
+                b.ForwardLimitAutosetPositionValue,
+                TALON_CONFIG_EPSILON)
+            && epsilonEquals(
+                a.ReverseLimitAutosetPositionValue,
+                b.ReverseLimitAutosetPositionValue,
+                TALON_CONFIG_EPSILON)
+            && a.ForwardLimitRemoteSensorID == b.ForwardLimitRemoteSensorID
+            && a.ReverseLimitRemoteSensorID == b.ReverseLimitRemoteSensorID
+            && a.ForwardLimitSource.value == b.ForwardLimitSource.value
+            && a.ReverseLimitSource.value == b.ReverseLimitSource.value
+            && a.ForwardLimitType.value == b.ForwardLimitType.value
+            && a.ReverseLimitType.value == b.ReverseLimitType.value;
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("HardwareLimitSwitchConfigs not equal");
     }
@@ -230,12 +241,13 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(SoftwareLimitSwitchConfigs a, SoftwareLimitSwitchConfigs b) {
-    boolean val = epsilonEquals(
-        a.ForwardSoftLimitThreshold, b.ForwardSoftLimitThreshold, TALON_CONFIG_EPSILON)
-        && epsilonEquals(
-            a.ReverseSoftLimitThreshold, b.ReverseSoftLimitThreshold, TALON_CONFIG_EPSILON)
-        && a.ReverseSoftLimitEnable == b.ReverseSoftLimitEnable
-        && a.ForwardSoftLimitEnable == b.ForwardSoftLimitEnable;
+    boolean val =
+        epsilonEquals(
+                a.ForwardSoftLimitThreshold, b.ForwardSoftLimitThreshold, TALON_CONFIG_EPSILON)
+            && epsilonEquals(
+                a.ReverseSoftLimitThreshold, b.ReverseSoftLimitThreshold, TALON_CONFIG_EPSILON)
+            && a.ReverseSoftLimitEnable == b.ReverseSoftLimitEnable
+            && a.ForwardSoftLimitEnable == b.ForwardSoftLimitEnable;
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("SoftwareLimitSwitchConfigs not equal");
     }
@@ -243,10 +255,11 @@ public class PhoenixConfigEquality {
   }
 
   public static boolean isEqual(MotionMagicConfigs a, MotionMagicConfigs b) {
-    boolean val = epsilonEquals(a.MotionMagicAcceleration, b.MotionMagicAcceleration, TALON_CONFIG_EPSILON)
-        && epsilonEquals(
-            a.MotionMagicCruiseVelocity, b.MotionMagicCruiseVelocity, TALON_CONFIG_EPSILON)
-        && epsilonEquals(a.MotionMagicJerk, b.MotionMagicJerk, TALON_CONFIG_EPSILON);
+    boolean val =
+        epsilonEquals(a.MotionMagicAcceleration, b.MotionMagicAcceleration, TALON_CONFIG_EPSILON)
+            && epsilonEquals(
+                a.MotionMagicCruiseVelocity, b.MotionMagicCruiseVelocity, TALON_CONFIG_EPSILON)
+            && epsilonEquals(a.MotionMagicJerk, b.MotionMagicJerk, TALON_CONFIG_EPSILON);
     if (ENABLE_LOGGING_INEQ && !val) {
       System.out.println("MotionMagicConfigs not equal");
     }
