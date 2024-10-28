@@ -11,6 +11,7 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.math.util.Units;
+import frc.robot.utils.PhoenixUtil;
 
 public class EncoderIOCancoder implements EncoderIO {
 
@@ -21,12 +22,8 @@ public class EncoderIOCancoder implements EncoderIO {
 
   public EncoderIOCancoder(int canCoderID) {
     encoder = new CANcoder(canCoderID, "mani");
-    var response = encoder.getConfigurator().apply(TurretConstants.canCoderConfig);
-
-    if (!response.isOK()) {
-      System.out.println(
-          "CANcoder ID " + canCoderID + " failed config with error " + response.getDescription());
-    }
+    PhoenixUtil.applyCancoderConfig(
+        encoder, TurretConstants.canCoderConfig, TurretConstants.flashConfigRetries);
 
     encoderPosition = encoder.getAbsolutePosition();
     encoderVelocity = encoder.getVelocity();

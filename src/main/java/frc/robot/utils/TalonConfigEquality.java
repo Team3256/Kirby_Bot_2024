@@ -25,9 +25,9 @@ public class TalonConfigEquality {
     return epsilonEquals(a, b, kEpsilon);
   }
 
-  //   private static boolean epsilonEquals(int a, int b, int epsilon) {
-  //     return (a - epsilon <= b) && (a + epsilon >= b);
-  //   }
+  // private static boolean epsilonEquals(int a, int b, int epsilon) {
+  // return (a - epsilon <= b) && (a + epsilon >= b);
+  // }
 
   public static boolean isEqual(TalonFXConfiguration a, TalonFXConfiguration b) {
     return isEqual(a.Slot0, b.Slot0)
@@ -44,6 +44,16 @@ public class TalonConfigEquality {
         && isEqual(a.Audio, b.Audio)
         && isEqual(a.SoftwareLimitSwitch, b.SoftwareLimitSwitch)
         && isEqual(a.MotionMagic, b.MotionMagic);
+  }
+
+  public static boolean isEqual(CANcoderConfiguration a, CANcoderConfiguration b) {
+    return a.FutureProofConfigs == b.FutureProofConfigs && isEqual(a.MagnetSensor, b.MagnetSensor);
+  }
+
+  public static boolean isEqual(MagnetSensorConfigs a, MagnetSensorConfigs b) {
+    return a.SensorDirection == b.SensorDirection
+        && a.MagnetOffset == b.MagnetOffset
+        && a.AbsoluteSensorRange == b.AbsoluteSensorRange;
   }
 
   public static boolean isEqual(Slot0Configs a, Slot0Configs b) {
