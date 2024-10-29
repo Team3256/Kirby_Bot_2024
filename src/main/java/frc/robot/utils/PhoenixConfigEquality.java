@@ -9,12 +9,13 @@ package frc.robot.utils;
 
 import com.ctre.phoenix6.configs.*;
 
-public class TalonConfigEquality {
+public class PhoenixConfigEquality {
   // Stolen from 254, as it's a dependency of PhoenixUtil.
   // Should probably make this configured like how we normally configure code
 
   public static final boolean ENABLE_LOGGING_INEQ = true;
   public static final double TALON_CONFIG_EPSILON = 0.05;
+  public static final double CANCODER_CONFIG_EPSILON = 0.05;
   private static final double kEpsilon = 1e-12;
 
   private static boolean epsilonEquals(double a, double b, double epsilon) {
@@ -25,9 +26,9 @@ public class TalonConfigEquality {
     return epsilonEquals(a, b, kEpsilon);
   }
 
-  //   private static boolean epsilonEquals(int a, int b, int epsilon) {
-  //     return (a - epsilon <= b) && (a + epsilon >= b);
-  //   }
+  // private static boolean epsilonEquals(int a, int b, int epsilon) {
+  // return (a - epsilon <= b) && (a + epsilon >= b);
+  // }
 
   public static boolean isEqual(TalonFXConfiguration a, TalonFXConfiguration b) {
     return isEqual(a.Slot0, b.Slot0)
@@ -44,6 +45,16 @@ public class TalonConfigEquality {
         && isEqual(a.Audio, b.Audio)
         && isEqual(a.SoftwareLimitSwitch, b.SoftwareLimitSwitch)
         && isEqual(a.MotionMagic, b.MotionMagic);
+  }
+
+  public static boolean isEqual(CANcoderConfiguration a, CANcoderConfiguration b) {
+    return a.FutureProofConfigs == b.FutureProofConfigs && isEqual(a.MagnetSensor, b.MagnetSensor);
+  }
+
+  public static boolean isEqual(MagnetSensorConfigs a, MagnetSensorConfigs b) {
+    return a.SensorDirection == b.SensorDirection
+        && epsilonEquals(a.MagnetOffset, b.MagnetOffset, CANCODER_CONFIG_EPSILON)
+        && a.AbsoluteSensorRange == b.AbsoluteSensorRange;
   }
 
   public static boolean isEqual(Slot0Configs a, Slot0Configs b) {
