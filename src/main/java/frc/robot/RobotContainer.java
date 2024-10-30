@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import static frc.robot.subsystems.swerve.AzimuthConstants.*;
+
 import choreo.auto.AutoChooser;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
@@ -14,8 +16,8 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -46,7 +48,6 @@ import frc.robot.subsystems.spindex.Spindex;
 import frc.robot.subsystems.spindex.SpindexConstants;
 import frc.robot.subsystems.spindex.SpindexIOTalonFX;
 import frc.robot.subsystems.swerve.*;
-import frc.robot.subsystems.swerve.requests.SwerveFieldCentricFacingAngle;
 import frc.robot.subsystems.turret.*;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
@@ -63,6 +64,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final CommandSwerveDrivetrain swerve = TunerConstants.DriveTrain;
+  private boolean isRed;
 
   private final Ampevator ampevator =
       new Ampevator(true, (Utils.isSimulation()) ? new AmpevatorIOSim() : new AmpevatorIOTalonFX());
@@ -170,11 +172,16 @@ public class RobotContainer {
     autoChooser.addAutoRoutine("Box", autoRoutines::boxAuto);
   }
 
-  private void configureSwerve() {
+  public void setAllianceCol(boolean red) {
+    isRed = red;
+  }
+
+  public void configureSwerve() {
     double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps;
     double MaxAngularRate = 1.5 * Math.PI; // My drivetrain
     double SlowMaxSpeed = MaxSpeed * 0.3;
     double SlowMaxAngular = MaxAngularRate * 0.3;
+
     SwerveRequest.FieldCentric drive =
         new SwerveRequest.FieldCentric()
             .withDeadband(Constants.ControllerConstants.DriverConstants.kStickDeadband * MaxSpeed)
@@ -183,95 +190,197 @@ public class RobotContainer {
                     * MaxAngularRate) // Add a 10% deadband
             .withDriveRequestType(
                 SwerveModule.DriveRequestType.OpenLoopVoltage); // I want field-centric
-    SwerveFieldCentricFacingAngle azi =
-        new SwerveFieldCentricFacingAngle()
-            .withDeadband(MaxSpeed * .15) // TODO: update deadband
-            .withRotationalDeadband(MaxAngularRate * .15) // TODO: update deadband
-            .withHeadingController(SwerveConstants.azimuthController)
-            .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
+    /* Default swerve command */
     swerve.setDefaultCommand(
-        // Drivetrain will execute this command periodically
+        /* Drivetrain will execute this command periodically */
         swerve.applyRequest(
             () ->
                 drive
                     .withVelocityX(m_driverController.getLeftY() * MaxSpeed) // Drive -y is forward
                     .withVelocityY(m_driverController.getLeftX() * MaxSpeed) // Drive -x is left
                     .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate)));
-    /*
-     * Right stick absolute angle mode on trigger hold,
-     * robot adjusts heading to the angle right joystick creates
-     */
+
+    /* invert axes */
     m_driverController
-        .rightTrigger("something")
+        .rightTrigger("Drive with Inverted Axes")
         .whileTrue(
             swerve.applyRequest(
                 () ->
                     drive
-                        .withVelocityX(
-                            -m_driverController.getLeftY() * MaxSpeed) // Drive -y is forward
-                        .withVelocityY(
-                            -m_driverController.getLeftX() * MaxSpeed) // Drive -x is left
-                        .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate)));
-    // Slows translational and rotational speed to 30%
+                        .withVelocityX(-m_driverController.getLeftY() * SlowMaxSpeed)
+                        .withVelocityY(-m_driverController.getLeftX() * SlowMaxSpeed)
+                        .withRotationalRate(-m_driverController.getRightX() * SlowMaxAngular)));
+
+    /* translational and rotational speed are slowed */
     m_driverController
-        .leftTrigger("something")
+        .leftTrigger("Slow Drive")
         .whileTrue(
             swerve.applyRequest(
                 () ->
                     drive
-                        .withVelocityX(m_driverController.getLeftY() * (MaxSpeed * 0.17))
-                        .withVelocityY(m_driverController.getLeftX() * (MaxSpeed * 0.17))
-                        .withRotationalRate(
-                            -m_driverController.getRightX() * (1.3 * 0.2 * Math.PI))));
-    // Reset robot heading on button press
-    m_driverController.y("seed relative").onTrue(swerve.runOnce(() -> swerve.seedFieldRelative()));
-    // Azimuth angle bindings. isRed == true for red alliance presets. isRed != true
-    // for blue.
-    if (DriverStation.getAlliance()
-        .orElse(DriverStation.Alliance.Blue)
-        .equals(DriverStation.Alliance.Red)) {
+                        .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
+                        .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                        .withRotationalRate(-m_driverController.getRightX() * SlowMaxAngular)));
+
+    /* Reset robot heading to current orientation on button press */
+    m_driverController.y("reset heading").onTrue(swerve.runOnce(swerve::seedFieldRelative));
+
+    /* Azimuth angle bindings. isRed == true for red alliance presets.
+     * isRed != true for blue. */
+    if (isRed) {
+      // azi source red
       m_driverController
-          .rightBumper("smth")
+          .rightBumper()
           .whileTrue(
-              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSourceRed)));
+              swerve.applyRequest(
+                  () ->
+                      drive
+                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
+                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withRotationalRate(
+                              SwerveConstants.azimuthController.calculate(
+                                  swerve.getPigeon2().getAngle(),
+                                  aziSourceRed.getDegrees(),
+                                  Timer.getFPGATimestamp()))));
+
+      // azi amp red
       m_driverController
-          .a("smth")
+          .a()
           .whileTrue(
-              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziAmpRed)));
+              swerve.applyRequest(
+                  () ->
+                      drive
+                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
+                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withRotationalRate(
+                              SwerveConstants.azimuthController.calculate(
+                                  swerve.getPigeon2().getAngle(),
+                                  aziAmpRed.getDegrees(),
+                                  Timer.getFPGATimestamp()))));
+
+      // azi feeder red
       m_driverController
-          .povRight("smth")
+          .povRight()
           .whileTrue(
-              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziFeederRed)));
+              swerve.applyRequest(
+                  () ->
+                      drive
+                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
+                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withRotationalRate(
+                              SwerveConstants.azimuthController.calculate(
+                                  swerve.getPigeon2().getAngle(),
+                                  aziFeederRed.getDegrees(),
+                                  Timer.getFPGATimestamp()))));
     } else {
+      // azi source blue
       m_driverController
-          .rightBumper("smth")
+          .rightBumper()
           .whileTrue(
-              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSourceBlue)));
+              swerve.applyRequest(
+                  () ->
+                      drive
+                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
+                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withRotationalRate(
+                              SwerveConstants.azimuthController.calculate(
+                                  swerve.getPigeon2().getAngle(),
+                                  aziSourceBlue.getDegrees(),
+                                  Timer.getFPGATimestamp()))));
+
+      // azi amp blue
       m_driverController
-          .a("smth")
+          .a()
           .whileTrue(
-              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziAmpBlue)));
+              swerve.applyRequest(
+                  () ->
+                      drive
+                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
+                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withRotationalRate(
+                              SwerveConstants.azimuthController.calculate(
+                                  swerve.getPigeon2().getAngle(),
+                                  aziAmpBlue.getDegrees(),
+                                  Timer.getFPGATimestamp()))));
+
+      // azi feeder blue
       m_driverController
-          .povRight("smth")
+          .povRight()
           .whileTrue(
-              swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziFeederBlue)));
+              swerve.applyRequest(
+                  () ->
+                      drive
+                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
+                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withRotationalRate(
+                              SwerveConstants.azimuthController.calculate(
+                                  swerve.getPigeon2().getAngle(),
+                                  aziFeederBlue.getDegrees(),
+                                  Timer.getFPGATimestamp()))));
     }
-    // Universal azimuth bindings
+
+    /* Universal Azimuth Bindings */
+
+    // azi subwoofer front
     m_driverController
-        .leftBumper("smth")
+        .leftBumper()
         .whileTrue(
-            swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferFront)));
+            swerve.applyRequest(
+                () ->
+                    drive
+                        .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
+                        .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                        .withRotationalRate(
+                            SwerveConstants.azimuthController.calculate(
+                                swerve.getPigeon2().getAngle(),
+                                aziSubwooferFront.getDegrees(),
+                                Timer.getFPGATimestamp()))));
+
+    // azi subwoofer left
     m_driverController
-        .povDownLeft("azi")
+        .x()
         .whileTrue(
-            swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferLeft)));
+            swerve.applyRequest(
+                () ->
+                    drive
+                        .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
+                        .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                        .withRotationalRate(
+                            SwerveConstants.azimuthController.calculate(
+                                swerve.getPigeon2().getAngle(),
+                                aziSubwooferLeft.getDegrees(),
+                                Timer.getFPGATimestamp()))));
+
+    // azi subwoofer right
     m_driverController
-        .povDownRight("azi")
+        .b()
         .whileTrue(
-            swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziSubwooferRight)));
+            swerve.applyRequest(
+                () ->
+                    drive
+                        .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
+                        .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                        .withRotationalRate(
+                            SwerveConstants.azimuthController.calculate(
+                                swerve.getPigeon2().getAngle(),
+                                aziSubwooferRight.getDegrees(),
+                                Timer.getFPGATimestamp()))));
+
+    // azi cleanup
     m_driverController
-        .povDown("azi")
-        .whileTrue(swerve.applyRequest(() -> azi.withTargetDirection(AzimuthConstants.aziCleanUp)));
+        .povDown()
+        .whileTrue(
+            swerve.applyRequest(
+                () ->
+                    drive
+                        .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
+                        .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                        .withRotationalRate(
+                            SwerveConstants.azimuthController.calculate(
+                                swerve.getPigeon2().getAngle(),
+                                aziCleanUp.getDegrees(),
+                                Timer.getFPGATimestamp()))));
+
     if (Utils.isSimulation()) {
       swerve.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
     }
