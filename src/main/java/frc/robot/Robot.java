@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.NT4PublisherNoFMS;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import monologue.Logged;
 import monologue.Monologue;
@@ -36,6 +37,8 @@ public class Robot extends LoggedRobot implements Logged {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  private double correctionAngle;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -239,6 +242,20 @@ public class Robot extends LoggedRobot implements Logged {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  @Override
+  public void driverStationConnected() {
+    boolean isRedAlliance = true;
+    Optional<DriverStation.Alliance> ally = Optional.of(DriverStation.getAlliance().get());
+    if (ally.get() == DriverStation.Alliance.Red) {
+      System.out.println("Set Azimuth Red Alliance");
+    }
+    if (ally.get() == DriverStation.Alliance.Blue) {
+      isRedAlliance = false;
+      System.out.println("Set Azimuth Blue Alliance");
+    }
+    m_robotContainer.setAllianceCol(isRedAlliance);
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override
