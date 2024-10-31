@@ -1,1 +1,1 @@
-{"driver":{"leftBumper":"smth","a":"smth","b":"shoot","povRight":"smth","povDownLeft":"azi","x":"pivot shooter no","povDownRight":"azi","y":"seed relative","povDown":"azi","leftTrigger":"something","rightBumper":"smth"},"operator":{"rightStick":"Turret"}}
+{"driver":{"b":"shoot","x":"pivot shooter no","y":"reset heading","leftTrigger":"Slow Drive"},"operator":{"rightStick":"Turret"}}

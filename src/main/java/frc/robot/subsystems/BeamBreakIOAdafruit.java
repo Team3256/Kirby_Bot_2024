@@ -9,10 +9,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
-public class BeamBreakIOBanner implements BeamBreakIO {
+public class BeamBreakIOAdafruit implements BeamBreakIO {
   private final DigitalInput beamBreak;
 
-  public BeamBreakIOBanner(int beambreakID) {
+  public BeamBreakIOAdafruit(int beambreakID) {
     beamBreak = new DigitalInput(beambreakID);
   }
 

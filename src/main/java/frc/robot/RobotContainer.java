@@ -16,7 +16,6 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -24,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoRoutines;
 import frc.robot.sim.SimMechs;
-import frc.robot.subsystems.BeamBreakIOBanner;
+import frc.robot.subsystems.BeamBreakIOAdafruit;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.ampevator.Ampevator;
 import frc.robot.subsystems.ampevator.AmpevatorIOSim;
@@ -67,7 +66,9 @@ public class RobotContainer {
   private boolean isRed;
 
   private final Ampevator ampevator =
-      new Ampevator(true, (Utils.isSimulation()) ? new AmpevatorIOSim() : new AmpevatorIOTalonFX());
+      new Ampevator(
+          Constants.FeatureFlags.kAmpevatorEnabled,
+          (Utils.isSimulation()) ? new AmpevatorIOSim() : new AmpevatorIOTalonFX());
 
   private final Turret turret =
       new Turret(
@@ -78,7 +79,7 @@ public class RobotContainer {
   private final Shooter shooter =
       new Shooter(
           Constants.FeatureFlags.kShooterEnabled,
-          RobotBase.isReal() ? new ShooterIOTalonFX() : new ShooterIOSim());
+          Utils.isSimulation() ? new ShooterIOTalonFX() : new ShooterIOSim());
 
   private final PivotShooter pivotShooter =
       new PivotShooter(
@@ -89,20 +90,20 @@ public class RobotContainer {
       new Roller(
           Constants.FeatureFlags.kAmpevatorRollersEnabled,
           new RollerIOTalonFX(),
-          new BeamBreakIOBanner(RollerConstants.kRollerBeamBreakDIO));
+          new BeamBreakIOAdafruit(RollerConstants.kRollerBeamBreakDIO));
 
   private final Climb climb = new Climb(Constants.FeatureFlags.kClimbEnabled, new ClimbIOTalonFX());
   private final Intake intake =
       new Intake(
           Constants.FeatureFlags.kIntakeEnabled,
           new IntakeIOTalonFX(),
-          new BeamBreakIOBanner(IntakeConstants.kIntakeBeamBreakDIO));
+          new BeamBreakIOAdafruit(IntakeConstants.kIntakeBeamBreakDIO));
   private final Spindex spindex =
       new Spindex(
           Constants.FeatureFlags.kSpindexEnabled,
           new SpindexIOTalonFX(),
           new ShooterFeederIOTalonFX(),
-          new BeamBreakIOBanner(SpindexConstants.kSpindexBeamBreakDIO));
+          new BeamBreakIOAdafruit(SpindexConstants.kSpindexBeamBreakDIO));
   private final Vision vision = new Vision(new VisionIOLimelight());
 
   private final Superstructure superstructure =
