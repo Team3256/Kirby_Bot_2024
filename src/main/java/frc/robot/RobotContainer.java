@@ -79,7 +79,7 @@ public class RobotContainer {
   private final Shooter shooter =
       new Shooter(
           Constants.FeatureFlags.kShooterEnabled,
-          Utils.isSimulation() ? new ShooterIOTalonFX() : new ShooterIOSim());
+          Utils.isSimulation() ? new ShooterIOSim() : new ShooterIOTalonFX());
 
   private final PivotShooter pivotShooter =
       new PivotShooter(
@@ -226,8 +226,10 @@ public class RobotContainer {
     /* Reset robot heading to current orientation on button press */
     m_driverController.y("reset heading").onTrue(swerve.runOnce(swerve::seedFieldRelative));
 
-    /* Azimuth angle bindings. isRed == true for red alliance presets.
-     * isRed != true for blue. */
+    /*
+     * Azimuth angle bindings. isRed == true for red alliance presets.
+     * isRed != true for blue.
+     */
     if (isRed) {
       // azi source red
       m_driverController
