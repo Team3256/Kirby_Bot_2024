@@ -10,22 +10,12 @@ package frc.robot.subsystems.ampevatorrollers;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import frc.robot.utils.generics.SingleMotorConstants;
 
-public final class RollerConstants {
+public final class RollerConstants implements SingleMotorConstants {
   /* CAN */
-  public static final int kRollerMotorID = 33;
-
-  public static final double kRollerOuttakeVoltage = 12;
-
-  // Time of Flight constants
-  public static final double kBeamBreakDelayTime = 0;
-
-  public static final int kRollerBeamBreakDIO = 2;
-
-  public static double updateFrequency = 50;
-  public static boolean kRollerMotionMagic = false;
-
-  public static final TalonFXConfiguration motorConfigs =
+  public static final int kMotorID = 33;
+  public static final TalonFXConfiguration kMotorConfig =
       new TalonFXConfiguration()
           .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))
           .withMotorOutput(
@@ -41,6 +31,20 @@ public final class RollerConstants {
               new CurrentLimitsConfigs()
                   .withStatorCurrentLimitEnable(true)
                   .withStatorCurrentLimit(80));
-  public static int flashConfigRetries = 5;
+
+  public static final boolean kUseMotionMagic = false;
+  public static final boolean kUseFOC = true;
+  public static final double kStatusSignalUpdateFrequency = 50.0; // Hz
+  public static final int kFlashConfigRetries = 5;
+
+  // Time of Flight constants
+  public static final double kBeamBreakDelayTime = 0;
+  public static final int kRollerBeamBreakDIO = 2;
+  // Presets
+  public static final double kRollerOuttakeVoltage = 12;
   public static double kRollerIntakeVoltage = 4;
+
+  public static class SimulationConstants {
+    public static final double kGearRatio = 1.0; // todo: tune
+  }
 }

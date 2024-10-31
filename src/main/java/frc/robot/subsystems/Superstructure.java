@@ -128,7 +128,8 @@ public class Superstructure {
         .onTrue(spindex.goToShooter())
         .onTrue(
             pivotShooter.setPosition(
-                PivotShooterConstants.kSubWooferPreset * PivotShooterConstants.kPivotMotorGearing))
+                PivotShooterConstants.kSubWooferPreset
+                    * PivotShooterConstants.SimulationConstants.kGearRatio))
         .onTrue(
             shooter.setVelocity(
                 ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))

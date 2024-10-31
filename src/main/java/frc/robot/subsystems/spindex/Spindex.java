@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.BeamBreakIO;
 import frc.robot.subsystems.BeamBreakIOInputsAutoLogged;
 import frc.robot.utils.DisableSubsystem;
+import frc.robot.utils.generics.SingleMotorSubsystemIO;
+import frc.robot.utils.generics.SingleMotorSubsystemInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 // Copyright (c) 2024 FRC 3256
@@ -23,24 +25,25 @@ import org.littletonrobotics.junction.Logger;
 
 public class Spindex extends DisableSubsystem {
 
-  private final SpindexIO spindexIO;
-  private final SpindexIOInputsAutoLogged spindexIOAutoLogged = new SpindexIOInputsAutoLogged();
+  private final SingleMotorSubsystemIO spindexIO;
+  private final SingleMotorSubsystemInputsAutoLogged spindexIOAutoLogged =
+      new SingleMotorSubsystemInputsAutoLogged();
 
   private final BeamBreakIO beamBreakIO;
   private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =
       new BeamBreakIOInputsAutoLogged();
 
-  private final ShooterFeederIO shooterFeederIO;
-  private final ShooterFeederIOInputsAutoLogged shooterFeederIOAutoLogged =
-      new ShooterFeederIOInputsAutoLogged();
+  private final SingleMotorSubsystemIO shooterFeederIO;
+  private final SingleMotorSubsystemInputsAutoLogged shooterFeederIOAutoLogged =
+      new SingleMotorSubsystemInputsAutoLogged();
 
   public final Trigger debouncedBeamBreak = new Trigger(() -> beamBreakIOAutoLogged.beamBroken);
 
   // private beambreak Beambreak = new beamreak(1)
   public Spindex(
       boolean disabled,
-      SpindexIO spindexIO,
-      ShooterFeederIO shooterFeeder,
+      SingleMotorSubsystemIO spindexIO,
+      SingleMotorSubsystemIO shooterFeeder,
       BeamBreakIO beamBreakIO) {
     super(disabled);
     this.spindexIO = spindexIO;
@@ -59,21 +62,19 @@ public class Spindex extends DisableSubsystem {
   }
 
   public Command setSpindexVoltage(double voltage) {
-    return this.run(() -> spindexIO.setSpindexVoltage(voltage)).finallyDo(spindexIO::off);
+    return this.run(() -> spindexIO.setVoltage(voltage)).finallyDo(spindexIO::off);
   }
 
   public Command setSpindexVelocity(double velocity) {
-    return this.run(() -> spindexIO.setSpindexVelocity(velocity)).finallyDo(spindexIO::off);
+    return this.run(() -> spindexIO.setVelocity(velocity)).finallyDo(spindexIO::off);
   }
 
   public Command setShooterFeederVoltage(double voltage) {
-    return this.run(() -> shooterFeederIO.setFeederVoltage(voltage))
-        .finallyDo(shooterFeederIO::off);
+    return this.run(() -> shooterFeederIO.setVoltage(voltage)).finallyDo(shooterFeederIO::off);
   }
 
   public Command setShooterFeederVelocity(double velocity) {
-    return this.run(() -> shooterFeederIO.setFeederVelocity(velocity))
-        .finallyDo(shooterFeederIO::off);
+    return this.run(() -> shooterFeederIO.setVelocity(velocity)).finallyDo(shooterFeederIO::off);
   }
 
   public Command goToShooter() {
@@ -83,7 +84,7 @@ public class Spindex extends DisableSubsystem {
   }
 
   public Command feedNoteToShooter() {
-    return setShooterFeederVoltage(SpindexConstants.shooterFeederVoltage)
+    return setShooterFeederVoltage(SpindexFeederConstants.shooterFeederVoltage)
         .until(() -> beamBreakIOAutoLogged.beamBroken)
         .finallyDo(shooterFeederIO::off);
   }

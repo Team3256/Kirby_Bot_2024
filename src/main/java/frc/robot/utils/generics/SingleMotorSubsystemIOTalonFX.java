@@ -19,29 +19,20 @@ import frc.robot.utils.PhoenixUtil;
 public class SingleMotorSubsystemIOTalonFX<T extends SingleMotorConstants>
     implements SingleMotorSubsystemIO {
 
-  private final TalonFX motor;
+  private final TalonFX motor = new TalonFX(T.kMotorID);
   private final PositionVoltage positionRequest = new PositionVoltage(0).withSlot(0);
   private final MotionMagicVoltage motionMagicRequest = new MotionMagicVoltage(0).withSlot(0);
   private final VoltageOut voltageReq = new VoltageOut(0);
 
-  private final StatusSignal<Double> motorVoltage;
-  private final StatusSignal<Double> motorVelocity;
-  private final StatusSignal<Double> motorPosition;
-  private final StatusSignal<Double> motorStatorCurrent;
-  private final StatusSignal<Double> motorSupplyCurrent;
-  private final StatusSignal<Double> motorTemperature;
-  private final StatusSignal<Double> motorReferenceSlope;
+  private final StatusSignal<Double> motorVoltage = motor.getMotorVoltage();
+  private final StatusSignal<Double> motorVelocity = motor.getVelocity();
+  private final StatusSignal<Double> motorPosition = motor.getPosition();
+  private final StatusSignal<Double> motorStatorCurrent = motor.getStatorCurrent();
+  private final StatusSignal<Double> motorSupplyCurrent = motor.getSupplyCurrent();
+  private final StatusSignal<Double> motorTemperature = motor.getDeviceTemp();
+  private final StatusSignal<Double> motorReferenceSlope = motor.getClosedLoopReferenceSlope();
 
   public SingleMotorSubsystemIOTalonFX() {
-    motor = new TalonFX(T.kMotorID);
-    motorVoltage = motor.getMotorVoltage();
-    motorVelocity = motor.getVelocity();
-    motorPosition = motor.getPosition();
-    motorStatorCurrent = motor.getStatorCurrent();
-    motorSupplyCurrent = motor.getSupplyCurrent();
-    motorTemperature = motor.getDeviceTemp();
-    motorReferenceSlope = motor.getClosedLoopReferenceSlope();
-
     PhoenixUtil.applyMotorConfigs(motor, T.kMotorConfig, T.kFlashConfigRetries);
 
     BaseStatusSignal.setUpdateFrequencyForAll(

@@ -17,14 +17,13 @@ import org.littletonrobotics.junction.LoggedRobot;
 public class SingleMotorSubsystemIOSim<T extends SingleMotorConstants>
     extends SingleMotorSubsystemIOTalonFX<T> {
   private TalonFXSimState motorSim;
-  private final DCMotor motorModel;
+  private final DCMotor motorModel =
+      (T.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1))
+          .withReduction(T.SimulationConstants.kGearRatio);
 
   public SingleMotorSubsystemIOSim() {
     super();
     this.motorSim = super.getMotor().getSimState();
-    this.motorModel =
-        (T.kUseFOC ? DCMotor.getKrakenX60Foc(1) : DCMotor.getKrakenX60(1))
-            .withReduction(T.SimulationConstants.kGearRatio);
   }
 
   public void updateInputs(SingleMotorSubsystemInputs inputs) {

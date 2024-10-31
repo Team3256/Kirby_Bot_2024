@@ -17,13 +17,15 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.utils.DisableSubsystem;
+import frc.robot.utils.generics.SingleMotorSubsystemIO;
+import frc.robot.utils.generics.SingleMotorSubsystemInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class PivotShooter extends DisableSubsystem {
 
-  private final PivotShooterIO pivotShooterIO;
-  private final PivotShooterIOInputsAutoLogged pivotShooterIOAutoLogged =
-      new PivotShooterIOInputsAutoLogged();
+  private final SingleMotorSubsystemIO pivotShooterIO;
+  private final SingleMotorSubsystemInputsAutoLogged pivotShooterIOAutoLogged =
+      new SingleMotorSubsystemInputsAutoLogged();
 
   private final SysIdRoutine m_sysIdRoutine;
 
@@ -35,7 +37,7 @@ public class PivotShooter extends DisableSubsystem {
         }
       };
 
-  public PivotShooter(boolean disabled, PivotShooterIO pivotShooterIO) {
+  public PivotShooter(boolean disabled, SingleMotorSubsystemIO pivotShooterIO) {
     super(disabled);
 
     this.pivotShooterIO = pivotShooterIO;
@@ -80,7 +82,7 @@ public class PivotShooter extends DisableSubsystem {
     return this.run(() -> pivotShooterIO.setVoltage(PivotShooterConstants.kPivotSlamShooterVoltage))
         .until(
             () ->
-                pivotShooterIOAutoLogged.pivotShooterMotorStatorCurrent
+                pivotShooterIOAutoLogged.motorStatorCurrent
                     > PivotShooterConstants.kPivotSlamStallCurrent)
         .andThen(this.zero());
   }
@@ -101,7 +103,7 @@ public class PivotShooter extends DisableSubsystem {
               aprilTagMap.get(
                       (vision.getLastCenterLimelightY() - vision.getLastLastCenterLimelightY())
                           + vision.getCenterLimelightY())
-                  * PivotShooterConstants.kPivotMotorGearing);
+                  * PivotShooterConstants.SimulationConstants.kGearRatio);
         });
   }
 
@@ -114,6 +116,6 @@ public class PivotShooter extends DisableSubsystem {
   }
 
   public double getPosition() {
-    return pivotShooterIOAutoLogged.pivotShooterMotorPosition;
+    return pivotShooterIOAutoLogged.motorPosition;
   }
 }

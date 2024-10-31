@@ -13,9 +13,9 @@ public interface SingleMotorConstants {
   public static final int kMotorID = 0;
   public static final TalonFXConfiguration kMotorConfig = new TalonFXConfiguration();
   public static final boolean kUseMotionMagic = true;
-  public static final double kStatusSignalUpdateFrequency = 50.0; // Hz
-
   public static final boolean kUseFOC = true;
+
+  public static final double kStatusSignalUpdateFrequency = 50.0; // Hz
   public static final int kFlashConfigRetries = 5;
 
   public static class SimulationConstants {
