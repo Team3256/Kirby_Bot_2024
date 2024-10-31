@@ -14,15 +14,18 @@ import com.ctre.phoenix6.SignalLogger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.utils.DisableSubsystem;
+import frc.robot.utils.generics.SingleMotorSubsystemIO;
+import frc.robot.utils.generics.SingleMotorSubsystemInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class Climb extends DisableSubsystem {
 
-  private final ClimbIO climbIO;
-  private final ClimbIOInputsAutoLogged climbIOAutoLogged = new ClimbIOInputsAutoLogged();
+  private final SingleMotorSubsystemIO climbIO;
+  private final SingleMotorSubsystemInputsAutoLogged climbIOAutoLogged =
+      new SingleMotorSubsystemInputsAutoLogged();
   private final SysIdRoutine m_sysIdRoutine;
 
-  public Climb(boolean disabled, ClimbIO climbIO) {
+  public Climb(boolean disabled, SingleMotorSubsystemIO climbIO) {
     super(disabled);
     this.climbIO = climbIO;
     m_sysIdRoutine =
@@ -50,7 +53,8 @@ public class Climb extends DisableSubsystem {
   }
 
   public Command setPosition(double position) {
-    return this.run(() -> climbIO.setPosition(position * ClimbConstants.gearRatio));
+    return this.run(
+        () -> climbIO.setPosition(position * ClimbConstants.SimulationConstants.kGearRatio));
   }
 
   public Command setVoltage(double voltage) {
