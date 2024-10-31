@@ -17,11 +17,14 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.BeamBreakIO;
 import frc.robot.subsystems.BeamBreakIOInputsAutoLogged;
 import frc.robot.utils.DisableSubsystem;
+import frc.robot.utils.generics.SingleMotorSubsystemIO;
+import frc.robot.utils.generics.SingleMotorSubsystemInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class Roller extends DisableSubsystem {
-  private final RollerIO rollerIO;
-  private final RollerIOInputsAutoLogged rollerIOAutoLogged = new RollerIOInputsAutoLogged();
+  private final SingleMotorSubsystemIO rollerIO;
+  private final SingleMotorSubsystemInputsAutoLogged rollerIOAutoLogged =
+      new SingleMotorSubsystemInputsAutoLogged();
 
   private final BeamBreakIO beamBreakIO;
   private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =
@@ -32,7 +35,7 @@ public class Roller extends DisableSubsystem {
   public final Trigger debouncedBeamBreak = new Trigger(this::isBeamBroken).debounce(0.1);
   ;
 
-  public Roller(boolean disabled, RollerIO rollerIO, BeamBreakIO beamBreakIO) {
+  public Roller(boolean disabled, SingleMotorSubsystemIO rollerIO, BeamBreakIO beamBreakIO) {
     super(disabled);
 
     this.rollerIO = rollerIO;
@@ -48,8 +51,8 @@ public class Roller extends DisableSubsystem {
             new SysIdRoutine.Mechanism(
                 (volts) ->
                     rollerIO
-                        .getRollerMotor()
-                        .setControl(rollerIO.getRollerVoltageRequest().withOutput(volts.in(Volts))),
+                        .getMotor()
+                        .setControl(rollerIO.getVoltageRequest().withOutput(volts.in(Volts))),
                 null,
                 this));
   }
@@ -64,11 +67,11 @@ public class Roller extends DisableSubsystem {
   }
 
   public Command setVoltage(double voltage) {
-    return this.run(() -> rollerIO.setRollerVoltage(voltage)).finallyDo(rollerIO::off);
+    return this.run(() -> rollerIO.setVoltage(voltage)).finallyDo(rollerIO::off);
   }
 
   public Command setVelocity(double velocity, double passthroughVelocity) {
-    return this.run(() -> rollerIO.setRollerVelocity(velocity)).finallyDo(rollerIO::off);
+    return this.run(() -> rollerIO.setVelocity(velocity)).finallyDo(rollerIO::off);
   }
 
   public Command off() {
@@ -76,13 +79,13 @@ public class Roller extends DisableSubsystem {
   }
 
   public Command intakeNote() {
-    return this.run(() -> rollerIO.setRollerVoltage(RollerConstants.kRollerIntakeVoltage))
+    return this.run(() -> rollerIO.setVoltage(RollerConstants.kRollerIntakeVoltage))
         .until(debouncedBeamBreak)
         .finallyDo(rollerIO::off);
   }
 
   public Command outtake() {
-    return this.run(() -> rollerIO.setRollerVoltage(RollerConstants.kRollerOuttakeVoltage))
+    return this.run(() -> rollerIO.setVoltage(RollerConstants.kRollerOuttakeVoltage))
         .until(debouncedBeamBreak)
         .finallyDo(rollerIO::off);
   }

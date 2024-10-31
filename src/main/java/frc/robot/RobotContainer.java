@@ -31,7 +31,6 @@ import frc.robot.subsystems.ampevator.AmpevatorIOSim;
 import frc.robot.subsystems.ampevator.AmpevatorIOTalonFX;
 import frc.robot.subsystems.ampevatorrollers.Roller;
 import frc.robot.subsystems.ampevatorrollers.RollerConstants;
-import frc.robot.subsystems.ampevatorrollers.RollerIOTalonFX;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.climb.ClimbConstants;
 import frc.robot.subsystems.intake.Intake;
@@ -90,7 +89,7 @@ public class RobotContainer {
   private final Roller ampevatorRollers =
       new Roller(
           Constants.FeatureFlags.kAmpevatorRollersEnabled,
-          new RollerIOTalonFX(),
+          new SingleMotorSubsystemIOTalonFX<RollerConstants>(),
           new BeamBreakIOBanner(RollerConstants.kRollerBeamBreakDIO));
 
   private final Climb climb =
