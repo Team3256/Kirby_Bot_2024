@@ -41,10 +41,10 @@ import frc.robot.subsystems.pivotshooter.PivotShooterIOSim;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOTalonFX;
-import frc.robot.subsystems.spindex.ShooterFeederIOTalonFX;
+import frc.robot.subsystems.spindex.BaseSpindexConstants;
 import frc.robot.subsystems.spindex.Spindex;
 import frc.robot.subsystems.spindex.SpindexConstants;
-import frc.robot.subsystems.spindex.SpindexIOTalonFX;
+import frc.robot.subsystems.spindex.SpindexFeederConstants;
 import frc.robot.subsystems.swerve.*;
 import frc.robot.subsystems.turret.*;
 import frc.robot.subsystems.vision.Vision;
@@ -104,9 +104,9 @@ public class RobotContainer {
   private final Spindex spindex =
       new Spindex(
           Constants.FeatureFlags.kSpindexEnabled,
-          new SpindexIOTalonFX(),
-          new ShooterFeederIOTalonFX(),
-          new BeamBreakIOBanner(SpindexConstants.kSpindexBeamBreakDIO));
+          new SingleMotorSubsystemIOTalonFX<SpindexConstants>(),
+          new SingleMotorSubsystemIOTalonFX<SpindexFeederConstants>(),
+          new BeamBreakIOBanner(BaseSpindexConstants.kSpindexBeamBreakDIO));
   private final Vision vision = new Vision(new VisionIOLimelight());
 
   private final Superstructure superstructure =
