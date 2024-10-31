@@ -11,13 +11,11 @@ import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-public interface SingleMotorSubsystemIO extends VelocityIO, PositionIO {
+public interface PositionIO {
 
   public default void updateInputs(SingleMotorSubsystemInputs inputs) {}
 
   public default void setVoltage(double voltage) {}
-
-  public default void setVelocity(double velocity) {}
 
   public default void setPosition(double position) {}
 

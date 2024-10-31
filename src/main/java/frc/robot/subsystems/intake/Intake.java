@@ -17,13 +17,13 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.BeamBreakIO;
 import frc.robot.subsystems.BeamBreakIOInputsAutoLogged;
 import frc.robot.utils.DisableSubsystem;
-import frc.robot.utils.generics.SingleMotorSubsystemIO;
 import frc.robot.utils.generics.SingleMotorSubsystemInputsAutoLogged;
+import frc.robot.utils.generics.VelocityIO;
 import org.littletonrobotics.junction.Logger;
 
 public class Intake
     extends DisableSubsystem { // note for me later - this has also controls the redirect roller
-  private final SingleMotorSubsystemIO intakeIO;
+  private final VelocityIO intakeIO;
   private final SingleMotorSubsystemInputsAutoLogged intakeIOAutoLogged =
       new SingleMotorSubsystemInputsAutoLogged();
   private final SysIdRoutine intake_sysIdRoutine;
@@ -34,7 +34,7 @@ public class Intake
   private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =
       new BeamBreakIOInputsAutoLogged();
 
-  public Intake(boolean disabled, SingleMotorSubsystemIO intakeIO, BeamBreakIO beamBreakIO) {
+  public Intake(boolean disabled, VelocityIO intakeIO, BeamBreakIO beamBreakIO) {
     super(disabled);
 
     this.intakeIO = intakeIO;

@@ -51,7 +51,7 @@ import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.utils.MappedXboxController;
 import frc.robot.utils.NamedCommands;
-import frc.robot.utils.generics.SingleMotorSubsystemIOTalonFX;
+import frc.robot.utils.generics.VelocityIOTalonFX;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -99,7 +99,7 @@ public class RobotContainer {
   private final Intake intake =
       new Intake(
           Constants.FeatureFlags.kIntakeEnabled,
-          new SingleMotorSubsystemIOTalonFX<IntakeConstants>(),
+          new VelocityIOTalonFX<IntakeConstants>(),
           new BeamBreakIOBanner(IntakeConstants.kIntakeBeamBreakDIO));
   private final Spindex spindex =
       new Spindex(
