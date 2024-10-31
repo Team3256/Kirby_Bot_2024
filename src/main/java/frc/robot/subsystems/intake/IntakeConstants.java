@@ -15,21 +15,22 @@ import frc.robot.utils.generics.SingleMotorConstants;
 public final class IntakeConstants implements SingleMotorConstants {
   // Motor configuration
   public static final int kMotorID = 33;
-  public static final TalonFXConfiguration kMotorConfig = new TalonFXConfiguration()
-      .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))
-      .withMotorOutput(
-          new MotorOutputConfigs()
-              .withNeutralMode(NeutralModeValue.Brake)
-              .withInverted(InvertedValue.Clockwise_Positive))
-      .withMotionMagic(
-          new MotionMagicConfigs()
-              .withMotionMagicAcceleration(120)
-              .withMotionMagicCruiseVelocity(60)
-              .withMotionMagicJerk(1200))
-      .withCurrentLimits(
-          new CurrentLimitsConfigs()
-              .withStatorCurrentLimitEnable(true)
-              .withStatorCurrentLimit(80));
+  public static final TalonFXConfiguration kMotorConfig =
+      new TalonFXConfiguration()
+          .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))
+          .withMotorOutput(
+              new MotorOutputConfigs()
+                  .withNeutralMode(NeutralModeValue.Brake)
+                  .withInverted(InvertedValue.Clockwise_Positive))
+          .withMotionMagic(
+              new MotionMagicConfigs()
+                  .withMotionMagicAcceleration(120)
+                  .withMotionMagicCruiseVelocity(60)
+                  .withMotionMagicJerk(1200))
+          .withCurrentLimits(
+              new CurrentLimitsConfigs()
+                  .withStatorCurrentLimitEnable(true)
+                  .withStatorCurrentLimit(80));
   public static final boolean kUseMotionMagic = false;
   // Custom to intake subsystem
   public static final double kMotorVoltage = 12;

@@ -24,32 +24,36 @@ import org.littletonrobotics.junction.Logger;
 public class Intake
     extends DisableSubsystem { // note for me later - this has also controls the redirect roller
   private final SingleMotorSubsystemIO intakeIO;
-  private final SingleMotorSubsystemInputsAutoLogged intakeIOAutoLogged = new SingleMotorSubsystemInputsAutoLogged();
+  private final SingleMotorSubsystemInputsAutoLogged intakeIOAutoLogged =
+      new SingleMotorSubsystemInputsAutoLogged();
   private final SysIdRoutine intake_sysIdRoutine;
 
   private final Trigger debouncedBeamBreak = new Trigger(this::isBeamBroken).debounce(0.1);
 
   private final BeamBreakIO beamBreakIO;
-  private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged = new BeamBreakIOInputsAutoLogged();
+  private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =
+      new BeamBreakIOInputsAutoLogged();
 
   public Intake(boolean disabled, SingleMotorSubsystemIO intakeIO, BeamBreakIO beamBreakIO) {
     super(disabled);
 
     this.intakeIO = intakeIO;
     this.beamBreakIO = beamBreakIO;
-    intake_sysIdRoutine = new SysIdRoutine(
-        new SysIdRoutine.Config(
-            Volts.of(0.2).per(Seconds.of(1)), // Use default ramp rate (1 V/s)
-            Volts.of(6), // Reduce dynamic step voltage to 4 to prevent brownout
-            null, // Use default timeout (10 s)
-            // Log state with Phoenix SignalLogger class
-            (state) -> SignalLogger.writeString("state", state.toString())),
-        new SysIdRoutine.Mechanism(
-            (volts) -> intakeIO
-                .getMotor()
-                .setControl(intakeIO.getVoltageRequest().withOutput(volts.in(Volts))),
-            null,
-            this));
+    intake_sysIdRoutine =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                Volts.of(0.2).per(Seconds.of(1)), // Use default ramp rate (1 V/s)
+                Volts.of(6), // Reduce dynamic step voltage to 4 to prevent brownout
+                null, // Use default timeout (10 s)
+                // Log state with Phoenix SignalLogger class
+                (state) -> SignalLogger.writeString("state", state.toString())),
+            new SysIdRoutine.Mechanism(
+                (volts) ->
+                    intakeIO
+                        .getMotor()
+                        .setControl(intakeIO.getVoltageRequest().withOutput(volts.in(Volts))),
+                null,
+                this));
   }
 
   @Override
