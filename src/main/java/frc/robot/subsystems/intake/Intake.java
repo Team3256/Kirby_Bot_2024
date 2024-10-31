@@ -80,7 +80,7 @@ public class Intake
   }
 
   public Command redirectToAmp() {
-    return this.run(() -> intakeIO.setIntakeVoltage(IntakeConstants.kIntakeRedirectVoltage))
+    return this.run(() -> intakeIO.setVoltage(IntakeConstants.kIntakeRedirectVoltage))
         .finallyDo(intakeIO::off);
   }
 
