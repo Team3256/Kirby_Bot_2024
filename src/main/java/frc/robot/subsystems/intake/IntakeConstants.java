@@ -10,37 +10,37 @@ package frc.robot.subsystems.intake;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import frc.robot.utils.generics.SingleMotorConstants;
 
-public final class IntakeConstants {
-  /* CAN */
-  public static final int kIntakeMotorID = 33;
-
-  public static final double kIntakeIntakeVoltage = 12;
-
-  // Time of Flight constants
-  public static final double kBeamBreakDelayTime = 0;
-
+public final class IntakeConstants implements SingleMotorConstants {
+  // Motor configuration
+  public static final int kMotorID = 33;
+  public static final TalonFXConfiguration kMotorConfig = new TalonFXConfiguration()
+      .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))
+      .withMotorOutput(
+          new MotorOutputConfigs()
+              .withNeutralMode(NeutralModeValue.Brake)
+              .withInverted(InvertedValue.Clockwise_Positive))
+      .withMotionMagic(
+          new MotionMagicConfigs()
+              .withMotionMagicAcceleration(120)
+              .withMotionMagicCruiseVelocity(60)
+              .withMotionMagicJerk(1200))
+      .withCurrentLimits(
+          new CurrentLimitsConfigs()
+              .withStatorCurrentLimitEnable(true)
+              .withStatorCurrentLimit(80));
+  public static final boolean kUseMotionMagic = false;
+  // Custom to intake subsystem
+  public static final double kMotorVoltage = 12;
   public static final int kIntakeBeamBreakDIO = 4;
-
-  public static double updateFrequency = 50;
-  public static boolean kIntakeMotionMagic = false;
-
-  public static final TalonFXConfiguration motorConfigs =
-      new TalonFXConfiguration()
-          .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))
-          .withMotorOutput(
-              new MotorOutputConfigs()
-                  .withNeutralMode(NeutralModeValue.Brake)
-                  .withInverted(InvertedValue.Clockwise_Positive))
-          .withMotionMagic(
-              new MotionMagicConfigs()
-                  .withMotionMagicAcceleration(120)
-                  .withMotionMagicCruiseVelocity(60)
-                  .withMotionMagicJerk(1200))
-          .withCurrentLimits(
-              new CurrentLimitsConfigs()
-                  .withStatorCurrentLimitEnable(true)
-                  .withStatorCurrentLimit(80));
-  public static int flashConfigRetries = 5;
   public static double kIntakeRedirectVoltage = -2;
+  // The rest of these are default
+  public static final boolean kUseFOC = true;
+  public static final double kStatusSignalUpdateFrequency = 50.0; // Hz
+  public static final int kFlashConfigRetries = 5;
+
+  public static class SimulationConstants {
+    public static final double kGearRatio = 1.0;
+  }
 }

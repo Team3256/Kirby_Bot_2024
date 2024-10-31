@@ -36,7 +36,6 @@ import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.climb.ClimbIOTalonFX;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeConstants;
-import frc.robot.subsystems.intake.IntakeIOTalonFX;
 import frc.robot.subsystems.pivotshooter.PivotShooter;
 import frc.robot.subsystems.pivotshooter.PivotShooterIOSim;
 import frc.robot.subsystems.pivotshooter.PivotShooterIOTalonFX;
@@ -53,6 +52,7 @@ import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.utils.MappedXboxController;
 import frc.robot.utils.NamedCommands;
+import frc.robot.utils.generics.SingleMotorSubsystemIOTalonFX;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -95,7 +95,7 @@ public class RobotContainer {
   private final Intake intake =
       new Intake(
           Constants.FeatureFlags.kIntakeEnabled,
-          new IntakeIOTalonFX(),
+          new SingleMotorSubsystemIOTalonFX<IntakeConstants>(),
           new BeamBreakIOBanner(IntakeConstants.kIntakeBeamBreakDIO));
   private final Spindex spindex =
       new Spindex(
@@ -225,8 +225,10 @@ public class RobotContainer {
     /* Reset robot heading to current orientation on button press */
     m_driverController.y("reset heading").onTrue(swerve.runOnce(swerve::seedFieldRelative));
 
-    /* Azimuth angle bindings. isRed == true for red alliance presets.
-     * isRed != true for blue. */
+    /*
+     * Azimuth angle bindings. isRed == true for red alliance presets.
+     * isRed != true for blue.
+     */
     if (isRed) {
       // azi source red
       m_driverController

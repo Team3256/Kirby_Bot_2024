@@ -17,40 +17,39 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.BeamBreakIO;
 import frc.robot.subsystems.BeamBreakIOInputsAutoLogged;
 import frc.robot.utils.DisableSubsystem;
+import frc.robot.utils.generics.SingleMotorSubsystemIO;
+import frc.robot.utils.generics.SingleMotorSubsystemInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class Intake
     extends DisableSubsystem { // note for me later - this has also controls the redirect roller
-  private final IntakeIO intakeIO;
-  private final IntakeIOInputsAutoLogged intakeIOAutoLogged = new IntakeIOInputsAutoLogged();
+  private final SingleMotorSubsystemIO intakeIO;
+  private final SingleMotorSubsystemInputsAutoLogged intakeIOAutoLogged = new SingleMotorSubsystemInputsAutoLogged();
   private final SysIdRoutine intake_sysIdRoutine;
 
   private final Trigger debouncedBeamBreak = new Trigger(this::isBeamBroken).debounce(0.1);
 
   private final BeamBreakIO beamBreakIO;
-  private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =
-      new BeamBreakIOInputsAutoLogged();
+  private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged = new BeamBreakIOInputsAutoLogged();
 
-  public Intake(boolean disabled, IntakeIO intakeIO, BeamBreakIO beamBreakIO) {
+  public Intake(boolean disabled, SingleMotorSubsystemIO intakeIO, BeamBreakIO beamBreakIO) {
     super(disabled);
 
     this.intakeIO = intakeIO;
     this.beamBreakIO = beamBreakIO;
-    intake_sysIdRoutine =
-        new SysIdRoutine(
-            new SysIdRoutine.Config(
-                Volts.of(0.2).per(Seconds.of(1)), // Use default ramp rate (1 V/s)
-                Volts.of(6), // Reduce dynamic step voltage to 4 to prevent brownout
-                null, // Use default timeout (10 s)
-                // Log state with Phoenix SignalLogger class
-                (state) -> SignalLogger.writeString("state", state.toString())),
-            new SysIdRoutine.Mechanism(
-                (volts) ->
-                    intakeIO
-                        .getIntakeMotor()
-                        .setControl(intakeIO.getIntakeVoltageRequest().withOutput(volts.in(Volts))),
-                null,
-                this));
+    intake_sysIdRoutine = new SysIdRoutine(
+        new SysIdRoutine.Config(
+            Volts.of(0.2).per(Seconds.of(1)), // Use default ramp rate (1 V/s)
+            Volts.of(6), // Reduce dynamic step voltage to 4 to prevent brownout
+            null, // Use default timeout (10 s)
+            // Log state with Phoenix SignalLogger class
+            (state) -> SignalLogger.writeString("state", state.toString())),
+        new SysIdRoutine.Mechanism(
+            (volts) -> intakeIO
+                .getMotor()
+                .setControl(intakeIO.getVoltageRequest().withOutput(volts.in(Volts))),
+            null,
+            this));
   }
 
   @Override
@@ -75,7 +74,7 @@ public class Intake
   }
 
   public Command intakeIn() {
-    return this.run(() -> intakeIO.setIntakeVoltage(IntakeConstants.kIntakeIntakeVoltage))
+    return this.run(() -> intakeIO.setVoltage(IntakeConstants.kMotorVoltage))
         .until(debouncedBeamBreak)
         .finallyDo(intakeIO::off);
   }

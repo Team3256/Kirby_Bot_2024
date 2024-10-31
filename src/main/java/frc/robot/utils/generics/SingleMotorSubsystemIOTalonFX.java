@@ -14,10 +14,10 @@ import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-
 import frc.robot.utils.PhoenixUtil;
 
-public class SingleMotorSubsystemIOTalonFX<T extends SingleMotorConstants> implements SingleMotorSubsystemIO {
+public class SingleMotorSubsystemIOTalonFX<T extends SingleMotorConstants>
+    implements SingleMotorSubsystemIO {
 
   private final TalonFX motor;
   private final PositionVoltage positionRequest = new PositionVoltage(0).withSlot(0);
@@ -42,8 +42,7 @@ public class SingleMotorSubsystemIOTalonFX<T extends SingleMotorConstants> imple
     motorTemperature = motor.getDeviceTemp();
     motorReferenceSlope = motor.getClosedLoopReferenceSlope();
 
-    PhoenixUtil.applyMotorConfigs(
-        motor, T.kMotorConfig, T.kFlashConfigRetries);
+    PhoenixUtil.applyMotorConfigs(motor, T.kMotorConfig, T.kFlashConfigRetries);
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         T.kStatusSignalUpdateFrequency,

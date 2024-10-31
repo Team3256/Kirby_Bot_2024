@@ -13,42 +13,38 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface SingleMotorSubsystemIO {
-    @AutoLog
-    public static class SingleMotorSubsystemInputs {
-        public double motorVoltage = 0.0;
-        public double motorPosition = 0.0;
-        public double motorVelocity = 0.0;
-        public double motorStatorCurrent = 0.0;
-        public double motorSupplyCurrent = 0.0;
-        public double motorTemperature = 0.0;
-        public double motorReferenceSlope = 0.0;
-    }
+  @AutoLog
+  public static class SingleMotorSubsystemInputs {
+    public double motorVoltage = 0.0;
+    public double motorPosition = 0.0;
+    public double motorVelocity = 0.0;
+    public double motorStatorCurrent = 0.0;
+    public double motorSupplyCurrent = 0.0;
+    public double motorTemperature = 0.0;
+    public double motorReferenceSlope = 0.0;
+  }
 
-    public default void updateInputs(SingleMotorSubsystemInputs inputs) {
-    }
+  public default void updateInputs(SingleMotorSubsystemInputs inputs) {}
 
-    public default void setVoltage(double voltage) {
-    }
+  public default void setVoltage(double voltage) {}
 
-    public default void setVelocity(double velocity) {
-    }
+  public default void setVelocity(double velocity) {}
 
-    public default void setPosition(double position) {
-    }
+  public default void setPosition(double position) {}
 
-    public default TalonFX getMotor() {
-        return new TalonFX(0);
-    }
+  public default TalonFX getMotor() {
+    return new TalonFX(0);
+  }
 
-    public default VoltageOut getVoltageRequest() {
-        return new VoltageOut(0);
-    }
+  public default VoltageOut getVoltageRequest() {
+    return new VoltageOut(0);
+  }
 
-    public default void off() {
-        this.getMotor().setControl(new NeutralOut());
-    }
+  public default void off() {
+    this.getMotor().setControl(new NeutralOut());
+  }
 
-    public default void zero() {
-        this.getMotor().setPosition(0);
-    }
+  public default void zero() {
+    this.getMotor().setPosition(0);
+  }
 }
