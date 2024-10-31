@@ -17,12 +17,15 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.BeamBreakIO;
 import frc.robot.subsystems.BeamBreakIOInputsAutoLogged;
 import frc.robot.utils.DisableSubsystem;
+import frc.robot.utils.generics.SingleMotorSubsystemIO;
+import frc.robot.utils.generics.SingleMotorSubsystemInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class Intake
     extends DisableSubsystem { // note for me later - this has also controls the redirect roller
-  private final IntakeIO intakeIO;
-  private final IntakeIOInputsAutoLogged intakeIOAutoLogged = new IntakeIOInputsAutoLogged();
+  private final SingleMotorSubsystemIO intakeIO;
+  private final SingleMotorSubsystemInputsAutoLogged intakeIOAutoLogged =
+      new SingleMotorSubsystemInputsAutoLogged();
   private final SysIdRoutine intake_sysIdRoutine;
 
   private final Trigger debouncedBeamBreak = new Trigger(this::isBeamBroken).debounce(0.1);
@@ -31,7 +34,7 @@ public class Intake
   private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =
       new BeamBreakIOInputsAutoLogged();
 
-  public Intake(boolean disabled, IntakeIO intakeIO, BeamBreakIO beamBreakIO) {
+  public Intake(boolean disabled, SingleMotorSubsystemIO intakeIO, BeamBreakIO beamBreakIO) {
     super(disabled);
 
     this.intakeIO = intakeIO;
@@ -47,8 +50,8 @@ public class Intake
             new SysIdRoutine.Mechanism(
                 (volts) ->
                     intakeIO
-                        .getIntakeMotor()
-                        .setControl(intakeIO.getIntakeVoltageRequest().withOutput(volts.in(Volts))),
+                        .getMotor()
+                        .setControl(intakeIO.getVoltageRequest().withOutput(volts.in(Volts))),
                 null,
                 this));
   }
@@ -63,11 +66,11 @@ public class Intake
   }
 
   public Command setVoltage(double voltage) {
-    return this.run(() -> intakeIO.setIntakeVoltage(voltage)).finallyDo(intakeIO::off);
+    return this.run(() -> intakeIO.setVoltage(voltage)).finallyDo(intakeIO::off);
   }
 
   public Command setVelocity(double velocity, double passthroughVelocity) {
-    return this.run(() -> intakeIO.setIntakeVelocity(velocity)).finallyDo(intakeIO::off);
+    return this.run(() -> intakeIO.setVelocity(velocity)).finallyDo(intakeIO::off);
   }
 
   public Command off() {
@@ -75,13 +78,13 @@ public class Intake
   }
 
   public Command intakeIn() {
-    return this.run(() -> intakeIO.setIntakeVoltage(IntakeConstants.kIntakeIntakeVoltage))
+    return this.run(() -> intakeIO.setVoltage(IntakeConstants.kMotorVoltage))
         .until(debouncedBeamBreak)
         .finallyDo(intakeIO::off);
   }
 
   public Command redirectToAmp() {
-    return this.run(() -> intakeIO.setIntakeVoltage(IntakeConstants.kIntakeRedirectVoltage))
+    return this.run(() -> intakeIO.setVoltage(IntakeConstants.kIntakeRedirectVoltage))
         .finallyDo(intakeIO::off);
   }
 
