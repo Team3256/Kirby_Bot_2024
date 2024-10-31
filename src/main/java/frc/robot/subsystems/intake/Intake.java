@@ -62,11 +62,11 @@ public class Intake
   }
 
   public Command setVoltage(double voltage) {
-    return this.run(() -> intakeIO.setIntakeVoltage(voltage)).finallyDo(intakeIO::off);
+    return this.run(() -> intakeIO.setVoltage(voltage)).finallyDo(intakeIO::off);
   }
 
   public Command setVelocity(double velocity, double passthroughVelocity) {
-    return this.run(() -> intakeIO.setIntakeVelocity(velocity)).finallyDo(intakeIO::off);
+    return this.run(() -> intakeIO.setVelocity(velocity)).finallyDo(intakeIO::off);
   }
 
   public Command off() {
