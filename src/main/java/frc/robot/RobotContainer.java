@@ -37,8 +37,8 @@ import frc.robot.subsystems.climb.ClimbConstants;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeConstants;
 import frc.robot.subsystems.pivotshooter.PivotShooter;
+import frc.robot.subsystems.pivotshooter.PivotShooterConstants;
 import frc.robot.subsystems.pivotshooter.PivotShooterIOSim;
-import frc.robot.subsystems.pivotshooter.PivotShooterIOTalonFX;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOTalonFX;
@@ -83,7 +83,9 @@ public class RobotContainer {
   private final PivotShooter pivotShooter =
       new PivotShooter(
           Constants.FeatureFlags.kPivotShooterEnabled,
-          Utils.isSimulation() ? new PivotShooterIOSim() : new PivotShooterIOTalonFX());
+          Utils.isSimulation()
+              ? new PivotShooterIOSim()
+              : new SingleMotorSubsystemIOTalonFX<PivotShooterConstants>());
 
   private final Roller ampevatorRollers =
       new Roller(
