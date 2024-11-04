@@ -79,7 +79,7 @@ public class Turret extends DisableSubsystem {
    * @param swerveAngle Current angle of the swerve drivetrain
    * @return command to set the position of the turret absolute to the swerve angle
    */
-  public Command setPositionRelativeToSwerve(Rotation2d position, CommandSwerveDrivetrain swerve) {
+  public Command setPositionFieldRelative(Rotation2d position, CommandSwerveDrivetrain swerve) {
     return this.run(
         () ->
             turretIO.setPosition(

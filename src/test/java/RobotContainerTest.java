@@ -1,5 +1,6 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import frc.robot.utils.MappedXboxController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +19,7 @@ public class RobotContainerTest {
     @Test
     public void test() {
         frcRobot = new RobotContainer();
+        MappedXboxController.dumpControllerMap(frcRobot.m_driverController, frcRobot.m_operatorController);
         assertEquals(1, 1);
     }
 }
