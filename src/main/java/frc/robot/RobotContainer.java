@@ -136,9 +136,9 @@ public class RobotContainer {
     configureAutoChooser();
     configureSwerve();
 
-    SimMechs.init();
-
-    // No other bindings should be added after this line.
+    if (Utils.isSimulation()) {
+      SimMechs.init();
+    }
   }
 
   /**
