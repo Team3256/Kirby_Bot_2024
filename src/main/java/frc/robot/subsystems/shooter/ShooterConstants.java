@@ -63,8 +63,6 @@ public final class ShooterConstants {
   public static double kShooterSubwooferRPS = 60;
   public static double kShooterFollowerSubwooferRPS = 70;
 
-  public static double kShooterAmpRPS = 22.5; // BEFORE: 1200/60
-  public static double kShooterFollowerAmpRPS = 22.5;
 
   public static double kShooterFeederRPS = 42;
   public static double kShooterFollowerFeederRPS = 45;
@@ -79,14 +77,9 @@ public final class ShooterConstants {
   }
 
   /* Misc */
-  public static double kShooterAngle = 10; // The fixed angle for the shooter (in degrees)
   // before: 1800/6
   public static double updateFrequency = 50.0;
   public static boolean kUseMotionMagic = false;
-
-  public static NeutralModeValue neutralMode = NeutralModeValue.Brake;
-  public static InvertedValue shooterInverted = InvertedValue.Clockwise_Positive;
-  public static InvertedValue shooterFollowerInverted = InvertedValue.CounterClockwise_Positive;
 
   public static int flashConfigRetries = 5;
 }

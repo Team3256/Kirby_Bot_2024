@@ -25,7 +25,7 @@ public class Intake
   private final IntakeIOInputsAutoLogged intakeIOAutoLogged = new IntakeIOInputsAutoLogged();
   private final SysIdRoutine intake_sysIdRoutine;
 
-  private final Trigger debouncedBeamBreak = new Trigger(this::isBeamBroken).debounce(0.1);
+  private final Trigger debouncedBeamBreak = new Trigger(this::isBeamBroken).debounce(1);
 
   private final BeamBreakIO beamBreakIO;
   private final BeamBreakIOInputsAutoLogged beamBreakIOAutoLogged =

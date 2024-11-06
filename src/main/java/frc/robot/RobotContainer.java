@@ -40,6 +40,7 @@ import frc.robot.subsystems.pivotshooter.PivotShooter;
 import frc.robot.subsystems.pivotshooter.PivotShooterIOSim;
 import frc.robot.subsystems.pivotshooter.PivotShooterIOTalonFX;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.subsystems.spindex.ShooterFeederIOTalonFX;
@@ -152,21 +153,8 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    m_driverController.b("shoot").whileTrue(shooter.setVelocity(100, 100));
-    m_driverController.x("pivot shooter no").onTrue(pivotShooter.setPosition(100));
-    m_driverController
-        .y("pivot shooter wow heheheh")
-        .onTrue(
-            NamedCommands.parallel(
-                pivotShooter.setPosition(-100).withName("hi test"),
-                shooter.setVelocity(100, 100).withName("test 2")));
-
-    m_operatorController
-        .rightStick("Turret")
-        .whileTrue(
-            turret.setPositionFieldRelative(
-                new Rotation2d(m_operatorController.getLeftX(), m_operatorController.getLeftY()),
-                swerve));
+    m_operatorController.rightBumper("Intake").whileTrue(intake.intakeIn().alongWith(spindex.goToShooter()));
+    m_operatorController.rightTrigger("Shooter").onTrue(shooter.setVelocity(ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterSpeakerRPS));
   }
 
   private void configureAutoChooser() {
