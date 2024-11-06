@@ -85,6 +85,11 @@ public class PivotShooter extends DisableSubsystem {
         .andThen(this.zero());
   }
 
+  public Command setSub() {
+    return setPosition(
+        PivotShooterConstants.kSubWooferPreset * PivotShooterConstants.kPivotMotorGearing);
+  }
+
   public Command slamAndPID() {
 
     return Commands.sequence(this.setPosition(0), this.slamZero());

@@ -1,1 +1,1 @@
-{"driver":{"b":"shoot","x":"pivot shooter no","y":"reset heading","leftTrigger":"Slow Drive"},"operator":{"rightStick":"Turret"}}
+{"driver":{"y":"reset heading","leftTrigger":"Slow Drive"},"operator":{"a":"feed","x":"sub","y":"zero","rightBumper":"Intake"}}

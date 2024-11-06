@@ -19,8 +19,10 @@ import frc.robot.utils.PhoenixUtil;
 public class PivotShooterIOTalonFX implements PivotShooterIO {
 
   private final TalonFX pivotShooterMotor = new TalonFX(PivotShooterConstants.kPivotMotorID);
-  private final PositionVoltage positionRequest = new PositionVoltage(0).withSlot(0);
-  private final MotionMagicVoltage motionMagicRequest = new MotionMagicVoltage(0).withSlot(0);
+  private final PositionVoltage positionRequest =
+      new PositionVoltage(0).withSlot(0).withEnableFOC(PivotShooterConstants.kUseFOC);
+  private final MotionMagicVoltage motionMagicRequest =
+      new MotionMagicVoltage(0).withSlot(0).withEnableFOC(PivotShooterConstants.kUseFOC);
   private final VoltageOut voltageReq = new VoltageOut(0);
 
   private final StatusSignal<Double> pivotShooterMotorVoltage = pivotShooterMotor.getMotorVoltage();

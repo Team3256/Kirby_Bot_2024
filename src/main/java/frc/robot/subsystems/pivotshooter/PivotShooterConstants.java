@@ -12,7 +12,6 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 
 public final class PivotShooterConstants {
@@ -20,52 +19,24 @@ public final class PivotShooterConstants {
   // this works
   public static final double kSubWooferPreset = 3.4 / 138.33; // 3.2
   public static final double kFeederPreset = 5.9 / 138.33;
-  public static final double kAmpPreset = (4) / 138.33;
-  public static final double kWingNoteCenterPreset = 5.8 / 138.33;
-  public static final double kWingNoteSidePreset =
-      5.5 / 138.33; // old value: 5.7 distance: -1.5 //old ish?: 5.4
-  public static final double kWingNoteFarSidePreset = 0 / 138.33;
-  public static final double kTrussSourceSidePreset = 6.7 / 138.33; // -10.6875
-  public static final double kHalfWingPodiumPreset =
-      6.55 / 138.33; // old value: 6.7 distance: -11.5275
-  public static final double kPodiumLeftPreset = 6.5 / 138.33;
-  public static final double kPodiumRPreset = 6 / 138.33;
 
   public static final int kPivotMotorID = 60;
 
   /* PID */
-  public static final TrapezoidProfile.Constraints kPivotProfileContraints =
-      new TrapezoidProfile.Constraints(16, 16);
-
-  /* Tolerance/threshold */
-  public static final double kPivotPositionToleranceDeg = 0.1; // 5deg for the pivot.
-  public static final double kStallVelocityThreshold = 0.1;
 
   /* Physics/geometry */
   public static final double kPivotMotorGearing = 138.333; // 22 by 1
-  public static final double kPivotLength = 0.2;
-  public static final double kPivotMinAngleDeg = -90;
-  public static final double kPivotMaxAngleDeg = 50;
-  public static final double kPivotStartingAngleDeg = 0;
-  public static final double jKgMetersSquared = 0.1; // for sim
 
   /* Preset */
   public static final double kPivotSlamIntakeVoltage = -5;
   public static final double kPivotSlamShooterVoltage = -2;
 
   /* Misc */
-  public static final int kNumPivotMotors = 1;
   public static final boolean kUseFOC = false;
   public static final boolean kUseMotionMagic = true; // idk
   public static final double updateFrequency = 50.0;
   public static final int flashConfigRetries = 5;
   public static final double kPivotSlamStallCurrent = 50;
-
-  public static final int kSpeakerAprilTagRed = 4;
-  public static final int kSpeakerAprilTagBlue = 0;
-
-  public static final int kSpeakerBackupAprilTagRed = 5;
-  public static final int kSpeakerBackupAprilTagBlue = 1;
 
   public static final TalonFXConfiguration motorConfigs =
       new TalonFXConfiguration()
