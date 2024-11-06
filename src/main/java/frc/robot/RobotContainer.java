@@ -52,7 +52,6 @@ import frc.robot.subsystems.turret.*;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.utils.MappedXboxController;
-import frc.robot.utils.NamedCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -153,8 +152,14 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    m_operatorController.rightBumper("Intake").whileTrue(intake.intakeIn().alongWith(spindex.goToShooter()));
-    m_operatorController.rightTrigger("Shooter").onTrue(shooter.setVelocity(ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterSpeakerRPS));
+    m_operatorController
+        .rightBumper("Intake")
+        .whileTrue(intake.intakeIn().alongWith(spindex.goToShooter()));
+    m_operatorController
+        .rightTrigger("Shooter")
+        .onTrue(
+            shooter.setVelocity(
+                ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterSpeakerRPS));
   }
 
   private void configureAutoChooser() {

@@ -77,19 +77,21 @@ public class Spindex extends DisableSubsystem {
   }
 
   public Command setVoltage(double spindexVoltage, double shooterFeederVoltage) {
-    return this.run(() -> {
-      spindexIO.setSpindexVoltage(spindexVoltage);
-      shooterFeederIO.setFeederVoltage(shooterFeederVoltage);
-    });
+    return this.run(
+        () -> {
+          spindexIO.setSpindexVoltage(spindexVoltage);
+          shooterFeederIO.setFeederVoltage(shooterFeederVoltage);
+        });
   }
 
   public Command goToShooter() {
     return setVoltage(SpindexConstants.spindexMotorVoltage, SpindexConstants.shooterFeederVoltage)
         .until(() -> beamBreakIOAutoLogged.beamBroken)
-        .finallyDo(() -> {
-          spindexIO.off();
-          shooterFeederIO.off();
-        });
+        .finallyDo(
+            () -> {
+              spindexIO.off();
+              shooterFeederIO.off();
+            });
   }
 
   public Command feedNoteToShooter() {
@@ -105,9 +107,10 @@ public class Spindex extends DisableSubsystem {
   }
 
   public Command off() {
-    return this.run(()->{
-      spindexIO.off();
-      shooterFeederIO.off();
-    });
+    return this.run(
+        () -> {
+          spindexIO.off();
+          shooterFeederIO.off();
+        });
   }
 }

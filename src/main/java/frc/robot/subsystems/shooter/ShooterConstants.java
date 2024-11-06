@@ -63,7 +63,6 @@ public final class ShooterConstants {
   public static double kShooterSubwooferRPS = 60;
   public static double kShooterFollowerSubwooferRPS = 70;
 
-
   public static double kShooterFeederRPS = 42;
   public static double kShooterFollowerFeederRPS = 45;
 
