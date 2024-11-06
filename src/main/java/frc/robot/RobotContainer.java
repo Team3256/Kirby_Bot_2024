@@ -105,17 +105,18 @@ public class RobotContainer {
           new BeamBreakIOAdafruit(SpindexConstants.kSpindexBeamBreakDIO));
   private final Vision vision = new Vision(new VisionIOLimelight());
 
-  //  private final Superstructure superstructure =
-  //      new Superstructure(
-  //          ampevator,
-  //          ampevatorRollers,
-  //          turret,
-  //          climb,
-  //          intake,
-  //          spindex,
-  //          pivotShooter,
-  //          shooter,
-  //          vision);
+  //    private final Superstructure superstructure = // TODO: when uncommented also uncomment the
+  // periodic
+  //        new Superstructure(
+  //            ampevator,
+  //            ampevatorRollers,
+  //            turret,
+  //            climb,
+  //            intake,
+  //            spindex,
+  //            pivotShooter,
+  //            shooter,
+  //            vision);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public final MappedXboxController m_driverController =
@@ -398,5 +399,6 @@ public class RobotContainer {
 
   public void periodic() {
     autoChooser.update();
+    //    superstructure.periodic();
   }
 }

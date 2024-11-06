@@ -83,12 +83,8 @@ public class Vision extends SubsystemBase {
             new Transform2d(
                 new Translation2d(
                     Units.inchesToMeters(getDistanceToNote()),
-                    robotPose
-                        .getRotation()
-                        .plus(Rotation2d.fromDegrees(visionIOAutoLogged.ampevatorLimelightX))),
-                robotPose
-                    .getRotation()
-                    .plus(Rotation2d.fromDegrees(visionIOAutoLogged.ampevatorLimelightX))));
+                    Rotation2d.fromDegrees(visionIOAutoLogged.ampevatorLimelightX)),
+                Rotation2d.fromDegrees(visionIOAutoLogged.ampevatorLimelightX)));
   }
 
   @AutoLogOutput
