@@ -28,9 +28,12 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 /**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to
+ * each mode, as described in the TimedRobot documentation. If you change the
+ * name of this class or
+ * the package after creating this project, you must also update the
+ * build.gradle file in the
  * project.
  */
 public class Robot extends LoggedRobot implements Logged {
@@ -41,14 +44,16 @@ public class Robot extends LoggedRobot implements Logged {
   private double correctionAngle;
 
   /**
-   * This function is run when the robot is first started up and should be used for any
+   * This function is run when the robot is first started up and should be used
+   * for any
    * initialization code.
    */
   @Override
   public void robotInit() {
-
+    System.out.println("--Robot.robotInit()--");
     RobotController.setBrownoutVoltage(
-        4.75); // the "blackout" voltage is 4.5 // lowk if this bot dont work im setting this to
+        4.75); // the "blackout" voltage is 4.5 // lowk if this bot dont work im setting this
+               // to
     // like 0
     configureAdvantageKit();
     if (Constants.FeatureFlags.kMonologueEnabled) {
@@ -59,16 +64,15 @@ public class Robot extends LoggedRobot implements Logged {
     m_robotContainer = new RobotContainer();
 
     Map<String, Integer> commandCounts = new HashMap<>();
-    BiConsumer<Command, Boolean> logCommandFunction =
-        (Command command, Boolean active) -> {
-          String name = command.getName();
-          int count = commandCounts.getOrDefault(name, 0) + (active ? 1 : -1);
-          commandCounts.put(name, count);
+    BiConsumer<Command, Boolean> logCommandFunction = (Command command, Boolean active) -> {
+      String name = command.getName();
+      int count = commandCounts.getOrDefault(name, 0) + (active ? 1 : -1);
+      commandCounts.put(name, count);
 
-          Logger.recordOutput(
-              "CommandsUnique/" + name + "_" + Integer.toHexString(command.hashCode()), active);
-          Logger.recordOutput("CommandsAll/" + name, count > 0);
-        };
+      Logger.recordOutput(
+          "CommandsUnique/" + name + "_" + Integer.toHexString(command.hashCode()), active);
+      Logger.recordOutput("CommandsAll/" + name, count > 0);
+    };
     CommandScheduler.getInstance()
         .onCommandInitialize(
             (Command command) -> {
@@ -104,9 +108,8 @@ public class Robot extends LoggedRobot implements Logged {
     } else {
       if (Constants.Logging.kAdvkitUseReplayLogs) {
         setUseTiming(false); // Run as fast as possible
-        String logPath =
-            LogFileUtil
-                .findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
+        String logPath = LogFileUtil
+            .findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
         Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
         // Save outputs to a new log
         Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
@@ -163,10 +166,13 @@ public class Robot extends LoggedRobot implements Logged {
   }
 
   /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
+   * This function is called every 20 ms, no matter the mode. Use this for items
+   * like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and
    * SmartDashboard integrated updating.
    */
   @Override
@@ -198,12 +204,17 @@ public class Robot extends LoggedRobot implements Logged {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+  /**
+   * This autonomous runs the autonomous command selected by your
+   * {@link RobotContainer} class.
+   */
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -216,7 +227,8 @@ public class Robot extends LoggedRobot implements Logged {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {
@@ -231,7 +243,8 @@ public class Robot extends LoggedRobot implements Logged {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+  }
 
   @Override
   public void testInit() {
@@ -241,10 +254,12 @@ public class Robot extends LoggedRobot implements Logged {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   @Override
   public void driverStationConnected() {
+    System.out.println("--Begin Robot.driverStationConnected()--");
     boolean isRedAlliance = true;
     Optional<DriverStation.Alliance> ally = Optional.of(DriverStation.getAlliance().get());
     if (ally.get() == DriverStation.Alliance.Red) {
@@ -255,13 +270,16 @@ public class Robot extends LoggedRobot implements Logged {
       System.out.println("Set Azimuth Blue Alliance");
     }
     m_robotContainer.setAllianceCol(isRedAlliance);
+    System.out.println("--End Robot.driverStationConnected()--");
   }
 
   /** This function is called once when the robot is first started up. */
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+  }
 
   /** This function is called periodically whilst in simulation. */
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+  }
 }
