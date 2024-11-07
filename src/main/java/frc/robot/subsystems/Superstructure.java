@@ -141,6 +141,7 @@ public class Superstructure {
         .onTrue(spindex.feedNoteToShooter())
         .and(spindex.debouncedBeamBreak.debounce(1))
         .onTrue(setState(StructureState.HOME));
+
   }
 
   // call manually
