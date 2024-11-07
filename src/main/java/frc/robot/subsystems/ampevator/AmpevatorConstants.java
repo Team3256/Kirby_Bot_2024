@@ -16,7 +16,8 @@ import edu.wpi.first.math.util.Units;
 public final class AmpevatorConstants {
 
   public static final int ampevatorID = 47;
-  public static final int ampevatorBeamBreakID = 0;
+
+  public static final double gearRatio = 30.0 / 11; // need to use this eventually
 
   public static final TalonFXConfiguration motorConfigs =
       new TalonFXConfiguration()

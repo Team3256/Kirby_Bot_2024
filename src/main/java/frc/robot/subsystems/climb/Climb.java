@@ -50,7 +50,7 @@ public class Climb extends DisableSubsystem {
   }
 
   public Command setPosition(double position) {
-    return this.run(() -> climbIO.setPosition(position * ClimbConstants.gearRatio));
+    return this.run(() -> climbIO.setPosition(position / ClimbConstants.gearRatio));
   }
 
   public Command setVoltage(double voltage) {

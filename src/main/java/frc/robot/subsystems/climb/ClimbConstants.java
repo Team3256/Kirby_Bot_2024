@@ -14,11 +14,11 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 public final class ClimbConstants {
 
   public static final int kLeftClimbMotorID = 45;
-  public static final double gearRatio = 20; // needs to be tuned
+  public static final double gearRatio = 1.0 / 24; // needs to be tuned
 
-  public static final double kClimbUpPosition = 150 / 20;
+  public static final double kClimbUpPosition = 0;
 
-  public static final double kClimbDownPosition = 0;
+  public static final double kClimbDownPosition = 0; // TODO: tune
   public static final double wheelRadius = 1;
 
   public static double kCurrentThreshold = 4.5;
