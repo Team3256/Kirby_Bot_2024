@@ -15,7 +15,7 @@ public class SpindexConstants {
   public static final int spindexMotorID = 50;
   public static final double spindexMotorVoltage = -7;
   public static TalonFXConfiguration spindexMotorConfigs =
-      new TalonFXConfiguration() // TODO: tune
+      new TalonFXConfiguration()
           .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))
           .withMotorOutput(
               new MotorOutputConfigs()
@@ -36,7 +36,7 @@ public class SpindexConstants {
   public static boolean useMotionMagic = false;
   public static int kSpindexBeamBreakDIO = 1;
   public static TalonFXConfiguration feederMotorConfigs =
-      new TalonFXConfiguration() // TODO: tune
+      new TalonFXConfiguration()
           .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))
           .withMotorOutput(
               new MotorOutputConfigs()

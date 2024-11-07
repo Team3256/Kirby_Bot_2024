@@ -16,8 +16,8 @@ public final class VisionConstants {
   public static final String turretLimelight = "limelight-speaker";
 
   public static final double noteLimelightAngleDegrees = -29; // old -20.827
-  public static final double noteLimelightHeightInches = 21; // TODO: idk tune
-  public static final double noteHeightInches = 2; // TODO: idk tune
+  public static final double noteLimelightHeightInches = 21;
+  public static final double noteHeightInches = 2;
 
   public static final Transform2d robotToCam =
       new Transform2d(

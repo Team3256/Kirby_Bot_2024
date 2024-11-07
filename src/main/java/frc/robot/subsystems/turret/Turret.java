@@ -93,14 +93,14 @@ public class Turret extends DisableSubsystem {
    */
   public Command setPosition(Rotation2d position) {
     return this.runOnce(
-        () -> turretIO.setPosition(position.getRotations() * TurretConstants.gearRatio));
+        () -> turretIO.setPosition(position.getRotations() / TurretConstants.gearRatio));
   }
 
   /**
    * @return Command to zero the turret motor's encoder position
    */
   public Command zero() {
-    return this.runOnce(() -> turretIO.zero());
+    return this.runOnce(turretIO::zero);
   }
 
   /**

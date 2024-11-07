@@ -109,8 +109,7 @@ public class RobotContainer {
           new BeamBreakIOAdafruit(SpindexConstants.kSpindexBeamBreakDIO));
   private final Vision vision = new Vision(new VisionIOLimelight());
 
-  // private final Superstructure superstructure = // TODO: when uncommented also
-  // uncomment the
+  // private final Superstructure superstructure = // TODO: when uncommented also uncomment the
   // periodic
   // new Superstructure(
   // ampevator,

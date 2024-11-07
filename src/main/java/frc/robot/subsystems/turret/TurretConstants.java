@@ -14,16 +14,15 @@ import edu.wpi.first.math.geometry.Rotation2d;
 
 public final class TurretConstants {
 
-  public static int kCanCoderID1 = 41; // TODO: set id
-  public static int kCanCoderID2 = 42; // TODO: set id
+  public static int kCanCoderID1 = 41;
+  public static int kCanCoderID2 = 42;
 
-  public static final double gearRatio = 1; // TODO: Set gear ratio
+  public static final double gearRatio = 10.0 / 133; // TODO: Set gear ratio
   public static final CANcoderConfiguration canCoderConfig =
-      new CANcoderConfiguration()
-          .withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(0)); // TODO: set config
+      new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(0));
   public static final double updateFrequency = 50.0;
 
-  public static final int kTurretMotorID = 52; // TODO: Set ID
+  public static final int kTurretMotorID = 52;
 
   public static final double followTagP = 1;
   public static final double followTagI = 0;
@@ -40,7 +39,7 @@ public final class TurretConstants {
               new Slot0Configs()
                   .withKS(0)
                   .withKV(0.05)
-                  .withKP(25)
+                  .withKP(1)
                   .withKI(0)
                   .withKD(0) // Original 0.145
               )
