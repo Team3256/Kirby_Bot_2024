@@ -15,9 +15,10 @@ public class StackJumper {
   public static String getCallerMethodName() {
     if (traceTime) {
       double d = HALUtil.getFPGATime();
-      String methodName = StackWalker.getInstance()
-          .walk(stream -> stream.skip(2).findFirst().get())
-          .getMethodName();
+      String methodName =
+          StackWalker.getInstance()
+              .walk(stream -> stream.skip(2).findFirst().get())
+              .getMethodName();
       System.out.println(
           "Time to get method name: " + (HALUtil.getFPGATime() - d) + " ns for " + methodName);
       return methodName;
