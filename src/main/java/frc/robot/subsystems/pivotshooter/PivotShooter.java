@@ -13,7 +13,6 @@ import static edu.wpi.first.units.Units.Volts;
 import com.ctre.phoenix6.SignalLogger;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.utils.DisableSubsystem;
@@ -76,23 +75,9 @@ public class PivotShooter extends DisableSubsystem {
     return this.runOnce(pivotShooterIO::off);
   }
 
-  public Command slamZero() {
-    return this.run(() -> pivotShooterIO.setVoltage(PivotShooterConstants.kPivotSlamShooterVoltage))
-        .until(
-            () ->
-                pivotShooterIOAutoLogged.pivotShooterMotorStatorCurrent
-                    > PivotShooterConstants.kPivotSlamStallCurrent)
-        .andThen(this.zero());
-  }
-
   public Command setSub() {
     return setPosition(
         PivotShooterConstants.kSubWooferPreset * PivotShooterConstants.kPivotMotorGearing);
-  }
-
-  public Command slamAndPID() {
-
-    return Commands.sequence(this.setPosition(0), this.slamZero());
   }
 
   public Command zero() {

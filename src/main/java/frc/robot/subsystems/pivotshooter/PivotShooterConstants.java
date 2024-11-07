@@ -22,21 +22,16 @@ public final class PivotShooterConstants {
 
   public static final int kPivotMotorID = 51;
 
-  /* PID */
-
   /* Physics/geometry */
-  public static final double kPivotMotorGearing = 138.333; // 22 by 1
+  public static final double kPivotMotorGearing = 138.333; // TODO: get from nate
 
-  /* Preset */
-  public static final double kPivotSlamIntakeVoltage = -5;
-  public static final double kPivotSlamShooterVoltage = -2;
+  // max value is 8, min is 0
 
   /* Misc */
   public static final boolean kUseFOC = false;
   public static final boolean kUseMotionMagic = false; // idk
   public static final double updateFrequency = 50.0;
   public static final int flashConfigRetries = 5;
-  public static final double kPivotSlamStallCurrent = 50;
 
   public static final TalonFXConfiguration motorConfigs =
       new TalonFXConfiguration()
