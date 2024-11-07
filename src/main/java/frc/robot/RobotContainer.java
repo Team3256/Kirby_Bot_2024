@@ -226,9 +226,9 @@ public class RobotContainer {
             swerve.applyRequest(
                 () ->
                     drive
-                        .withVelocityX(-m_driverController.getLeftY() * SlowMaxSpeed)
-                        .withVelocityY(-m_driverController.getLeftX() * SlowMaxSpeed)
-                        .withRotationalRate(-m_driverController.getRightX() * SlowMaxAngular)));
+                        .withVelocityX(-m_driverController.getLeftY())
+                        .withVelocityY(-m_driverController.getLeftX())
+                        .withRotationalRate(-m_driverController.getRightX())));
 
     /* translational and rotational speed are slowed */
     m_driverController
@@ -256,8 +256,8 @@ public class RobotContainer {
               swerve.applyRequest(
                   () ->
                       drive
-                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
-                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withVelocityX(m_driverController.getLeftY())
+                          .withVelocityY(m_driverController.getLeftX())
                           .withRotationalRate(
                               SwerveConstants.azimuthController.calculate(
                                   swerve.getPigeon2().getAngle(),
@@ -271,8 +271,8 @@ public class RobotContainer {
               swerve.applyRequest(
                   () ->
                       drive
-                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
-                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withVelocityX(m_driverController.getLeftY())
+                          .withVelocityY(m_driverController.getLeftX())
                           .withRotationalRate(
                               SwerveConstants.azimuthController.calculate(
                                   swerve.getPigeon2().getAngle(),
@@ -286,8 +286,8 @@ public class RobotContainer {
               swerve.applyRequest(
                   () ->
                       drive
-                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
-                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withVelocityX(m_driverController.getLeftY())
+                          .withVelocityY(m_driverController.getLeftX())
                           .withRotationalRate(
                               SwerveConstants.azimuthController.calculate(
                                   swerve.getPigeon2().getAngle(),
@@ -301,8 +301,8 @@ public class RobotContainer {
               swerve.applyRequest(
                   () ->
                       drive
-                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
-                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withVelocityX(m_driverController.getLeftY())
+                          .withVelocityY(m_driverController.getLeftX())
                           .withRotationalRate(
                               SwerveConstants.azimuthController.calculate(
                                   swerve.getPigeon2().getAngle(),
@@ -316,8 +316,8 @@ public class RobotContainer {
               swerve.applyRequest(
                   () ->
                       drive
-                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
-                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withVelocityX(m_driverController.getLeftY())
+                          .withVelocityY(m_driverController.getLeftX())
                           .withRotationalRate(
                               SwerveConstants.azimuthController.calculate(
                                   swerve.getPigeon2().getAngle(),
@@ -331,8 +331,8 @@ public class RobotContainer {
               swerve.applyRequest(
                   () ->
                       drive
-                          .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
-                          .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                          .withVelocityX(m_driverController.getLeftY())
+                          .withVelocityY(m_driverController.getLeftX())
                           .withRotationalRate(
                               SwerveConstants.azimuthController.calculate(
                                   swerve.getPigeon2().getAngle(),
@@ -349,8 +349,8 @@ public class RobotContainer {
             swerve.applyRequest(
                 () ->
                     drive
-                        .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
-                        .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                        .withVelocityX(m_driverController.getLeftY())
+                        .withVelocityY(m_driverController.getLeftX())
                         .withRotationalRate(
                             SwerveConstants.azimuthController.calculate(
                                 swerve.getPigeon2().getAngle(),
@@ -364,8 +364,8 @@ public class RobotContainer {
             swerve.applyRequest(
                 () ->
                     drive
-                        .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
-                        .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                        .withVelocityX(m_driverController.getLeftY())
+                        .withVelocityY(m_driverController.getLeftX())
                         .withRotationalRate(
                             SwerveConstants.azimuthController.calculate(
                                 swerve.getPigeon2().getAngle(),
@@ -379,8 +379,8 @@ public class RobotContainer {
             swerve.applyRequest(
                 () ->
                     drive
-                        .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
-                        .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                        .withVelocityX(m_driverController.getLeftY())
+                        .withVelocityY(m_driverController.getLeftX())
                         .withRotationalRate(
                             SwerveConstants.azimuthController.calculate(
                                 swerve.getPigeon2().getAngle(),
@@ -394,8 +394,8 @@ public class RobotContainer {
             swerve.applyRequest(
                 () ->
                     drive
-                        .withVelocityX(m_driverController.getLeftY() * SlowMaxSpeed)
-                        .withVelocityY(m_driverController.getLeftX() * SlowMaxSpeed)
+                        .withVelocityX(m_driverController.getLeftY())
+                        .withVelocityY(m_driverController.getLeftX())
                         .withRotationalRate(
                             SwerveConstants.azimuthController.calculate(
                                 swerve.getPigeon2().getAngle(),
