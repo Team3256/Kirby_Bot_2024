@@ -20,7 +20,7 @@ public final class PivotShooterConstants {
   public static final double kSubWooferPreset = 3.4 / 138.33; // 3.2
   public static final double kFeederPreset = 5.9 / 138.33;
 
-  public static final int kPivotMotorID = 60;
+  public static final int kPivotMotorID = 51;
 
   /* PID */
 
@@ -33,7 +33,7 @@ public final class PivotShooterConstants {
 
   /* Misc */
   public static final boolean kUseFOC = false;
-  public static final boolean kUseMotionMagic = true; // idk
+  public static final boolean kUseMotionMagic = false; // idk
   public static final double updateFrequency = 50.0;
   public static final int flashConfigRetries = 5;
   public static final double kPivotSlamStallCurrent = 50;
@@ -44,7 +44,7 @@ public final class PivotShooterConstants {
               new Slot0Configs()
                   .withKS(0)
                   .withKV(0)
-                  .withKP(10)
+                  .withKP(2)
                   .withKI(0)
                   .withKD(0)
                   .withKG(1)
@@ -54,10 +54,10 @@ public final class PivotShooterConstants {
               new MotorOutputConfigs()
                   .withNeutralMode(NeutralModeValue.Brake)
                   .withInverted(InvertedValue.Clockwise_Positive))
-          .withMotionMagic(
-              new MotionMagicConfigs()
-                  .withMotionMagicAcceleration(400)
-                  .withMotionMagicCruiseVelocity(50))
+          //          .withMotionMagic(
+          //              new MotionMagicConfigs()
+          //                  .withMotionMagicAcceleration(400)
+          //                  .withMotionMagicCruiseVelocity(50))
           .withCurrentLimits(
               new CurrentLimitsConfigs()
                   .withStatorCurrentLimitEnable(true)

@@ -14,7 +14,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import frc.robot.utils.PhoenixUtil;
 
 public class ShooterIOTalonFX implements ShooterIO {
-  private final TalonFX shooterMotor = new TalonFX(ShooterConstants.kShooterMotorID);
+  private final TalonFX shooterMotor = new TalonFX(ShooterConstants.kShooterMotorRightID);
   final VelocityVoltage velocityRequest = new VelocityVoltage(0).withSlot(0);
   final MotionMagicVelocityVoltage motionMagicRequest =
       new MotionMagicVelocityVoltage(0).withSlot(0);
@@ -29,8 +29,7 @@ public class ShooterIOTalonFX implements ShooterIO {
   private final StatusSignal<Double> shooterMotorReferenceSlope =
       shooterMotor.getClosedLoopReferenceSlope();
 
-  private final TalonFX shooterMotorFollower =
-      new TalonFX(ShooterConstants.kShooterMotorFollowerID);
+  private final TalonFX shooterMotorFollower = new TalonFX(ShooterConstants.kShooterMotorLeftID);
   final VelocityVoltage velocityRequestFollower = new VelocityVoltage(0).withSlot(0);
   final MotionMagicVelocityVoltage motionMagicRequestFollower =
       new MotionMagicVelocityVoltage(0).withSlot(0);

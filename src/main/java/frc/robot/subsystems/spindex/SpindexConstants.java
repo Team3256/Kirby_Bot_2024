@@ -12,7 +12,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class SpindexConstants {
-  public static final int spindexMotorID = 0;
+  public static final int spindexMotorID = 50;
   public static final double spindexMotorVoltage = -7;
   public static TalonFXConfiguration spindexMotorConfigs =
       new TalonFXConfiguration() // TODO: tune
@@ -52,6 +52,6 @@ public class SpindexConstants {
                   .withStatorCurrentLimitEnable(true)
                   .withStatorCurrentLimit(80));
   ;
-  public static int shooterFeederMotorID = 43;
+  public static int shooterFeederMotorID = 44;
   public static double shooterFeederVoltage = 7;
 }

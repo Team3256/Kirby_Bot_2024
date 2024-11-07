@@ -13,7 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public final class RollerConstants {
   /* CAN */
-  public static final int kRollerMotorID = 33;
+  public static final int kRollerMotorID = 49;
 
   public static final double kRollerOuttakeVoltage = 12;
 

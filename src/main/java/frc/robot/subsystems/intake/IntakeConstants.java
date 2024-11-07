@@ -13,7 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public final class IntakeConstants {
   /* CAN */
-  public static final int kIntakeMotorID = 33;
+  public static final int kIntakeMotorID = 46;
 
   public static final double kIntakeIntakeVoltage = 12;
 

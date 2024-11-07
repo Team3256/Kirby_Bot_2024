@@ -13,7 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public final class ClimbConstants {
 
-  public static final int kLeftClimbMotorID = 18;
+  public static final int kLeftClimbMotorID = 45;
   public static final double gearRatio = 20; // needs to be tuned
 
   public static final double kClimbUpPosition = 150 / 20;
