@@ -17,7 +17,7 @@ public final class ClimbConstants {
 
   public static final double kClimbUpPosition = 0;
 
-  public static final double kClimbDownPosition = 0; // TODO: tune
+  public static final double kClimbDownPosition = 5; // TODO: tune
   public static double updateFrequency;
   public static boolean kUseMotionMagic = false;
 

@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -41,7 +42,9 @@ public class Superstructure {
     TRAP_PREP,
     TRAPPING,
     POST_TRAP,
-    INTAKE
+    INTAKE,
+    CLIMB_PREP,
+    CLIMBING
   }
 
   private final Ampevator ampevator;
@@ -146,6 +149,18 @@ public class Superstructure {
         .onTrue(turret.setPosition(TurretConstants.kIntakePreset))
         .and(spindex.debouncedBeamBreak.debounce(0.5))
         .onTrue(setState(StructureState.IDLE));
+    stateTriggers
+        .get(StructureState.CLIMB_PREP)
+        .onTrue(climb.extendClimber())
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(0)))
+        .onTrue(ampevator.setTrapPosition())
+        .onTrue(roller.off())
+        .onTrue(shooter.off())
+        .onTrue(intake.off());
+    stateTriggers
+        .get(StructureState.CLIMBING)
+        .onTrue(climb.retractClimber())
+        .toggleOnTrue(Commands.print("gg"));
   }
 
   // call manually
