@@ -1,1 +1,1 @@
-{"driver":{"y":"reset heading","leftTrigger":"Slow Drive"},"operator":{"a":"feed","x":"sub","y":"zero","rightBumper":"Intake"}}
+{"driver":{"a":"Intake","y":"reset heading","leftTrigger":"Slow Drive"},"operator":{}}

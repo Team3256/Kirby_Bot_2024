@@ -40,7 +40,8 @@ public class Superstructure {
     FEEDING,
     TRAP_PREP,
     TRAPPING,
-    POST_TRAP
+    POST_TRAP,
+    INTAKE
   }
 
   private final Ampevator ampevator;
@@ -125,10 +126,7 @@ public class Superstructure {
         .onTrue(setState(StructureState.HOME));
     stateTriggers
         .get(StructureState.SUB_PREP)
-        .onTrue(spindex.goToShooter())
-        .onTrue(
-            pivotShooter.setPosition(
-                PivotShooterConstants.kSubWooferPreset * PivotShooterConstants.kPivotMotorGearing))
+        .onTrue(pivotShooter.setPosition(PivotShooterConstants.kSubWooferPreset))
         .onTrue(
             shooter.setVelocity(
                 ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))
@@ -141,6 +139,13 @@ public class Superstructure {
         .onTrue(spindex.feedNoteToShooter())
         .and(spindex.debouncedBeamBreak.debounce(1))
         .onTrue(setState(StructureState.HOME));
+    stateTriggers
+        .get(StructureState.INTAKE)
+        .onTrue(intake.intakeIn())
+        .onTrue(spindex.goToShooter())
+        .onTrue(turret.setPosition(TurretConstants.kIntakePreset))
+        .and(spindex.debouncedBeamBreak.debounce(0.5))
+        .onTrue(setState(StructureState.IDLE));
   }
 
   // call manually

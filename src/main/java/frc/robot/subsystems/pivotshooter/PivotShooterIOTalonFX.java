@@ -34,8 +34,6 @@ public class PivotShooterIOTalonFX implements PivotShooterIO {
       pivotShooterMotor.getSupplyCurrent();
   private final StatusSignal<Double> pivotShooterMotorTemperature =
       pivotShooterMotor.getDeviceTemp();
-  private final StatusSignal<Double> pivotShooterMotorReferenceSlope =
-      pivotShooterMotor.getClosedLoopReferenceSlope();
 
   public PivotShooterIOTalonFX() {
     PhoenixUtil.applyMotorConfigs(
@@ -50,8 +48,7 @@ public class PivotShooterIOTalonFX implements PivotShooterIO {
         pivotShooterMotorPosition,
         pivotShooterMotorStatorCurrent,
         pivotShooterMotorSupplyCurrent,
-        pivotShooterMotorTemperature,
-        pivotShooterMotorReferenceSlope);
+        pivotShooterMotorTemperature);
     pivotShooterMotor.optimizeBusUtilization();
   }
 
@@ -63,17 +60,13 @@ public class PivotShooterIOTalonFX implements PivotShooterIO {
         pivotShooterMotorPosition,
         pivotShooterMotorStatorCurrent,
         pivotShooterMotorSupplyCurrent,
-        pivotShooterMotorTemperature,
-        pivotShooterMotorReferenceSlope);
+        pivotShooterMotorTemperature);
     inputs.pivotShooterMotorVoltage = pivotShooterMotorVoltage.getValueAsDouble();
     inputs.pivotShooterMotorVelocity = pivotShooterMotorVelocity.getValueAsDouble();
     inputs.pivotShooterMotorPosition = pivotShooterMotorPosition.getValueAsDouble();
-    inputs.pivotShooterMotorDegrees =
-        (inputs.pivotShooterMotorPosition / PivotShooterConstants.kPivotMotorGearing) * 360;
     inputs.pivotShooterMotorStatorCurrent = pivotShooterMotorStatorCurrent.getValueAsDouble();
     inputs.pivotShooterMotorSupplyCurrent = pivotShooterMotorSupplyCurrent.getValueAsDouble();
     inputs.pivotShooterMotorTemperature = pivotShooterMotorTemperature.getValueAsDouble();
-    inputs.pivotShooterMotorReferenceSlope = pivotShooterMotorReferenceSlope.getValueAsDouble();
   }
 
   @Override

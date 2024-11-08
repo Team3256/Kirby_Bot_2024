@@ -17,13 +17,10 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 public final class PivotShooterConstants {
   // public static final double kSubWooferPreset = (3.5 + 0.3) / 138.33; // idk if
   // this works
-  public static final double kSubWooferPreset = 3.4 / 138.33; // 3.2
-  public static final double kFeederPreset = 5.9 / 138.33;
+  public static final double kSubWooferPreset = 3.4; // 3.2
+  public static final double kFeederPreset = 5.9;
 
   public static final int kPivotMotorID = 51;
-
-  /* Physics/geometry */
-  public static final double kPivotMotorGearing = 138.333; // TODO: get from nate
 
   // max value is 8, min is 0
 

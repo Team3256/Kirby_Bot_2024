@@ -75,11 +75,6 @@ public class PivotShooter extends DisableSubsystem {
     return this.runOnce(pivotShooterIO::off);
   }
 
-  public Command setSub() {
-    return setPosition(
-        PivotShooterConstants.kSubWooferPreset * PivotShooterConstants.kPivotMotorGearing);
-  }
-
   public Command zero() {
     return this.runOnce(pivotShooterIO::zero);
   }
@@ -89,9 +84,8 @@ public class PivotShooter extends DisableSubsystem {
         () -> {
           pivotShooterIO.setPosition(
               aprilTagMap.get(
-                      (vision.getLastCenterLimelightY() - vision.getLastLastCenterLimelightY())
-                          + vision.getCenterLimelightY())
-                  * PivotShooterConstants.kPivotMotorGearing);
+                  (vision.getLastCenterLimelightY() - vision.getLastLastCenterLimelightY())
+                      + vision.getCenterLimelightY()));
         });
   }
 

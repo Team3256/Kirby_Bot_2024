@@ -57,7 +57,8 @@ public final class ShooterConstants {
       motorConfigs.withMotorOutput(
           motorOutputConfigs.withInverted(InvertedValue.Clockwise_Positive));
 
-  public static double kShooterSpeakerRPS = -30;
+  public static double kShooterSpeakerRPS =
+      -30; // i got tired of trying to reverse the shooter wheels
   public static double kShooterFollowerSpeakerRPS = 60; // really 80
 
   public static double kShooterSubwooferRPS = -60;

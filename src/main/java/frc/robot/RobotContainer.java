@@ -27,6 +27,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoRoutines;
 import frc.robot.sim.SimMechs;
 import frc.robot.subsystems.BeamBreakIOAdafruit;
+import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.ampevator.Ampevator;
 import frc.robot.subsystems.ampevator.AmpevatorIOSim;
 import frc.robot.subsystems.ampevator.AmpevatorIOTalonFX;
@@ -109,18 +110,17 @@ public class RobotContainer {
           new BeamBreakIOAdafruit(SpindexConstants.kSpindexBeamBreakDIO));
   private final Vision vision = new Vision(new VisionIOLimelight());
 
-  // private final Superstructure superstructure = // TODO: when uncommented also uncomment the
-  // periodic
-  // new Superstructure(
-  // ampevator,
-  // ampevatorRollers,
-  // turret,
-  // climb,
-  // intake,
-  // spindex,
-  // pivotShooter,
-  // shooter,
-  // vision);
+  private final Superstructure superstructure =
+      new Superstructure(
+          ampevator,
+          ampevatorRollers,
+          turret,
+          climb,
+          intake,
+          spindex,
+          pivotShooter,
+          shooter,
+          vision);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public final MappedXboxController m_driverController =
@@ -157,21 +157,14 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    m_operatorController
-        .rightBumper("Intake")
-        .whileTrue(
-            intake
-                .intakeIn()
-                .alongWith(spindex.goToShooter())
-                .alongWith(turret.setPosition(TurretConstants.kIntakePreset)));
+    m_driverController
+        .a("Intake")
+        .onTrue(superstructure.setState(Superstructure.StructureState.INTAKE));
     m_operatorController
         .rightTrigger("Shooter")
         .onTrue(
             shooter.setVelocity(
                 ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS));
-    m_operatorController.a("feed").onTrue(spindex.feedNoteToShooter());
-    m_operatorController.x("sub").onTrue(pivotShooter.setSub());
-    m_operatorController.y("zero").onTrue(pivotShooter.setPosition(0));
   }
 
   private void configureRumble() {
@@ -425,6 +418,6 @@ public class RobotContainer {
 
   public void periodic() {
     autoChooser.update();
-    // superstructure.periodic();
+    superstructure.periodic();
   }
 }

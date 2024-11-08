@@ -17,11 +17,9 @@ public interface PivotShooterIO {
     public double pivotShooterMotorVoltage = 0.0;
     public double pivotShooterMotorVelocity = 0.0;
     public double pivotShooterMotorPosition = 0.0;
-    public double pivotShooterMotorDegrees = 0.0;
     public double pivotShooterMotorStatorCurrent = 0.0;
     public double pivotShooterMotorSupplyCurrent = 0.0;
     public double pivotShooterMotorTemperature = 0.0;
-    public double pivotShooterMotorReferenceSlope = 0.0;
   }
 
   public default void updateInputs(PivotShooterIOInputs inputs) {}
