@@ -15,8 +15,8 @@ public class VisionIOLimelight implements VisionIO {
 
   @Override
   public void updateInputs(VisionIOInputs inputs) {
-    inputs.ampevatorLimelightX = LimelightHelpers.getTX(VisionConstants.ampevatorLimelight);
-    inputs.ampevatorLimelightY = LimelightHelpers.getTY(VisionConstants.ampevatorLimelight);
+    //    inputs.ampevatorLimelightX = LimelightHelpers.getTX(VisionConstants.ampevatorLimelight);
+    //    inputs.ampevatorLimelightY = LimelightHelpers.getTY(VisionConstants.ampevatorLimelight);
 
     inputs.turretLimelightX = LimelightHelpers.getTX(VisionConstants.turretLimelight);
     inputs.turretLimelightY = LimelightHelpers.getTY(VisionConstants.turretLimelight);

@@ -110,12 +110,13 @@ public class Turret extends DisableSubsystem {
    */
   public Command lockToSpeakerTag(Vision vision) {
     return new PIDCommand(
-        new PIDController(
-            TurretConstants.followTagP, TurretConstants.followTagI, TurretConstants.followTagD),
-        vision::getCompensatedCenterLimelightX,
-        0,
-        output -> turretIO.setVoltage(output),
-        this);
+            new PIDController(
+                TurretConstants.followTagP, TurretConstants.followTagI, TurretConstants.followTagD),
+            vision::getCenterLimelightX,
+            0,
+            turretIO::setVoltage,
+            this)
+        .finallyDo(turretIO::off);
   }
 
   /**

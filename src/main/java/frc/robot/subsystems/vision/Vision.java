@@ -20,13 +20,6 @@ public class Vision extends SubsystemBase {
   private final VisionIO visionIO;
   private final VisionIOInputsAutoLogged visionIOAutoLogged = new VisionIOInputsAutoLogged();
 
-  private double lastLastCenterLimelightX = 0.0;
-  private double lastLastCenterLimelightY = 0.0;
-  private double lastCenterLimelightX = 0.0;
-  private double lastCenterLimelightY = 0.0;
-  private double centerLimelightX = 0.0;
-  private double centerLimelightY = 0.0;
-
   public Vision(VisionIO visionIO) {
     this.visionIO = visionIO;
   }
@@ -34,37 +27,14 @@ public class Vision extends SubsystemBase {
   @Override
   public void periodic() {
     visionIO.updateInputs(visionIOAutoLogged);
-
-    lastLastCenterLimelightX = lastCenterLimelightX;
-    lastLastCenterLimelightY = lastCenterLimelightY;
-    lastCenterLimelightX = centerLimelightX;
-    lastCenterLimelightY = centerLimelightY;
-    centerLimelightX = visionIOAutoLogged.turretLimelightX;
-    centerLimelightY = visionIOAutoLogged.turretLimelightY;
   }
 
   public double getCenterLimelightX() {
-    return centerLimelightX;
+    return visionIOAutoLogged.turretLimelightX;
   }
 
   public double getCenterLimelightY() {
-    return centerLimelightY;
-  }
-
-  public double getLastCenterLimelightX() {
-    return lastCenterLimelightX;
-  }
-
-  public double getLastCenterLimelightY() {
-    return lastCenterLimelightY;
-  }
-
-  public double getLastLastCenterLimelightX() {
-    return lastLastCenterLimelightX;
-  }
-
-  public double getLastLastCenterLimelightY() {
-    return lastLastCenterLimelightY;
+    return visionIOAutoLogged.turretLimelightY;
   }
 
   @AutoLogOutput
@@ -85,15 +55,5 @@ public class Vision extends SubsystemBase {
                     Units.inchesToMeters(getDistanceToNote()),
                     Rotation2d.fromDegrees(visionIOAutoLogged.ampevatorLimelightX)),
                 Rotation2d.fromDegrees(visionIOAutoLogged.ampevatorLimelightX)));
-  }
-
-  @AutoLogOutput
-  public double getCompensatedCenterLimelightX() {
-    return centerLimelightX + (lastCenterLimelightX - lastLastCenterLimelightX);
-  }
-
-  @AutoLogOutput
-  public double getCompensatedCenterLimelightY() {
-    return centerLimelightY + (lastCenterLimelightY - lastLastCenterLimelightY);
   }
 }

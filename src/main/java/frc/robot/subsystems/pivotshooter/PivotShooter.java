@@ -82,10 +82,7 @@ public class PivotShooter extends DisableSubsystem {
   public Command bruh(Vision vision) {
     return this.run(
         () -> {
-          pivotShooterIO.setPosition(
-              aprilTagMap.get(
-                  (vision.getLastCenterLimelightY() - vision.getLastLastCenterLimelightY())
-                      + vision.getCenterLimelightY()));
+          pivotShooterIO.setPosition(aprilTagMap.get(vision.getCenterLimelightY()));
         });
   }
 
