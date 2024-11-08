@@ -159,12 +159,12 @@ public class RobotContainer {
   private void configureBindings() {
     m_operatorController
         .rightBumper("Intake")
-        .whileTrue(intake.intakeIn().alongWith(spindex.goToShooter()));
+        .whileTrue(intake.intakeIn().alongWith(spindex.goToShooter()).alongWith(turret.setPosition(TurretConstants.kIntakePreset)));
     m_operatorController
         .rightTrigger("Shooter")
         .onTrue(
             shooter.setVelocity(
-                ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterSpeakerRPS));
+                ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS));
     m_operatorController.a("feed").onTrue(spindex.feedNoteToShooter());
     m_operatorController.x("sub").onTrue(pivotShooter.setSub());
     m_operatorController.y("zero").onTrue(pivotShooter.setPosition(0));

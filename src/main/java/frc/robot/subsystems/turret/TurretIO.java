@@ -13,6 +13,7 @@ public interface TurretIO {
   @AutoLog
   public static class TurretIOInputs {
     public double turretMotorVoltage = 0.0;
+    public double turretMotorRotorPos = 0.0;
     public double turretMotorPosition = 0.0;
     public double turretMotorStatorCurrent = 0.0;
     public double turretMotorSupplyCurrent = 0.0;

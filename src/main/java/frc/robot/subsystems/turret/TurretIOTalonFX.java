@@ -23,6 +23,7 @@ public class TurretIOTalonFX implements TurretIO {
       new MotionMagicExpoVoltage(0).withSlot(0);
 
   private final StatusSignal<Double> turretMotorVoltage = turretMotor.getMotorVoltage();
+  private final StatusSignal<Double> turretMotorRotorPos = turretMotor.getRotorPosition();
   private final StatusSignal<Double> turretMotorPosition = turretMotor.getPosition();
   private final StatusSignal<Double> turretMotorStatorCurrent = turretMotor.getStatorCurrent();
   private final StatusSignal<Double> turretMotorSupplyCurrent = turretMotor.getSupplyCurrent();
@@ -33,12 +34,13 @@ public class TurretIOTalonFX implements TurretIO {
   public TurretIOTalonFX() {
     var motorConfig = TurretConstants.motorConfigs;
     ClosedLoopGeneralConfigs closedLoopGeneralConfigs = new ClosedLoopGeneralConfigs();
-    closedLoopGeneralConfigs.ContinuousWrap = true;
+    closedLoopGeneralConfigs.ContinuousWrap = false;
     motorConfig.ClosedLoopGeneral = closedLoopGeneralConfigs;
     PhoenixUtil.applyMotorConfigs(turretMotor, motorConfig, TurretConstants.flashConfigRetries);
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         TurretConstants.updateFrequency,
+        turretMotorRotorPos,
         turretMotorVoltage,
         turretMotorPosition,
         turretMotorStatorCurrent,
@@ -53,12 +55,14 @@ public class TurretIOTalonFX implements TurretIO {
     BaseStatusSignal.refreshAll(
         turretMotorVoltage,
         turretMotorPosition,
+        turretMotorRotorPos,
         turretMotorStatorCurrent,
         turretMotorSupplyCurrent,
         turretMotorTemperature,
         turretMotorReferenceSlope);
     inputs.turretMotorVoltage = turretMotorVoltage.getValueAsDouble();
     inputs.turretMotorPosition = turretMotorPosition.getValueAsDouble();
+    inputs.turretMotorRotorPos = turretMotorRotorPos.getValueAsDouble();
     inputs.turretMotorStatorCurrent = turretMotorStatorCurrent.getValueAsDouble();
     inputs.turretMotorSupplyCurrent = turretMotorSupplyCurrent.getValueAsDouble();
     inputs.turretMotorTemperature = turretMotorTemperature.getValueAsDouble();

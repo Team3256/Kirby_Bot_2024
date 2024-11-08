@@ -83,8 +83,7 @@ public class Turret extends DisableSubsystem {
     return this.run(
         () ->
             turretIO.setPosition(
-                position.minus(swerve.getState().Pose.getRotation()).getRotations()
-                    / TurretConstants.gearRatio));
+                position.minus(swerve.getState().Pose.getRotation()).getRotations()));
   }
 
   /**
@@ -93,7 +92,7 @@ public class Turret extends DisableSubsystem {
    */
   public Command setPosition(Rotation2d position) {
     return this.runOnce(
-        () -> turretIO.setPosition(position.getRotations() / TurretConstants.gearRatio));
+        () -> turretIO.setPosition(position.getRotations()));
   }
 
   /**
@@ -156,12 +155,6 @@ public class Turret extends DisableSubsystem {
    */
   public Command reset() {
     return this.runOnce(
-        () -> {
-          if (turretIOInputs.turretMotorPosition > TurretConstants.kForwardLimit) {
-            turretIO.setPosition(0);
-          } else if (turretIOInputs.turretMotorPosition < TurretConstants.kReverseLimit) {
-            turretIO.setPosition(0);
-          }
-        });
+        () -> turretIO.setPosition(0));
   }
 }

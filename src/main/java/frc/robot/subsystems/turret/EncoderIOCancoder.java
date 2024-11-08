@@ -21,7 +21,7 @@ public class EncoderIOCancoder implements EncoderIO {
   private final StatusSignal<Double> encoderVelocity;
 
   public EncoderIOCancoder(int canCoderID) {
-    encoder = new CANcoder(canCoderID, "mani");
+    encoder = new CANcoder(canCoderID);
     PhoenixUtil.applyCancoderConfig(
         encoder, TurretConstants.canCoderConfig, TurretConstants.flashConfigRetries);
 

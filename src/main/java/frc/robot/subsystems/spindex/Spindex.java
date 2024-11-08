@@ -95,9 +95,13 @@ public class Spindex extends DisableSubsystem {
   }
 
   public Command feedNoteToShooter() {
-    return setShooterFeederVoltage(SpindexConstants.shooterFeederVoltage)
-        .until(() -> !beamBreakIOAutoLogged.beamBroken)
-        .finallyDo(shooterFeederIO::off);
+    return setVoltage(SpindexConstants.spindexMotorVoltage, SpindexConstants.shooterFeederVoltage)
+//        .until(() -> !beamBreakIOAutoLogged.beamBroken)
+            .finallyDo(
+                    () -> {
+                      spindexIO.off();
+                      shooterFeederIO.off();
+                    });
   }
 
   public Command goToAmpevator() {

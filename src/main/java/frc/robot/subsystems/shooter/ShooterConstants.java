@@ -24,7 +24,7 @@ public final class ShooterConstants {
   public static MotorOutputConfigs motorOutputConfigs =
       new MotorOutputConfigs()
           .withNeutralMode(NeutralModeValue.Brake)
-          .withInverted(InvertedValue.Clockwise_Positive);
+          .withInverted(InvertedValue.CounterClockwise_Positive);
   public static TalonFXConfiguration motorConfigs =
       new TalonFXConfiguration()
           .withSlot0(
@@ -55,15 +55,15 @@ public final class ShooterConstants {
                   .withPeakReverseTorqueCurrent(80));
   public static TalonFXConfiguration followerMotorConfigs =
       motorConfigs.withMotorOutput(
-          motorOutputConfigs.withInverted(InvertedValue.CounterClockwise_Positive));
+          motorOutputConfigs.withInverted(InvertedValue.Clockwise_Positive));
 
-  public static double kShooterSpeakerRPS = 42;
-  public static double kShooterFollowerSpeakerRPS = 45; // really 80
+  public static double kShooterSpeakerRPS = -30;
+  public static double kShooterFollowerSpeakerRPS = 60; // really 80
 
-  public static double kShooterSubwooferRPS = 60;
+  public static double kShooterSubwooferRPS = -60;
   public static double kShooterFollowerSubwooferRPS = 70;
 
-  public static double kShooterFeederRPS = 42;
+  public static double kShooterFeederRPS = -42;
   public static double kShooterFollowerFeederRPS = 45;
 
   public static final class SimulationConstants {

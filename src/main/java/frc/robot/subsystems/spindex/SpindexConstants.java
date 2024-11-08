@@ -13,7 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class SpindexConstants {
   public static final int spindexMotorID = 50;
-  public static final double spindexMotorVoltage = -7;
+  public static final double spindexMotorVoltage = 7;
   public static TalonFXConfiguration spindexMotorConfigs =
       new TalonFXConfiguration()
           .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))

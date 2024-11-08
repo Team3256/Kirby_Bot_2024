@@ -8,6 +8,7 @@
 package frc.robot.subsystems.turret;
 
 import com.ctre.phoenix6.configs.*;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,8 +17,6 @@ public final class TurretConstants {
 
   public static int kCanCoderID1 = 41;
   public static int kCanCoderID2 = 42;
-
-  public static final double gearRatio = 10.0 / 133; // TODO: Set gear ratio
   public static final CANcoderConfiguration canCoderConfig =
       new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs().withMagnetOffset(0));
   public static final double updateFrequency = 50.0;
@@ -28,18 +27,19 @@ public final class TurretConstants {
   public static final double followTagI = 0;
   public static final double followTagD = 0;
 
-  public static final double kForwardLimit = 69; // TODO: Set limit
-  public static final double kReverseLimit = -69; // TODO: Set limit
+  public static final double kForwardLimit = 32; // TODO: Set limit
+  public static final double kReverseLimit = -1; // TODO: Set limit
 
   public static final Rotation2d kSubPreset = Rotation2d.fromRotations(0);
+  public static final Rotation2d kIntakePreset = Rotation2d.fromRotations(16.5);
 
   public static final TalonFXConfiguration motorConfigs = // TODO: Set configs
       new TalonFXConfiguration()
           .withSlot0(
               new Slot0Configs()
                   .withKS(0)
-                  .withKV(0.05)
-                  .withKP(1)
+                  .withKV(0)
+                  .withKP(20)
                   .withKI(0)
                   .withKD(0) // Original 0.145
               )
@@ -49,21 +49,15 @@ public final class TurretConstants {
                   .withInverted(InvertedValue.Clockwise_Positive))
           .withMotionMagic(
               new MotionMagicConfigs()
-                  .withMotionMagicAcceleration(100)
+                  .withMotionMagicAcceleration(1600)
                   .withMotionMagicCruiseVelocity(100)
-                  .withMotionMagicJerk(420))
+                  .withMotionMagicJerk(3200))
           .withCurrentLimits(
               new CurrentLimitsConfigs()
                   .withStatorCurrentLimitEnable(true)
-                  .withStatorCurrentLimit(60))
-          .withSoftwareLimitSwitch(
-              new SoftwareLimitSwitchConfigs()
-                  .withForwardSoftLimitEnable(true)
-                  .withForwardSoftLimitThreshold(kForwardLimit)
-                  .withReverseSoftLimitEnable(true)
-                  .withReverseSoftLimitThreshold(kReverseLimit));
+                  .withStatorCurrentLimit(60));
 
-  public static final boolean kUseMotionMagic = false;
+  public static final boolean kUseMotionMagic = true;
 
   public static int flashConfigRetries = 5;
 
