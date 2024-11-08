@@ -91,8 +91,7 @@ public class Turret extends DisableSubsystem {
    * @return Command to set the turret motor to the desired position / by the gear ratio
    */
   public Command setPosition(Rotation2d position) {
-    return this.runOnce(
-        () -> turretIO.setPosition(position.getRotations()));
+    return this.runOnce(() -> turretIO.setPosition(position.getRotations()));
   }
 
   /**
@@ -154,7 +153,6 @@ public class Turret extends DisableSubsystem {
    *     the reverse limit if it is past the reverse limit
    */
   public Command reset() {
-    return this.runOnce(
-        () -> turretIO.setPosition(0));
+    return this.runOnce(() -> turretIO.setPosition(0));
   }
 }

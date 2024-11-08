@@ -96,12 +96,12 @@ public class Spindex extends DisableSubsystem {
 
   public Command feedNoteToShooter() {
     return setVoltage(SpindexConstants.spindexMotorVoltage, SpindexConstants.shooterFeederVoltage)
-//        .until(() -> !beamBreakIOAutoLogged.beamBroken)
-            .finallyDo(
-                    () -> {
-                      spindexIO.off();
-                      shooterFeederIO.off();
-                    });
+        //        .until(() -> !beamBreakIOAutoLogged.beamBroken)
+        .finallyDo(
+            () -> {
+              spindexIO.off();
+              shooterFeederIO.off();
+            });
   }
 
   public Command goToAmpevator() {

@@ -159,7 +159,11 @@ public class RobotContainer {
   private void configureBindings() {
     m_operatorController
         .rightBumper("Intake")
-        .whileTrue(intake.intakeIn().alongWith(spindex.goToShooter()).alongWith(turret.setPosition(TurretConstants.kIntakePreset)));
+        .whileTrue(
+            intake
+                .intakeIn()
+                .alongWith(spindex.goToShooter())
+                .alongWith(turret.setPosition(TurretConstants.kIntakePreset)));
     m_operatorController
         .rightTrigger("Shooter")
         .onTrue(
