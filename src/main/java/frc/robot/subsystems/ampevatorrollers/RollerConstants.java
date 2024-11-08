@@ -17,9 +17,6 @@ public final class RollerConstants {
 
   public static final double kRollerOuttakeVoltage = 12;
 
-  // Time of Flight constants
-  public static final double kBeamBreakDelayTime = 0;
-
   public static final int kRollerBeamBreakDIO = 2;
 
   public static double updateFrequency = 50;

@@ -26,9 +26,6 @@ public final class TurretConstants {
   public static final double followTagI = 0;
   public static final double followTagD = 0;
 
-  public static final double kForwardLimit = 32; // TODO: Set limit
-  public static final double kReverseLimit = -1; // TODO: Set limit
-
   public static final Rotation2d kSubPreset = Rotation2d.fromRotations(0);
   public static final Rotation2d kIntakePreset = Rotation2d.fromRotations(16.5);
 

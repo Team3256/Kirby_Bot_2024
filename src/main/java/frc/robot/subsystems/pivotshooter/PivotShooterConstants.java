@@ -46,10 +46,10 @@ public final class PivotShooterConstants {
               new MotorOutputConfigs()
                   .withNeutralMode(NeutralModeValue.Brake)
                   .withInverted(InvertedValue.Clockwise_Positive))
-          //          .withMotionMagic(
-          //              new MotionMagicConfigs()
-          //                  .withMotionMagicAcceleration(400)
-          //                  .withMotionMagicCruiseVelocity(50))
+          .withMotionMagic(
+              new MotionMagicConfigs()
+                  .withMotionMagicAcceleration(400)
+                  .withMotionMagicCruiseVelocity(50))
           .withCurrentLimits(
               new CurrentLimitsConfigs()
                   .withStatorCurrentLimitEnable(true)

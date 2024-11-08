@@ -17,9 +17,6 @@ public final class IntakeConstants {
 
   public static final double kIntakeIntakeVoltage = 12;
 
-  // Time of Flight constants
-  public static final double kBeamBreakDelayTime = 0;
-
   public static final int kIntakeBeamBreakDIO = 4;
 
   public static double updateFrequency = 50;

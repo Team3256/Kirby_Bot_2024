@@ -13,7 +13,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public final class ShooterConstants {
   /* Misc */
-  public static final boolean kUseShooterMotionMagic = false;
   public static final boolean kUseFOC = true;
   public static final boolean kUseShooterRegenBraking = true;
   /* CAN */
@@ -60,9 +59,6 @@ public final class ShooterConstants {
   public static double kShooterSpeakerRPS =
       -30; // i got tired of trying to reverse the shooter wheels
   public static double kShooterFollowerSpeakerRPS = 60; // really 80
-
-  public static double kShooterSubwooferRPS = -60;
-  public static double kShooterFollowerSubwooferRPS = 70;
 
   public static double kShooterFeederRPS = -42;
   public static double kShooterFollowerFeederRPS = 45;

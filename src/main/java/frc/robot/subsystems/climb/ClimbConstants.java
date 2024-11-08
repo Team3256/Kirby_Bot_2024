@@ -18,13 +18,6 @@ public final class ClimbConstants {
   public static final double kClimbUpPosition = 0;
 
   public static final double kClimbDownPosition = 0; // TODO: tune
-  public static final double wheelRadius = 1;
-
-  public static double kCurrentThreshold = 4.5;
-
-  // // What about the tension from the spring?
-  // public static double gyroRollStableThreshold = 1; // 1 degree of error is
-  // tolerated
   public static double updateFrequency;
   public static boolean kUseMotionMagic = false;
 
