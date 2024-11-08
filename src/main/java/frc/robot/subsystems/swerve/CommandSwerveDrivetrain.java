@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import java.util.function.Supplier;
@@ -154,6 +155,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   public void resetOdometry(AutoTrajectory traj) {
     this.m_odometry.resetPosition(
         traj.getInitialPose().get().getRotation(), m_modulePositions, traj.getInitialPose().get());
+  }
+
+  public Command resetOdometryCmd(AutoTrajectory traj) {
+    return Commands.runOnce(() -> resetOdometry(traj));
   }
 
   /*

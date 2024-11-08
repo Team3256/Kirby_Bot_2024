@@ -79,6 +79,14 @@ public class Shooter extends DisableSubsystem {
         .finallyDo(shooterIO::off);
   }
 
+  public double getMainVelocity() {
+    return shooterIOAutoLogged.shooterMotorVelocity;
+  }
+
+  public double getFollowerVelocity() {
+    return shooterIOAutoLogged.shooterMotorFollowerVelocity;
+  }
+
   public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
     return m_sysIdRoutine.quasistatic(direction);
   }

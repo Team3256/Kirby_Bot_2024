@@ -128,7 +128,8 @@ public class RobotContainer {
   public final MappedXboxController m_operatorController =
       new MappedXboxController(ControllerConstants.kOperatorControllerPort, "operator");
 
-  private final AutoRoutines autoRoutines = new AutoRoutines(swerve);
+  private final AutoRoutines autoRoutines =
+      new AutoRoutines(swerve, pivotShooter, intake, shooter, spindex, turret);
 
   private final AutoChooser autoChooser = new AutoChooser(swerve.autoFactory, "Auto Chooser");
   private final SwerveTelemetry swerveTelemetry =
@@ -186,6 +187,8 @@ public class RobotContainer {
 
   private void configureAutoChooser() {
     autoChooser.addAutoRoutine("Box", autoRoutines::boxAuto);
+    autoChooser.addAutoRoutine("Source Leave + Preload", autoRoutines::sourceLeave);
+    autoChooser.addAutoRoutine("Amp Leave + Preload", autoRoutines::ampLeave);
   }
 
   public void setAllianceCol(boolean red) {
