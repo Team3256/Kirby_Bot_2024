@@ -81,5 +81,4 @@ public class Intake
   public Command intakeSysIdDynamic(SysIdRoutine.Direction direction) {
     return intake_sysIdRoutine.dynamic(direction);
   }
-
 }

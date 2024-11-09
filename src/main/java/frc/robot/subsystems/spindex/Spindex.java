@@ -78,10 +78,15 @@ public class Spindex extends DisableSubsystem {
 
   public Command setVoltage(double spindexVoltage, double shooterFeederVoltage) {
     return this.run(
-        () -> {
-          spindexIO.setSpindexVoltage(spindexVoltage);
-          shooterFeederIO.setFeederVoltage(shooterFeederVoltage);
-        });
+            () -> {
+              spindexIO.setSpindexVoltage(spindexVoltage);
+              shooterFeederIO.setFeederVoltage(shooterFeederVoltage);
+            })
+        .finallyDo(
+            () -> {
+              spindexIO.off();
+              shooterFeederIO.off();
+            });
   }
 
   public Command goToShooter() {

@@ -107,7 +107,7 @@ public class Superstructure {
     stateTriggers
         .get(StructureState.HOME)
         .onTrue(roller.off())
-//        .onTrue(ampevator.setStowPosition())
+        //        .onTrue(ampevator.setStowPosition())
         .onTrue(climb.retractClimber())
         .onTrue(intake.off())
         .onTrue(spindex.off())

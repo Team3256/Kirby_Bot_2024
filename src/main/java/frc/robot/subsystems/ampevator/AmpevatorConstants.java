@@ -22,7 +22,7 @@ public final class AmpevatorConstants {
               new Slot0Configs()
                   .withKS(0)
                   .withKV(0)
-                  .withKP(10)
+                  .withKP(1)
                   .withKI(0)
                   .withKD(0)
                   .withKG(1)
@@ -31,7 +31,7 @@ public final class AmpevatorConstants {
           .withMotorOutput(
               new MotorOutputConfigs()
                   .withNeutralMode(NeutralModeValue.Brake)
-                  .withInverted(InvertedValue.Clockwise_Positive))
+                  .withInverted(InvertedValue.CounterClockwise_Positive))
           .withMotionMagic(
               new MotionMagicConfigs()
                   .withMotionMagicAcceleration(400)
@@ -42,8 +42,8 @@ public final class AmpevatorConstants {
                   .withStatorCurrentLimit(60));
   public static final int flashConfigRetries = 5;
   public static final boolean useMotionMagic = false;
-  public static final double ampPreset = 69; // tune pls
-  public static final double trapPreset = 10; // we never getting this are we
+  public static final double ampPreset = 5; // tune pls
+  public static final double trapPreset = 12; // we never getting this are we
   public static final double stowPreset = 0;
 
   public static final class sim {

@@ -29,7 +29,7 @@ public class Ampevator extends DisableSubsystem {
   }
 
   public Command setPosition(double position) {
-    return this.run(() -> ampevatorIO.setPosition(position)).finallyDo(() -> ampevatorIO.off());
+    return this.run(() -> ampevatorIO.setPosition(position));
   }
 
   public Command setVoltage(double voltage) {

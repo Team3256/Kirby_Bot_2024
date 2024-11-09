@@ -27,7 +27,6 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoRoutines;
 import frc.robot.sim.SimMechs;
 import frc.robot.subsystems.BeamBreakIOAdafruit;
-import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.ampevator.Ampevator;
 import frc.robot.subsystems.ampevator.AmpevatorIOSim;
 import frc.robot.subsystems.ampevator.AmpevatorIOTalonFX;
@@ -37,7 +36,6 @@ import frc.robot.subsystems.ampevatorrollers.RollerIOTalonFX;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.climb.ClimbIOTalonFX;
 import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.intake.IntakeConstants;
 import frc.robot.subsystems.intake.IntakeIOTalonFX;
 import frc.robot.subsystems.pivotshooter.PivotShooter;
 import frc.robot.subsystems.pivotshooter.PivotShooterIOSim;
@@ -98,9 +96,7 @@ public class RobotContainer {
 
   private final Climb climb = new Climb(Constants.FeatureFlags.kClimbEnabled, new ClimbIOTalonFX());
   private final Intake intake =
-      new Intake(
-          Constants.FeatureFlags.kIntakeEnabled,
-          new IntakeIOTalonFX());
+      new Intake(Constants.FeatureFlags.kIntakeEnabled, new IntakeIOTalonFX());
   private final Spindex spindex =
       new Spindex(
           Constants.FeatureFlags.kSpindexEnabled,
@@ -109,17 +105,17 @@ public class RobotContainer {
           new BeamBreakIOAdafruit(SpindexConstants.kSpindexBeamBreakDIO));
   private final Vision vision = new Vision(new VisionIOLimelight());
 
-//  private final Superstructure superstructure =
-//      new Superstructure(
-//          ampevator,
-//          ampevatorRollers,
-//          turret,
-//          climb,
-//          intake,
-//          spindex,
-//          pivotShooter,
-//          shooter,
-//          vision);
+  //  private final Superstructure superstructure =
+  //      new Superstructure(
+  //          ampevator,
+  //          ampevatorRollers,
+  //          turret,
+  //          climb,
+  //          intake,
+  //          spindex,
+  //          pivotShooter,
+  //          shooter,
+  //          vision);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public final MappedXboxController m_driverController =
@@ -157,36 +153,89 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
     m_operatorController
-        .a("Intake").onTrue(intake.intakeIn(spindex.debouncedBeamBreak))
-            .onTrue(spindex.goToShooter())
-            .onTrue(turret.setPosition(TurretConstants.kIntakePreset));
-    m_operatorController.b("home").onTrue(turret.setPosition(TurretConstants.kSubPreset));
-    m_operatorController.y("shoooot]erae").onTrue(
-                    shooter.setVelocity(
-                            ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))
-            .onTrue(spindex.feedNoteToShooter());
+        .rightBumper("intake")
+        .onTrue(intake.intakeIn(spindex.debouncedBeamBreak))
+        .onTrue(spindex.goToShooter())
+        .onTrue(turret.setPosition(TurretConstants.kIntakePreset));
+
+    m_operatorController
+        .leftBumper("reverse intake")
+        .whileTrue(Commands.parallel(intake.setVoltage(-7), spindex.setVoltage(-7, -7)));
+
+    m_operatorController.leftTrigger("feed").onTrue(shooter.setVelocity(
+            ShooterConstants.kShooterFeederRPS, ShooterConstants.kShooterFollowerFeederRPS));
+
+    m_operatorController
+        .y("home")
+        .onTrue(
+            Commands.sequence(
+                turret.setPosition(TurretConstants.kSubPreset),
+                pivotShooter.setPosition(0),
+                ampevator.setPosition(0),
+                shooter.off(),
+                spindex.off(),
+                intake.off()));
+    m_operatorController
+        .b("outtake")
+        .onTrue(spindex.feedNoteToShooter());
     m_operatorController
         .rightTrigger("Shooter")
         .onTrue(
             shooter.setVelocity(
                 ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS));
+    new Trigger(() -> m_operatorController.getRawAxis(1) < -0.5)
+        .onTrue(
+            climb
+                .extendClimber()
+                .alongWith(
+                    turret
+                        .setPosition(TurretConstants.kIntakePreset)
+                        .alongWith(pivotShooter.setPosition(8))));
+    new Trigger(() -> m_operatorController.getRawAxis(1) > 0.5)
+        .onTrue(climb.retractClimber().alongWith(ampevator.setTrapPosition()));
+
+    m_operatorController
+        .povUp("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(0)));
+    m_operatorController
+        .povUpRight("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(16.5 / 4)));
+    m_operatorController
+        .povRight("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(16.5 / 2)));
+    m_operatorController
+        .povDownRight("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(3 * 16.5 / 4)));
+    m_operatorController
+        .povDown("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(16.5)));
+    m_operatorController
+        .povDownLeft("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(5 * 16.5 / 4)));
+    m_operatorController
+        .povLeft("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(3 * 16.5 / 2)));
+    m_operatorController
+        .povUpLeft("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(7 * 16.5 / 4)));
   }
 
   private void configureRumble() {
     rumbleTrigger = new Trigger(RobotModeTriggers.teleop()).and(spindex.debouncedBeamBreak);
     rumbleTrigger
-        .onTrue(
+        .toggleOnTrue(
             Commands.run(
                 () -> {
                   m_driverController.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 50);
-                  m_operatorController.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 50);
+                  m_operatorController.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 100);
                 }))
-        .onFalse(
+        .toggleOnFalse(
             Commands.run(
                 () -> {
-                  m_driverController.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 50);
-                  m_operatorController.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 50);
+                  m_driverController.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
+                  m_operatorController.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
                 }));
   }
 
@@ -426,6 +475,6 @@ public class RobotContainer {
 
   public void periodic() {
     autoChooser.update();
-//    superstructure.periodic();
+    //    superstructure.periodic();
   }
 }

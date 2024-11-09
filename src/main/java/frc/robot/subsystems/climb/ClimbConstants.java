@@ -15,15 +15,15 @@ public final class ClimbConstants {
 
   public static final int kLeftClimbMotorID = 45;
 
-  public static final double kClimbUpPosition = 0;
+  public static final double kClimbUpPosition = 185;
 
-  public static final double kClimbDownPosition = 5; // TODO: tune
+  public static final double kClimbDownPosition = 0; // TODO: tune
   public static double updateFrequency;
   public static boolean kUseMotionMagic = false;
 
   public static final TalonFXConfiguration motorConfig =
       new TalonFXConfiguration()
-          .withSlot0(new Slot0Configs().withKS(0).withKV(0).withKP(1).withKI(0).withKD(0))
+          .withSlot0(new Slot0Configs().withKS(0).withKV(0).withKP(10).withKI(0).withKD(0))
           .withMotorOutput(
               new MotorOutputConfigs()
                   .withNeutralMode(NeutralModeValue.Brake)
@@ -35,6 +35,6 @@ public final class ClimbConstants {
           .withCurrentLimits(
               new CurrentLimitsConfigs()
                   .withStatorCurrentLimitEnable(true)
-                  .withStatorCurrentLimit(60));
+                  .withStatorCurrentLimit(80));
   public static final int flashConfigRetries = 5;
 }
