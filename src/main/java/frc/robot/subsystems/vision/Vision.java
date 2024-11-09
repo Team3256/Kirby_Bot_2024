@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.Logger;
 
 public class Vision extends SubsystemBase {
 
@@ -27,6 +28,7 @@ public class Vision extends SubsystemBase {
   @Override
   public void periodic() {
     visionIO.updateInputs(visionIOAutoLogged);
+    Logger.processInputs(this.getClass().getSimpleName(), visionIOAutoLogged);
   }
 
   public double getCenterLimelightX() {

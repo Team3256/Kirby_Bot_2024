@@ -34,7 +34,7 @@ public class SpindexConstants {
   public static int flashConfigRetries = 5;
   public static double updateFrequency = 50; // idk if this is right
   public static boolean useMotionMagic = false;
-  public static int kSpindexBeamBreakDIO = 1;
+  public static int kSpindexBeamBreakDIO = 0;
   public static TalonFXConfiguration feederMotorConfigs =
       new TalonFXConfiguration()
           .withSlot0(new Slot0Configs().withKS(0).withKV(0.1).withKP(1).withKI(0).withKD(0))

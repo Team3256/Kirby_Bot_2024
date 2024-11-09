@@ -17,7 +17,7 @@ public final class RollerConstants {
 
   public static final double kRollerOuttakeVoltage = 12;
 
-  public static final int kRollerBeamBreakDIO = 2;
+  public static final int kRollerBeamBreakDIO = 1;
 
   public static double updateFrequency = 50;
   public static boolean kRollerMotionMagic = false;

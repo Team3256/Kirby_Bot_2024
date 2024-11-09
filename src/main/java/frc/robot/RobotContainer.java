@@ -100,8 +100,7 @@ public class RobotContainer {
   private final Intake intake =
       new Intake(
           Constants.FeatureFlags.kIntakeEnabled,
-          new IntakeIOTalonFX(),
-          new BeamBreakIOAdafruit(IntakeConstants.kIntakeBeamBreakDIO));
+          new IntakeIOTalonFX());
   private final Spindex spindex =
       new Spindex(
           Constants.FeatureFlags.kSpindexEnabled,
@@ -110,17 +109,17 @@ public class RobotContainer {
           new BeamBreakIOAdafruit(SpindexConstants.kSpindexBeamBreakDIO));
   private final Vision vision = new Vision(new VisionIOLimelight());
 
-  private final Superstructure superstructure =
-      new Superstructure(
-          ampevator,
-          ampevatorRollers,
-          turret,
-          climb,
-          intake,
-          spindex,
-          pivotShooter,
-          shooter,
-          vision);
+//  private final Superstructure superstructure =
+//      new Superstructure(
+//          ampevator,
+//          ampevatorRollers,
+//          turret,
+//          climb,
+//          intake,
+//          spindex,
+//          pivotShooter,
+//          shooter,
+//          vision);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public final MappedXboxController m_driverController =
@@ -158,9 +157,15 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    m_driverController
-        .a("Intake")
-        .onTrue(superstructure.setState(Superstructure.StructureState.INTAKE));
+    m_operatorController
+        .a("Intake").onTrue(intake.intakeIn(spindex.debouncedBeamBreak))
+            .onTrue(spindex.goToShooter())
+            .onTrue(turret.setPosition(TurretConstants.kIntakePreset));
+    m_operatorController.b("home").onTrue(turret.setPosition(TurretConstants.kSubPreset));
+    m_operatorController.y("shoooot]erae").onTrue(
+                    shooter.setVelocity(
+                            ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))
+            .onTrue(spindex.feedNoteToShooter());
     m_operatorController
         .rightTrigger("Shooter")
         .onTrue(
@@ -421,6 +426,6 @@ public class RobotContainer {
 
   public void periodic() {
     autoChooser.update();
-    superstructure.periodic();
+//    superstructure.periodic();
   }
 }

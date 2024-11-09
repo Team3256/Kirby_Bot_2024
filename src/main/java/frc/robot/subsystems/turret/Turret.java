@@ -33,7 +33,6 @@ public class Turret extends DisableSubsystem {
     this.turretIO = turretIO;
     this.encoderIO1 = encoderIO1;
     this.encoderIO2 = encoderIO2;
-    this.setDefaultCommand(reset());
   }
 
   @Override
@@ -88,7 +87,7 @@ public class Turret extends DisableSubsystem {
 
   /**
    * @param position Desired position of the turret motor
-   * @return Command to set the turret motor to the desired position / by the gear ratio
+   * @return Command to set the turret motor to the desired position
    */
   public Command setPosition(Rotation2d position) {
     return this.runOnce(() -> turretIO.setPosition(position.getRotations()));

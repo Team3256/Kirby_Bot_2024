@@ -107,7 +107,7 @@ public class Superstructure {
     stateTriggers
         .get(StructureState.HOME)
         .onTrue(roller.off())
-        .onTrue(ampevator.setStowPosition())
+//        .onTrue(ampevator.setStowPosition())
         .onTrue(climb.retractClimber())
         .onTrue(intake.off())
         .onTrue(spindex.off())
@@ -144,7 +144,7 @@ public class Superstructure {
         .onTrue(setState(StructureState.HOME));
     stateTriggers
         .get(StructureState.INTAKE)
-        .onTrue(intake.intakeIn())
+        .onTrue(intake.intakeIn(spindex.debouncedBeamBreak))
         .onTrue(spindex.goToShooter())
         .onTrue(turret.setPosition(TurretConstants.kIntakePreset))
         .and(spindex.debouncedBeamBreak.debounce(0.5))
