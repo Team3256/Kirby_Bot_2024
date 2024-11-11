@@ -158,16 +158,22 @@ public class RobotContainer {
         .rightBumper("intake")
         .onTrue(intake.intakeIn(spindex.debouncedBeamBreak))
         .onTrue(spindex.goToShooter())
-        .onTrue(turret.setPosition(TurretConstants.kIntakePreset)).and(spindex.debouncedBeamBreak)
-            .onTrue(shooter.setVelocity(
-                    ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS)).onTrue(pivotShooter.setPosition(0));
+        .onTrue(turret.setPosition(TurretConstants.kIntakePreset))
+        .and(spindex.debouncedBeamBreak)
+        .onTrue(
+            shooter.setVelocity(
+                ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))
+        .onTrue(pivotShooter.setPosition(0));
 
     m_operatorController
         .leftBumper("reverse intake")
         .whileTrue(Commands.parallel(intake.setVoltage(-7), spindex.setVoltage(-7, -7)));
 
-    m_operatorController.leftTrigger("feed").onTrue(shooter.setVelocity(
-            ShooterConstants.kShooterFeederRPS, ShooterConstants.kShooterFollowerFeederRPS));
+    m_operatorController
+        .leftTrigger("feed")
+        .onTrue(
+            shooter.setVelocity(
+                ShooterConstants.kShooterFeederRPS, ShooterConstants.kShooterFollowerFeederRPS));
 
     m_operatorController
         .y("home")
@@ -179,14 +185,13 @@ public class RobotContainer {
                 shooter.off(),
                 spindex.off(),
                 intake.off()));
-    m_operatorController
-        .b("outtake")
-        .onTrue(spindex.feedNoteToShooter());
+    m_operatorController.b("outtake").onTrue(spindex.feedNoteToShooter());
     m_operatorController
         .rightTrigger("Shooter")
         .onTrue(
             shooter.setVelocity(
-                ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS)).onTrue(pivotShooter.setPosition(0));
+                ShooterConstants.kShooterSpeakerRPS, ShooterConstants.kShooterFollowerSpeakerRPS))
+        .onTrue(pivotShooter.setPosition(0));
     new Trigger(() -> m_operatorController.getRawAxis(1) < -0.5)
         .onTrue(
             climb
@@ -196,32 +201,33 @@ public class RobotContainer {
                         .setPosition(TurretConstants.kIntakePreset)
                         .alongWith(pivotShooter.setPosition(8))));
     new Trigger(() -> m_operatorController.getRawAxis(1) > 0.5)
-        .onTrue(climb.retractClimber().alongWith(ampevator.setTrapPosition())).onTrue(ampevatorRollers.setVoltage(4));
+        .onTrue(climb.retractClimber().alongWith(ampevator.setTrapPosition()))
+        .onTrue(ampevatorRollers.setVoltage(4));
 
     m_operatorController
         .povUp("turret presets")
         .onTrue(turret.setPosition(Rotation2d.fromRotations(16.5)));
     m_operatorController
-            .povUpRight("turret presets")
-            .onTrue(turret.setPosition(Rotation2d.fromRotations(5*16.5/4)));
+        .povUpRight("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(5 * 16.5 / 4)));
     m_operatorController
-            .povRight("turret presets")
-            .onTrue(turret.setPosition(Rotation2d.fromRotations(3*16.5/2)));
+        .povRight("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(3 * 16.5 / 2)));
     m_operatorController
-            .povDownRight("turret presets")
-            .onTrue(turret.setPosition(Rotation2d.fromRotations(7*16.5/4)));
+        .povDownRight("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(7 * 16.5 / 4)));
     m_operatorController
-            .povDown("turret presets")
-            .onTrue(turret.setPosition(Rotation2d.fromRotations(0)));
+        .povDown("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(0)));
     m_operatorController
-            .povDownLeft("turret presets")
-            .onTrue(turret.setPosition(Rotation2d.fromRotations(16.5/4)));
+        .povDownLeft("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(16.5 / 4)));
     m_operatorController
-            .povLeft("turret presets")
-            .onTrue(turret.setPosition(Rotation2d.fromRotations(16.5/2)));
+        .povLeft("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(16.5 / 2)));
     m_operatorController
-            .povUpLeft("turret presets")
-            .onTrue(turret.setPosition(Rotation2d.fromRotations(3*16.5/4)));
+        .povUpLeft("turret presets")
+        .onTrue(turret.setPosition(Rotation2d.fromRotations(3 * 16.5 / 4)));
   }
 
   private void configureRumble() {
