@@ -50,7 +50,7 @@ public final class AutoRoutines {
     loop.enabled()
         .onTrue(swerve.resetOdometryCmd(sourceLeave))
         .onTrue(AutoCommands.preload(pivotShooter, spindex, shooter, turret))
-        .debounce(7)
+        .debounce(10)
         .onTrue(sourceLeave.cmd());
     return loop.cmd();
   }
@@ -97,11 +97,11 @@ public final class AutoRoutines {
           Commands.waitUntil(
                   () ->
                       Util.epsilonEquals(
-                              shooter.getMainVelocity(), ShooterConstants.kShooterSpeakerRPS, 5)
+                              shooter.getMainVelocity(), ShooterConstants.kShooterSpeakerRPS, 15)
                           && Util.epsilonEquals(
                               shooter.getFollowerVelocity(),
                               ShooterConstants.kShooterFollowerSpeakerRPS,
-                              5))
+                              10))
               .andThen(spindex.feedNoteToShooter()));
     }
   }

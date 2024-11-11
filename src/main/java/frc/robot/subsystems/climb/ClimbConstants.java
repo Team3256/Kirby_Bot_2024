@@ -15,7 +15,7 @@ public final class ClimbConstants {
 
   public static final int kLeftClimbMotorID = 45;
 
-  public static final double kClimbUpPosition = 185;
+  public static final double kClimbUpPosition = 200;
 
   public static final double kClimbDownPosition = 0; // TODO: tune
   public static double updateFrequency;

@@ -91,7 +91,7 @@ public class Spindex extends DisableSubsystem {
 
   public Command goToShooter() {
     return setVoltage(SpindexConstants.spindexMotorVoltage, SpindexConstants.shooterFeederVoltage)
-        .until(() -> beamBreakIOAutoLogged.beamBroken)
+        .until(debouncedBeamBreak)
         .finallyDo(
             () -> {
               spindexIO.off();

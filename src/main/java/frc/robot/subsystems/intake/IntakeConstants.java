@@ -15,7 +15,7 @@ public final class IntakeConstants {
   /* CAN */
   public static final int kIntakeMotorID = 46;
 
-  public static final double kIntakeIntakeVoltage = 7.5;
+  public static final double kIntakeIntakeVoltage = 12;
 
   public static final int kIntakeBeamBreakDIO = 4;
 
@@ -37,7 +37,7 @@ public final class IntakeConstants {
           .withCurrentLimits(
               new CurrentLimitsConfigs()
                   .withStatorCurrentLimitEnable(true)
-                  .withStatorCurrentLimit(80));
+                  .withStatorCurrentLimit(120));
   public static int flashConfigRetries = 5;
   public static double kIntakeRedirectVoltage = 5;
 }

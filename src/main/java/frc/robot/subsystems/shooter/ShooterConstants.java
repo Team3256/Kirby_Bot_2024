@@ -58,10 +58,10 @@ public final class ShooterConstants {
 
   public static double kShooterSpeakerRPS =
       -40; // i got tired of trying to reverse the shooter wheels
-  public static double kShooterFollowerSpeakerRPS = 60; // really 80
+  public static double kShooterFollowerSpeakerRPS = 40; // really 80
 
-  public static double kShooterFeederRPS = -20;
-  public static double kShooterFollowerFeederRPS = 30;
+  public static double kShooterFeederRPS = -35;
+  public static double kShooterFollowerFeederRPS = 35;
 
   public static final class SimulationConstants {
     public static double kLeftGearingRatio = 1.0; // TODO: Update this value
