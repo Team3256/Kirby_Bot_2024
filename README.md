@@ -1,3 +1,6 @@
+>[!NOTE]
+> This repository has been archived. No further development on Kirby will continue.
+
 # Kirby_Bot_2024
 
 A cute pink circular turret bot, competing at Madtown Throwdown 2024. 
